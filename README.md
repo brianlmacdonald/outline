@@ -1,0 +1,1 @@
+A Boilerplate with react, react-redux and probably something else.
