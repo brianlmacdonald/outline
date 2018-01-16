@@ -22650,9 +22650,7 @@ var _history = __webpack_require__(119);
 
 var _history2 = _interopRequireDefault(_history);
 
-var _components = __webpack_require__(120);
-
-var _components2 = _interopRequireDefault(_components);
+var _index = __webpack_require__(120);
 
 var _react = __webpack_require__(1);
 
@@ -22660,19 +22658,19 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var routes = function routes() {
+var Routes = function Routes() {
   return _react2.default.createElement(
     _reactRouterDom.Router,
     { history: _history2.default },
     _react2.default.createElement(
       _reactRouterDom.Switch,
       null,
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _components2.default })
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _index.Home })
     )
   );
 };
 
-exports.default = routes;
+exports.default = Routes;
 
 /***/ }),
 /* 94 */
@@ -25731,7 +25729,7 @@ function Home() {
     _react2.default.createElement(
       'h1',
       null,
-      console.log('hi dick')
+      'test'
     )
   );
 }

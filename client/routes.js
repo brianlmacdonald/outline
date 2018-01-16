@@ -1,9 +1,9 @@
 import { Router, Route, Switch } from 'react-router-dom'
 import browserHistory, { memoryHistory } from './history'
-import Home from './components/'
+import {Home} from './components/index.jsx'
 import React from 'react'
 
-const routes = () => (
+const Routes = () => (
   <Router history={browserHistory}>
     <Switch>
       <Route path="/" component={Home} />
@@ -11,4 +11,4 @@ const routes = () => (
   </Router>
 )
 
-export default routes
+export default Routes
