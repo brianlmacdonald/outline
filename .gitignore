@@ -1,1 +1,4 @@
 node_modules
+bundle.js
+secrets.js
+bundle.map.js
