@@ -1,3 +1,4 @@
+import {Map} from 'immutable'
 const TEST = "TEST"
 
 const testAction = (payload) => ({
@@ -5,9 +6,9 @@ const testAction = (payload) => ({
   ,payload
 })
 
+const state = Map({})
 
-
-export default function(state = {}, action) {
+export default function(state, action) {
   switch(action.type){
     case TEST:
       return action.payload
