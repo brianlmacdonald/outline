@@ -2,6 +2,11 @@ import React, {Component} from 'react'
 
 const LoaderHOC = (propName) => (WrappedComponent) => {
   return class Loader extends Component {
+    constructor(){
+      super()
+      this.isEmpty = this.isEmpty.bind(this)
+    }
+
     isEmpty(prop) {
       prop === null ||
       prop === undefined ||
@@ -9,7 +14,7 @@ const LoaderHOC = (propName) => (WrappedComponent) => {
       (prop.constructor === Object.keys(prop).length === 0)
     }
     render() {
-      return this.isEmpty(this.props[propName]) ? <div className='loader'></div> : <WrappedComponent {...this.props} />
+      return this.isEmpty(this.props[propName]) ? <div className='loader'><p>loading</p></div> : <WrappedComponent {...this.props} />
     }
 
   }

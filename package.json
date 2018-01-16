@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register --require babel-polyfill --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js db/**/*.test.js",
+    "build-client-watch": "webpack -w",
     "test-watch": "npm run test -- --watch --reporter=min",
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",
+    "start-watch": "nodemon server/start.js --watch server --watch db --watch index.js --watch package.json",
     "start-server": "NODE_ENV=development nodemon server",
     "lint": "eslint . --ignore-path .gitignore --ext '.js,.jsx'",
     "validate": "check-node-version --node '>= 7.0.0'",
@@ -23,16 +26,28 @@
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.18.2",
     "check-node-version": "^3.1.1",
+    "css-loader": "^0.28.8",
     "dateformat": "^3.0.2",
     "express": "^4.16.2",
+    "finalhandler": "^1.1.0",
+    "history": "^4.7.2",
     "homedir": "^0.6.0",
     "morgan": "^1.9.0",
     "pg": "^7.4.0",
+    "pretty-error": "^2.1.1",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
     "sequelize": "^4.28.6",
+    "style-loader": "^0.19.1",
+    "volleyball": "^1.4.1",
     "webpack": "^3.10.0"
   },
   "devDependencies": {
@@ -48,6 +63,7 @@
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^4.1.0",
-    "nodemon": "^1.14.6"
+    "nodemon": "^1.14.6",
+    "webpack-livereload-plugin": "^1.0.0"
   }
 }
