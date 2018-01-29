@@ -1,5 +1,6 @@
-node_modules
-bundle.js
-secrets.js
-bundle.map.js
+node_modules/*
 !node_modules/APP
+public/bundle.js
+public/bundle.map.js
+secrets.js
+npm-debug.log
