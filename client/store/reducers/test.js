@@ -6,9 +6,7 @@ const testAction = (payload) => ({
   ,payload
 })
 
-const state = Map({})
-
-export default function(state, action) {
+export default function(state = Map({}), action) {
   switch(action.type){
     case TEST:
       return action.payload

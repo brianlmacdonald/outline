@@ -22547,7 +22547,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (state, action) {
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)({});
+  var action = arguments[1];
+
   switch (action.type) {
     case TEST:
       return action.payload;
@@ -22567,8 +22570,6 @@ var testAction = function testAction(payload) {
     payload: payload
   };
 };
-
-var state = (0, _immutable.Map)({});
 
 /***/ }),
 /* 90 */
