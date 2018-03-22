@@ -1,4 +1,5 @@
 import {Map} from 'immutable';
+
 const SOME_THING = 'SOME_THING';
 
 const someThingAction = (payload) => ({
