@@ -4,3 +4,5 @@ public/bundle.js
 public/bundle.map.js
 secrets.js
 npm-debug.log
+yarn-error.log
+yarn.lock

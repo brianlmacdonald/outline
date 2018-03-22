@@ -6,13 +6,14 @@ const bodyParser = require('body-parser');
 const { resolve } = require('path');
 const PrettyError = require('pretty-error');
 const finalHandler = require('finalhandler');
+const morgan = require('morgan')
 
 const pkg = require('APP');
 
 const app = express();
 
 if (!pkg.isProduction && !pkg.isTesting) {
-  app.use(require('volleyball'));
+  app.use(morgan('dev'));
 }
 
 
@@ -45,11 +46,11 @@ if (module === require.main) {
   const server = app.listen(
     pkg.port,
     () => {
-      console.log(`--- Started HTTP Server for ${pkg.name} ---`);
+      console.log(`Guess what? ${pkg.name} started! Pew pew pew!`);
       const { address, port } = server.address();
       const host = address === '::' ? 'localhost' : address;
       const urlSafeHost = host.includes(':') ? `[${host}]` : host;
-      console.log(`Listening on http://${urlSafeHost}:${port}`);
+      console.log(`Pew pew pewing on http://${urlSafeHost}:${port}`);
     }
   );
 }
