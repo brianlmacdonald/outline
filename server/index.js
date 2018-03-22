@@ -6,7 +6,10 @@ const bodyParser = require('body-parser');
 const { resolve } = require('path');
 const PrettyError = require('pretty-error');
 const finalHandler = require('finalhandler');
-const morgan = require('morgan')
+const morgan = require('morgan');
+const session = require('express-session');
+const passport = require('passport');
+
 
 const pkg = require('APP');
 
@@ -26,6 +29,9 @@ module.exports = app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
   .use(express.static(resolve(__dirname, '..', 'public')))
+  .use(session({secret: 'super secret', resave: false, saveUninitialized: false}))
+  .use(passport.initialize())
+  .use(passport.session())
   .use('/api', require('./routes'))
   .use((req, res, next) => {
     if (path.extname(req.path).length) {
