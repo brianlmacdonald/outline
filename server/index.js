@@ -8,7 +8,11 @@ const PrettyError = require('pretty-error');
 const finalHandler = require('finalhandler');
 const morgan = require('morgan');
 const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.store);
+const db = require('APP/db');
+const sessionStore = new SequelizeStore({db});
 const passport = require('passport');
+const sessionSecret = process.env.SESSION_SECRET || 'super secret';
 
 
 const pkg = require('APP');
@@ -29,9 +33,14 @@ module.exports = app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
   .use(express.static(resolve(__dirname, '..', 'public')))
-  .use(session({secret: 'super secret', resave: false, saveUninitialized: false}))
+  .use(session({
+    secret: sessionSecret
+    , store: sessionStore
+    , resave: false
+    , saveUninitialized: false}))
   .use(passport.initialize())
   .use(passport.session())
+  .use('/oauth', require('./oauth'))
   .use('/api', require('./routes'))
   .use((req, res, next) => {
     if (path.extname(req.path).length) {
