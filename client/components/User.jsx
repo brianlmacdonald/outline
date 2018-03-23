@@ -5,21 +5,21 @@ import { auth } from '../store';
 import PropTypes from 'prop-types';
 
 const UserAuth = (props) => {
-  const {name, handleSubmite, displayName, error} = props;
+  const {name, handleSubmit, displayName, error} = props;
 
   return(
     <div>
-      <form>
+      <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor='email'>email</label>
           <input name='email' type='text' />
         </div>
         <div>
-          <label htmlFor="password"><small>Password</small></label>
+          <label htmlFor="password"><small>password</small></label>
           <input name="password" type="password" />
         </div>
         <div>
-          <FlatButton type="submit" primary={true} label={displayName} />
+          <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
         <a href="/auth/google">{displayName} with Google</a>

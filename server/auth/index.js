@@ -27,13 +27,7 @@ router.post('/login', mustHavePassword, (req, res, next) => {
 
 router.post('/signup', mustHavePassword, (req, res, next) => {
   return User.create(req.body)
-    .then(createdUser => {
-      return User.findOne({where: {id: createdUser.id}})
-      .then(user => {
-        return req.login(user, err => (err ? next(err) : res.json(user)));
-      })
-      .catch(next);
-    })
+    .then(user => req.login(user, err => (err ? next(err) : res.json(user))))
     .catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {
         return res.status(401).send('User already exists');

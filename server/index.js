@@ -3,6 +3,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const { resolve } = require('path');
 const PrettyError = require('pretty-error');
 const finalHandler = require('finalhandler');
@@ -28,19 +29,27 @@ const prettyError = new PrettyError;
 prettyError.skipNodeFiles();
 prettyError.skipPackage('express');
 
+passport.serializeUser((user, done) => done(null, user.id))
+passport.deserializeUser((id, done) =>
+  db.models.user.findById(id)
+    .then(user => done(null, user))
+    .catch(done))
+
 module.exports = app
 
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
+  .use(compression())
   .use(express.static(resolve(__dirname, '..', 'public')))
   .use(session({
     secret: sessionSecret
     , store: sessionStore
     , resave: false
-    , saveUninitialized: false}))
+    , saveUninitialized: false
+  }))
   .use(passport.initialize())
   .use(passport.session())
-  .use('/oauth', require('./oauth'))
+  .use('/auth', require('./auth'))
   .use('/api', require('./routes'))
   .use((req, res, next) => {
     if (path.extname(req.path).length) {

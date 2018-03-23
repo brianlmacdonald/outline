@@ -6,7 +6,7 @@ import React from 'react';
 const Routes = () => (
   <Router history={browserHistory}>
     <Switch>
-      <Route path="/" component={Home} />
+      <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
     </Switch>
