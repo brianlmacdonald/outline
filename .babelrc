@@ -4,4 +4,10 @@
     ,"env"
     ,"stage-2"
   ]
+  ,"plugins": [
+    "syntax-dynamic-import"
+    ,["import-inspector", {
+      "serverSideRequiredPath": true
+    }]
+  ]
 }

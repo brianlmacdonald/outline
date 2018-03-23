@@ -3,7 +3,8 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  entry: './client/main.js'
+  mode: 'development'
+  ,entry: './client/main.js'
   ,output: {
     path: __dirname
     ,filename: './public/bundle.js'

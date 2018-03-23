@@ -24,6 +24,7 @@
             1,
             "single"
         ],
+        "max-len": 1,
         "semi": [
             1,
             "always"
