@@ -7,6 +7,5 @@ export default function Home(){
     <div className={'home'}>
       <h1>make something</h1>
     </div>
-
   );
 }

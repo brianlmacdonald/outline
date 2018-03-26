@@ -3,54 +3,43 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const compression = require('compression');
-const { resolve } = require('path');
+const {resolve} = require('path');
+const passport = require('passport');
 const PrettyError = require('pretty-error');
 const finalHandler = require('finalhandler');
 const morgan = require('morgan');
-const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const db = require('APP/db');
-const sessionStore = new SequelizeStore({db});
-const passport = require('passport');
-const sessionSecret = process.env.SESSION_SECRET || 'super secret';
+// PrettyError docs: https://www.npmjs.com/package/pretty-error
 
-
+// Bones has a symlink from node_modules/APP to the root of the app.
+// That means that we can require paths relative to the app root by
+// saying require('APP/whatever').
+//
+// This next line requires our root index.js:
 const pkg = require('APP');
 
 const app = express();
 
 if (!pkg.isProduction && !pkg.isTesting) {
+  // Logging middleware (dev only)
   app.use(morgan('dev'));
 }
 
-
 const prettyError = new PrettyError;
+
 prettyError.skipNodeFiles();
 prettyError.skipPackage('express');
 
-passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>
-  db.models.user.findById(id)
-    .then(user => done(null, user))
-    .catch(done))
-
 module.exports = app
-
+  .use(require('cookie-session')({
+    name: 'session'
+    ,keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
+  }))
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
-  .use(compression())
-  .use(express.static(resolve(__dirname, '..', 'public')))
-  .use(session({
-    secret: sessionSecret
-    , store: sessionStore
-    , resave: false
-    , saveUninitialized: false
-  }))
   .use(passport.initialize())
   .use(passport.session())
-  .use('/auth', require('./auth'))
-  .use('/api', require('./routes'))
+  .use(express.static(resolve(__dirname, '..', 'public')))
+  .use('/api', require('./api'))
   .use((req, res, next) => {
     if (path.extname(req.path).length) {
       const err = new Error('Not found');
@@ -67,14 +56,15 @@ module.exports = app
   });
 
 if (module === require.main) {
+  
   const server = app.listen(
     pkg.port,
     () => {
-      console.log(`Guess what? ${pkg.name} started! Pew pew pew!`);
+      console.log(`--- Started HTTP Server for ${pkg.name} ---`);
       const { address, port } = server.address();
       const host = address === '::' ? 'localhost' : address;
       const urlSafeHost = host.includes(':') ? `[${host}]` : host;
-      console.log(`Pew pew pewing on http://${urlSafeHost}:${port}`);
+      console.log(`Listening on http://${urlSafeHost}:${port}`);
     }
   );
 }

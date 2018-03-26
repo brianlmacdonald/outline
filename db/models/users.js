@@ -1,8 +1,8 @@
-const crypto = require('crypto');
+'use strict';
+const bcrypt = require('bcryptjs');
 const Sequelize = require('sequelize');
-const db = require('../index');
 
-const User = db.define('user', {
+module.exports = db => db.define('users', {
   firstName: {
     type: Sequelize.STRING
   }
@@ -17,38 +17,34 @@ const User = db.define('user', {
       notEmpty: true
     }
   }
-  ,password: {
-    type: Sequelize.STRING
+  ,password_digest: Sequelize.STRING
+  ,password: Sequelize.VIRTUAL
+}
+, {
+  indexes: [{fields: ['email'], unique: true}]
+  , hooks: {
+    beforeCreate: setEmailAndPassword
+    ,beforeUpdate: setEmailAndPassword,
   }
-  ,salt: {
-    type: Sequelize.STRING
+  , defaultScope: {
+    attributes: {exclude: ['password_digest']}
   }
-  ,googleId: {
-    type: Sequelize.STRING
+  , instanceMethods: {
+    // This method is a Promisified bcrypt.compare
+    authenticate(plaintext) {
+      return bcrypt.compare(plaintext, this.password_digest);
+    }
   }
 });
 
-module.exports = User;
-
-//password stuff
-User.prototype.checkPassword = function(entry) {
-  return User.encryptPassword(entry, this.salt) === this.password;
+module.exports.associations = (User, {OAuth}) => {
+  User.hasOne(OAuth);
 };
 
-User.generateSalt = function() {
-  return crypto.randomBytes(16).toString('base64');
-};
+function setEmailAndPassword(user) {
+  user.email = user.email && user.email.toLowerCase();
+  if (!user.password) return Promise.resolve(user);
 
-User.encryptPassword = function(entry, salt) {
-  return crypto.createHash('RSA-SHA256').update(entry).update(salt).digest('hex');
-};
-
-function setAndSaltPassword(user){
-  if (user.changed('password')) {
-    user.salt = User.generateSalt();
-    user.password = User.encryptPassword(user.password, user.salt);
-  }
+  return bcrypt.hash(user.get('password'), 10)
+    .then(hash => user.set('password_digest', hash));
 }
-
-User.beforeCreate(setAndSaltPassword);
-User.beforeUpdate(setAndSaltPassword);
