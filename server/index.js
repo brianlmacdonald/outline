@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression');
+const debug = require('debug')
 const { resolve } = require('path');
 const PrettyError = require('pretty-error');
 const finalHandler = require('finalhandler');
@@ -30,10 +31,22 @@ prettyError.skipNodeFiles();
 prettyError.skipPackage('express');
 
 passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>
-  db.models.user.findById(id)
-    .then(user => done(null, user))
-    .catch(done))
+passport.deserializeUser(
+  (id, done) => {
+    debug('will deserialize user.id=%d', id)
+    db.models.user.findById(id)
+      .then(user => {
+        console.log(user);
+        if (!user) debug('deserialize retrieved null user for id=%d', id)
+        else debug('deserialize did ok user.id=%d', id)
+        done(null, user)
+      })
+      .catch(err => {
+        debug('deserialize did fail err=%s', err)
+        done(err)
+      })
+  }
+)
 
 module.exports = app
 

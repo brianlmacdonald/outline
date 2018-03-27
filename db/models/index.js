@@ -8,7 +8,7 @@ const app = require('APP')
     , {mapValues} = require('lodash');
 
 module.exports = db => {
-  const models = mapValues(metaModels, defineModel => new defineModel(db));
+  const models = mapValues(metaModels, defineModel => defineModel(db));
   Object.keys(metaModels)
     .forEach(name => {
       const {associations} = metaModels[name];

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('APP/db/models/users');
+const {User} = require('APP/db/');
 module.exports = router;
 
 const mustHavePassword = (req, res, next) => {

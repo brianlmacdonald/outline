@@ -1,8 +1,7 @@
 const crypto = require('crypto');
 const Sequelize = require('sequelize');
-const db = require('../index');
 
-const User = db.define('user', {
+module.exports = db => db.define('user', {
   firstName: {
     type: Sequelize.STRING
   }
@@ -26,29 +25,39 @@ const User = db.define('user', {
   ,googleId: {
     type: Sequelize.STRING
   }
+},{
+  hooks: {
+    beforeCreate: setAndSaltPassword
+    ,beforeUpdate: setAndSaltPassword
+  },
+  defaultScope: {
+    attributes: { exclude: ['password', 'salt']}
+  }
+  ,instanceMethods: {
+    checkPassword: function(entry) {
+      return User.encryptPassword(entry, this.salt) === this.password;
+    }
+  }
+
 });
 
-module.exports = User;
+// module.exports.associations = (User) => {
+//   // User.hasOne(OAuth)
+//   // User.belongsToMany(Thing, {as: 'favorites', through: Favorite})
+// }
 
 //password stuff
-User.prototype.checkPassword = function(entry) {
-  return User.encryptPassword(entry, this.salt) === this.password;
-};
 
-User.generateSalt = function() {
-  return crypto.randomBytes(16).toString('base64');
-};
-
-User.encryptPassword = function(entry, salt) {
+function generateSalt() {
+  return crypto.randomBytes(16).toString('base64')
+}
+function encryptPassword(entry, salt) {
   return crypto.createHash('RSA-SHA256').update(entry).update(salt).digest('hex');
-};
+}
 
 function setAndSaltPassword(user){
   if (user.changed('password')) {
-    user.salt = User.generateSalt();
-    user.password = User.encryptPassword(user.password, user.salt);
+    user.salt = generateSalt();
+    user.password = encryptPassword(user.password, user.salt);
   }
 }
-
-User.beforeCreate(setAndSaltPassword);
-User.beforeUpdate(setAndSaltPassword);
