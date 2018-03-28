@@ -29,22 +29,19 @@ module.exports = db => db.define('user', {
   hooks: {
     beforeCreate: setAndSaltPassword
     ,beforeUpdate: setAndSaltPassword
-  },
-  defaultScope: {
-    attributes: { exclude: ['password', 'salt']}
   }
-  ,instanceMethods: {
-    checkPassword: function(entry) {
-      return User.encryptPassword(entry, this.salt) === this.password;
-    }
-  }
-
 });
 
 // module.exports.associations = (User) => {
 //   // User.hasOne(OAuth)
 //   // User.belongsToMany(Thing, {as: 'favorites', through: Favorite})
 // }
+
+module.exports.instanceMethods = function(User) {
+  User.prototype.checkPassword = function(entry) {
+    return encryptPassword(entry, this.salt) === this.password;
+  }
+}
 
 //password stuff
 

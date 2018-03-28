@@ -10,6 +10,14 @@ const UserAuth = (props) => {
   return(
     <div>
       <form onSubmit={handleSubmit} name={name}>
+        {name === 'signup' && <div><div>
+          <label>first name</label>
+          <input name='firstName' type='text' />
+        </div>
+        <div>
+          <label>last name</label>
+          <input name='lastName' type='text' />
+        </div></div>}
         <div>
           <label htmlFor='email'>email</label>
           <input name='email' type='text' />
@@ -51,7 +59,9 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      dispatch(auth(email, password, formName));
+      const firstName = formName === 'signup' ? evt.target.firstName.value : null;
+      const lastName = formName === 'signup' ? evt.target.lastName.value : null;
+      dispatch(auth(email, password, formName, firstName, lastName));
     }
   };
 };

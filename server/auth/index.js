@@ -16,10 +16,10 @@ router.post('/login', mustHavePassword, (req, res, next) => {
     .then(user => {
       if (!user) {
         return res.status(401).send('User not found');
-      } else if (!user.correctPassword(req.body.password)) {
+      } else if (!user.checkPassword(req.body.password)) {
         return res.status(401).send('Incorrect password');
       } else {
-        return req.login(user, err => (err ? next(err) : res.json(user)));
+        return req.login(cleanUser(user), err => (err ? next(err) : res.json(cleanUser(user))));
       }
     })
     .catch(next);
@@ -27,7 +27,7 @@ router.post('/login', mustHavePassword, (req, res, next) => {
 
 router.post('/signup', mustHavePassword, (req, res, next) => {
   return User.create(req.body)
-    .then(user => req.login(user, err => (err ? next(err) : res.json(user))))
+    .then(user => req.login(user, err => (err ? next(err) : res.json(cleanUser(user)))))
     .catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {
         return res.status(401).send('User already exists');
@@ -47,3 +47,9 @@ router.get('/me', (req, res) => {
 });
 
 router.use('/google', require('./google'));
+
+function cleanUser(user) {
+  user.set('password', null)
+  user.set('salt', null);
+  return user;
+}
