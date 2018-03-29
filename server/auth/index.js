@@ -50,7 +50,7 @@ router.get('/me', (req, res) => {
 router.use('/google', require('./google'));
 
 function cleanUser(user) {
-  user.set('password', null)
+  user.set('password', null);
   user.set('salt', null);
   return user;
 }

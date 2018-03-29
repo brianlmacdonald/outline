@@ -23,24 +23,20 @@ const app = express();
 if (!pkg.isProduction && !pkg.isTesting) {
   app.use(morgan('dev'));
 }
-
-// (()=>{
-//   db.models.user.findById(1).then(result => console.log(result, 'db models'))
-// })();
  
 const prettyError = new PrettyError;
 prettyError.skipNodeFiles();
 prettyError.skipPackage('express');
 
-passport.serializeUser((user, done) => done(null, user.id))
+passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser((id, done) => {
   return db.models.user.findById(id)
     .then(user => {
-      return done(null, user)
+      return done(null, user);
     })
-    .catch(done)
-})
+    .catch(done);
+});
 module.exports = app
 
   .use(bodyParser.urlencoded({ extended: true }))

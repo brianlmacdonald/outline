@@ -45,28 +45,28 @@ module.exports.scopes = function(Model, {Project}) {
         }
       }
     ]
-  })
+  });
 };
 
 module.exports.instanceMethods = function(User) {
   User.prototype.checkPassword = function(entry) {
     return encryptPassword(entry, this.salt) === this.password;
-  }
+  };
 };
 
 //password stuff
 
 function generateSalt() {
-  return crypto.randomBytes(16).toString('base64')
-};
+  return crypto.randomBytes(16).toString('base64');
+}
 
 function encryptPassword(entry, salt) {
   return crypto.createHash('RSA-SHA256').update(entry).update(salt).digest('hex');
-};
+}
 
 function setAndSaltPassword(user){
   if (user.changed('password')) {
     user.salt = generateSalt();
     user.password = encryptPassword(user.password, user.salt);
   }
-};
+}
