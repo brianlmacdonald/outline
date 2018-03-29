@@ -16,5 +16,5 @@ module.exports = db => db.define('change', {
 });
 
 module.exports.associations = (Change, {Note}) => {
-  Change.hasOne(Note);
+  Change.belongsTo(Note);
 };

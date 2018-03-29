@@ -10,3 +10,7 @@ module.exports = db => db.define('note', {
     type: Sequelize.TEXT
   }
 });
+
+module.exports.associations = (Note, {Change}) => {
+  Note.hasMany(Change);
+};

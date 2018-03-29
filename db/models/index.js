@@ -12,7 +12,6 @@ const app = require('APP')
 
 module.exports = db => {
   const models = mapValues(metaModels, defineModel => defineModel(db));
-  console.log(models);
   Object.keys(metaModels)
     .forEach(name => {
       const {associations, instanceMethods, scopes} = metaModels[name];

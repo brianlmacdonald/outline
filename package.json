@@ -20,9 +20,6 @@
  "license": "ISC",
  "dependencies": {
   "axios": "^0.18.0",
-  "babel-plugin-import-inspector": "^2.0.0",
-  "babel-plugin-syntax-dynamic-import": "^6.18.0",
-  "babel-preset-stage-2": "^6.24.1",
   "body-parser": "^1.18.2",
   "chalk": "^2.3.0",
   "check-node-version": "^3.1.1",
@@ -59,15 +56,16 @@
   "webpack": "^4.2.0"
  },
  "devDependencies": {
+  "@babel/core": "^7.0.0-beta.42",
+  "@babel/polyfill": "^7.0.0-beta.42",
+  "@babel/preset-env": "^7.0.0-beta.42",
+  "@babel/preset-react": "^7.0.0-beta.42",
+  "@babel/preset-stage-2": "^7.0.0-beta.42",
+  "@babel/preset-stage-3": "^7.0.0-beta.42",
+  "@babel/register": "^7.0.0-beta.42",
   "ava": "^1.0.0-beta.3",
-  "babel": "^6.23.0",
-  "babel-core": "^6.26.0",
   "babel-eslint": "^8.2.1",
-  "babel-loader": "^7.1.2",
-  "babel-polyfill": "^6.26.0",
-  "babel-preset-env": "^1.6.1",
-  "babel-preset-react": "^6.24.1",
-  "babel-register": "^6.26.0",
+  "babel-loader": "^8.0.0-beta.2",
   "dateformat": "^3.0.2",
   "eslint": "^4.14.0",
   "eslint-config-standard": "^11.0.0-beta.0",
@@ -83,15 +81,9 @@
  },
  "ava": {
   "files": [
-   "**.test.js"
-  ],
-  "concurrency": 5,
-  "failFast": true,
-  "failWithoutAssertions": false,
-  "tap": true,
-  "compileEnhancements": false,
-  "require": [
-   "babel-register"
+   "./db/**/*.test.js",
+   "./server/**/*.test.js",
+   "./client/**/*.test.js"
   ],
   "babel": {
    "testOptions": {

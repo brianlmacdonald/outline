@@ -1,13 +1,7 @@
 {
   "presets": [
-    "react"
-    ,"env"
-    ,"stage-2"
-  ]
-  ,"plugins": [
-    "syntax-dynamic-import"
-    ,["import-inspector", {
-      "serverSideRequiredPath": true
-    }]
+    "@babel/preset-react"
+    ,"@babel/preset-env"
+    ,"@babel/preset-stage-2"
   ]
 }

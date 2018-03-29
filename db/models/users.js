@@ -32,8 +32,8 @@ module.exports = db => db.define('user', {
   }
 });
 
-module.exports.associations = function(Model, {Project}) {
-  Model.hasMany(Project);
+module.exports.associations = function(User, {Project}) {
+  User.hasMany(Project);
 };
 
 module.exports.scopes = function(Model, {Project}) {

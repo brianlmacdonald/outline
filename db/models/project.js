@@ -12,3 +12,7 @@ module.exports = db => db.define('project', {
     type: Sequelize.DATE
   }
 });
+
+module.exports.associations = function(Project, {User}) {
+  Project.belongsTo(User);
+};
