@@ -4,7 +4,7 @@
  "description": "visual outline project",
  "main": "index.js",
  "scripts": {
-  "test": "ava",
+  "test": "ava --verbose",
   "build-client-watch": "webpack -w",
   "test-watch": "npm run test -- --watch --reporter=min",
   "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",
@@ -27,6 +27,7 @@
   "connect-session-sequelize": "^5.2.1",
   "crypto": "^1.0.1",
   "css-loader": "^0.28.8",
+  "d3": "^5.0.0",
   "express": "^4.16.3",
   "express-session": "^1.15.6",
   "finalhandler": "^1.1.0",
