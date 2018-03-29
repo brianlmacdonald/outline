@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const {User} = require('APP/db/');
 module.exports = router;
 
@@ -12,7 +13,7 @@ const mustHavePassword = (req, res, next) => {
 };
 
 router.post('/login', mustHavePassword, (req, res, next) => {
-  return User.findOne({where: {email: req.body.email}})
+  return User.scope('userProjects').findOne({where: {email: req.body.email}})
     .then(user => {
       if (!user) {
         return res.status(401).send('User not found');

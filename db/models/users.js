@@ -13,7 +13,7 @@ module.exports = db => db.define('user', {
     ,unique: true
     ,allowNull: false
     ,validate: {
-      notEmpty: true
+      isEmail: true
     }
   }
   ,password: {
@@ -32,29 +32,41 @@ module.exports = db => db.define('user', {
   }
 });
 
-// module.exports.associations = (User) => {
-//   // User.hasOne(OAuth)
-//   // User.belongsToMany(Thing, {as: 'favorites', through: Favorite})
-// }
+module.exports.associations = function(Model, {Project}) {
+  Model.hasMany(Project);
+};
+
+module.exports.scopes = function(Model, {Project}) {
+  Model.addScope('userProjects', {
+    include: [
+      {
+        model: Project, attributes: {
+          include: ['id', 'name']
+        }
+      }
+    ]
+  })
+};
 
 module.exports.instanceMethods = function(User) {
   User.prototype.checkPassword = function(entry) {
     return encryptPassword(entry, this.salt) === this.password;
   }
-}
+};
 
 //password stuff
 
 function generateSalt() {
   return crypto.randomBytes(16).toString('base64')
-}
+};
+
 function encryptPassword(entry, salt) {
   return crypto.createHash('RSA-SHA256').update(entry).update(salt).digest('hex');
-}
+};
 
 function setAndSaltPassword(user){
   if (user.changed('password')) {
     user.salt = generateSalt();
     user.password = encryptPassword(user.password, user.salt);
   }
-}
+};
