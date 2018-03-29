@@ -1,6 +1,7 @@
+'use strict';
 import test, { beforeEach } from 'ava';
 
-const { setUp, tearDown } = require('./setupFunctions');
+const { setUp } = require('./setupFunctions');
 setUp();
 const db = require('APP/db');
 
@@ -18,8 +19,15 @@ const bob = {
 const ed = {
 	firstName: "Ed",
 	lastName: 'Squatson',
-	email: 'EdSqautsypoo@excite.com',
+	email: 'EdSquatsypoo@excite.com',
 	password: 'b'
+}
+
+const ted = {
+	firstName: "Ted",
+	lastName: 'Squatson',
+	email: 'TedS@gmail.com',
+	password: 'c'
 }
 
 
@@ -28,16 +36,25 @@ test(`User model exists on the db`, async t => {
 	t.is(await typeof dbUsers, 'object');
 });
 
-test(`User's can be created`, async t => {
+test(`Users can be created`, async t => {
 	const { User } = db;
-	let newUserFirstName = Promise.resolve(
+	let newUserProperties = Promise.resolve(
 		User.create(ed)
 		.then(user => {
-			return user.get('firstName')
+			const properties = {
+				firstName: user.get('firstName')
+				,lastName: user.get('lastName')
+				,email: user.get('email')
+			}
+			return properties;
 		})
 	)
-	t.is(await newUserFirstName, 'Ed')
-})
+	t.deepEqual(await newUserProperties, {
+		email: 'EdSquatsypoo@excite.com'
+		,firstName: 'Ed'
+		,lastName: 'Squatson'
+	})
+});
 
 test(`User's projects are loaded with the user when scoped`, async t => {
 	const { Project, User } = db;
@@ -57,6 +74,23 @@ test(`User's projects are loaded with the user when scoped`, async t => {
 		})
 	)
 	t.is(await bobsProject, 'Visionary Project');
-})
+});
 
-tearDown();
+test(`User instance has a check password method that confirms correct passwords`, async t => {
+	const { User } = db;
+	const hasPasswordFunction = Promise.resolve(
+		User.create(ted)
+		.then(createdTed => createdTed.checkPassword('c'))
+	)
+	t.is(await hasPasswordFunction, true);
+});
+
+test(`User instance has a check password method that bucks wrong passwords`, async t => {
+	const { User } = db;
+	const wrongPassword = Promise.resolve(
+		User.create({firstName: 'a', lastName: 'b', email: 'a@b.com', password: 'd'})
+		.then(createdA => createdA.checkPassword('c'))
+	)
+	t.is(await wrongPassword, false);
+});
+
