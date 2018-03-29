@@ -5,6 +5,7 @@ module.exports = db => db.define('project', {
   name: {
     type: Sequelize.STRING
     ,unique: true
+    ,allowNull: false
     ,defaultValue: untitledProject
     ,validate: require('./validations.js')
   }
