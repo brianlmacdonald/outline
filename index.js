@@ -44,7 +44,7 @@ try {
 
 module.exports = {
   get name() { return pkg.name; }
-  ,get isTesting() { return !!global.it; }
+  ,get isTesting() { return env.IS_TESTING; }
   ,get isProduction() {
     return env.NODE_ENV === 'production';
   }
