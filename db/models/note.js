@@ -13,16 +13,17 @@ module.exports = db => db.define('note', {
   }
 });
 
-module.exports.associations = (Note, {Change}) => {
+module.exports.associations = (Note, {Change, Project}) => {
   Note.hasMany(Change);
+  Note.belongsTo(Project);
 };
 
-module.exports.scopes = function(Model, {Change}) {
-  Model.addScope('changes', {
+module.exports.scopes = function(Note, {Change}) {
+  Note.addScope('defaultScope', {
     include: [
       {
         model: Change
       }
     ]
-  });
+  }, {override: true});
 };

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const untitledProject = 'untitled_project_' + new Date;
 
 module.exports = db => db.define('project', {
-  name: {
+  title: {
     type: Sequelize.STRING
     ,unique: true
     ,allowNull: false
@@ -14,6 +14,17 @@ module.exports = db => db.define('project', {
   }
 });
 
-module.exports.associations = function(Project, {User}) {
+module.exports.associations = function(Project, {User, Note}) {
   Project.belongsTo(User);
+  Project.hasMany(Note);
+};
+
+module.exports.scopes = function(Project, { Note }) {
+  Project.addScope('notes', {
+    include: [
+      {
+        model: Note
+      }
+    ]
+  });
 };

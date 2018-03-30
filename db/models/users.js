@@ -39,13 +39,11 @@ module.exports.associations = function(User, {Project}) {
   User.hasMany(Project);
 };
 
-module.exports.scopes = function(Model, {Project}) {
-  Model.addScope('userProjects', {
+module.exports.scopes = function(User, {Project}) {
+  User.addScope('userProjects', {
     include: [
       {
-        model: Project, attributes: {
-          include: ['id', 'name']
-        }
+        model: Project
       }
     ]
   });

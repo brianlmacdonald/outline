@@ -4,7 +4,8 @@
  "description": "visual outline project",
  "main": "index.js",
  "scripts": {
-  "test": "ava --verbose",
+  "test": "ava -v --match='!*DB*'",
+  "test-db": "ava -v -s --match='DB*'",
   "build-client-watch": "webpack -w",
   "test-watch": "npm run test -- --watch --reporter=min",
   "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",

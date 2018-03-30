@@ -31,12 +31,12 @@ const ted = {
 }
 
 
-test(`User model exists on the db`, async t => {
+test(`DB - User model exists on the db`, async t => {
 	const dbUsers = Promise.resolve(db.models.user);
 	t.is(await typeof dbUsers, 'object');
 });
 
-test(`Users can be created`, async t => {
+test(`DB - Users can be created`, async t => {
 	const { User } = db;
 	let newUserProperties = Promise.resolve(
 		User.create(ed)
@@ -56,7 +56,7 @@ test(`Users can be created`, async t => {
 	})
 });
 
-test(`User's projects are loaded with the user when scoped`, async t => {
+test(`DB - User's projects are loaded with the user when scoped`, async t => {
 	const { Project, User } = db;
 	let id;
 	const bobsProject = Promise.resolve(
@@ -64,11 +64,11 @@ test(`User's projects are loaded with the user when scoped`, async t => {
 		.then(user => user.get('id'))
 		.then(userId => {
 			id = userId;
-			return Project.create({user_id: id, name: `Visionary Project`})
+			return Project.create({user_id: id, title: `Visionary Project`})
 			.then(newProject => {
 				return User.scope('userProjects').findOne({where: {id: id}})
 				.then(foundBob => {
-					return foundBob.get('projects')[0].name
+					return foundBob.get('projects')[0].title
 				})
 			})
 		})
@@ -76,7 +76,7 @@ test(`User's projects are loaded with the user when scoped`, async t => {
 	t.is(await bobsProject, 'Visionary Project');
 });
 
-test(`User instance has a check password method that confirms correct passwords`, async t => {
+test(`DB - User instance has a check password method that confirms correct passwords`, async t => {
 	const { User } = db;
 	const hasPasswordFunction = Promise.resolve(
 		User.create(ted)
@@ -85,7 +85,7 @@ test(`User instance has a check password method that confirms correct passwords`
 	t.is(await hasPasswordFunction, true);
 });
 
-test(`User instance has a check password method that bucks wrong passwords`, async t => {
+test(`DB - User instance has a check password method that bucks wrong passwords`, async t => {
 	const { User } = db;
 	const wrongPassword = Promise.resolve(
 		User.create({firstName: 'a', lastName: 'b', email: 'a@b.com', password: 'd'})
