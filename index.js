@@ -3,7 +3,7 @@
 const { resolve } = require('path')
   , chalk = require('chalk')
   , pkg = require('./package.json')
-  , debug = require('debug')(`${pkg.name}:boot`)
+  , debug = require('debug')(`${pkg.name}:boot`);
 
 const env = process.env
   , secretsFile = resolve(require('homedir')(), `.${pkg.name}.env`);
