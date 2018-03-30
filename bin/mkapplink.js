@@ -9,15 +9,15 @@ const chalk = require('chalk')
 
   , symlinkError = error =>
     `*******************************************************************
-${appLink} must point to '..'
-This symlink lets you require('APP/some/path') rather than
-../../../some/path
-I tried to create it, but got this error:
-${error.message}
-You might try this:
-  rm ${appLink}
-Then run me again.
-********************************************************************`;
+     ${appLink} must point to '..'
+     This symlink lets you require('APP/some/path') rather than
+     ../../../some/path
+     I tried to create it, but got this error:
+     ${error.message}
+     You might try this:
+       rm ${appLink}
+     Then run me again.
+     ********************************************************************`;
 
 function makeAppSymlink() {
   console.log(`Linking '${appLink}' to '..'`);
