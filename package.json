@@ -4,13 +4,14 @@
  "description": "visual outline project",
  "main": "index.js",
  "scripts": {
-  "test": "ava -v --match='!*DB*'",
-  "test-db": "ava -v -s --match='DB*'",
+  "test": "cross-env NODE_ENV=test ava -v --match='!*DB*'",
+  "dev": "node dev",
+  "test-db": "cross-env NODE_ENV=test ava -v -s --match='DB*'",
   "build-client-watch": "webpack -w",
   "test-watch": "npm run test -- --watch --reporter=min",
-  "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",
+  "start-dev": "cross-env NODE_ENV=development npm run build-client-watch & npm run start-server",
   "start-watch": "nodemon server/start.js --watch server --watch db --watch index.js --watch package.json",
-  "start-server": "NODE_ENV='development' nodemon server",
+  "start-server": "cross-env NODE_ENV=development nodemon server",
   "lint": "eslint . --ignore-path .gitignore --ext '.js,.jsx'",
   "validate": "check-node-version --node '>= 7.0.0'",
   "setup": "./bin/mkapplink.js",
@@ -26,9 +27,11 @@
   "check-node-version": "^3.1.1",
   "compression": "^1.7.2",
   "connect-session-sequelize": "^5.2.1",
+  "cross-env": "^5.1.4",
   "crypto": "^1.0.1",
   "css-loader": "^0.28.8",
   "d3": "^5.0.0",
+  "enzyme": "^3.3.0",
   "express": "^4.16.3",
   "express-session": "^1.15.6",
   "finalhandler": "^1.1.0",
@@ -52,6 +55,7 @@
   "redux": "^3.7.2",
   "redux-devtools-extension": "^2.13.2",
   "redux-logger": "^3.0.6",
+  "redux-mock-store": "^1.5.1",
   "redux-thunk": "^2.2.0",
   "sequelize": "^4.28.6",
   "style-loader": "^0.19.1",
@@ -69,6 +73,7 @@
   "babel-eslint": "^8.2.1",
   "babel-loader": "^8.0.0-beta.2",
   "dateformat": "^3.0.2",
+  "enzyme-adapter-react-16": "^1.1.1",
   "eslint": "^4.14.0",
   "eslint-config-standard": "^11.0.0-beta.0",
   "eslint-plugin-ava": "^4.5.1",
@@ -83,15 +88,17 @@
   "webpack-livereload-plugin": "^1.0.0"
  },
  "ava": {
-  "files": [
-   "./db/**/*.test.js",
-   "./server/**/*.test.js",
-   "./client/**/*.test.js"
-  ],
   "babel": {
    "testOptions": {
-    "babelrc": false
+    "babelrc": false,
+    "presets": [
+     "@babel/preset-react",
+     "@babel/preset-stage-2"
+    ]
    }
-  }
+  },
+  "require": [
+   "@babel/register"
+  ]
  }
 }

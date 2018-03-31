@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   mode: 'development'
-  ,entry: './client/main.js'
+  ,entry: ['@babel/polyfill','./client/main.js']
   ,output: {
     path: __dirname
     ,filename: './public/bundle.js'

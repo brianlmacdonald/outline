@@ -1,8 +1,6 @@
 'use strict';
 import test, { beforeEach } from 'ava';
 
-const { setUp } = require('./setupFunctions');
-setUp();
 const db = require('APP/db');
 
 const testChange = {title: 'test should pass'};

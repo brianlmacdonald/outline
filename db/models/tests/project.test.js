@@ -1,8 +1,6 @@
 'use strict';
 import test, { beforeEach } from 'ava';
 
-const { setUp } = require('./setupFunctions');
-setUp();
 const db = require('APP/db');
 
 const testProject = {title: 'test project'};
@@ -32,7 +30,7 @@ test('DB - Projects can be created', async t => {
 	});
 });
 
-test('DB - Project\'s changes are loaded with the project when scoped', async t => {
+test('DB - Project\'s changes are loaded when scoped', async t => {
 	const { Project, Change, Note } = db;
 	let id;
 	const projectNotesChange = Promise.resolve(
@@ -50,7 +48,7 @@ test('DB - Project\'s changes are loaded with the project when scoped', async t 
 					note_id: newNote.get('id')
 					,title: 'Darth V: bad => good'
 				})
-        .then(createdNote => {
+        .then(createdChange => {
           return Project.scope('notes').findOne({where: {id: id}})
           .then(foundProject => {
             return foundProject

@@ -9,9 +9,6 @@ const app = require('.')
   , { red, green, blue, cyan, yellow } = bold
   , dev = module.exports = () => run({
     server: task(app.package.scripts['start-server'], { color: blue })
-    // , build: task(app.package.scripts['build-watch'], { color: green })
-    // , lint: task(app.package.scripts['lint-watch'], { color: cyan })
-    // , test: task(app.package.scripts['test-watch'], { color: yellow })
   });
 
 const taskEnvironment = (path = require('path')) => {

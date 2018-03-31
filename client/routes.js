@@ -1,3 +1,4 @@
+'use strict';
 import { Router, Route, Switch } from 'react-router-dom';
 import browserHistory, { memoryHistory } from './history';
 import { Home, Login, Signup } from './components/index.jsx';

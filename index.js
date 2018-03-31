@@ -17,7 +17,7 @@ try {
 
 module.exports = {
   get name() { return pkg.name; }
-  ,get isTesting() { return env.IS_TESTING; }
+  ,get isTesting() { return env.NODE_ENV === 'test'; }
   ,get isProduction() {
     return env.NODE_ENV === 'production';
   }
