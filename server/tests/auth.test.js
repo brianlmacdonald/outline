@@ -5,7 +5,7 @@ const request = require('supertest');
 const auth = require('APP/server/auth');
 const { makeApp, setUp } = require('./setupFunctions');
 
-test('SERVER - auth is something', t => {
+test('SERVER - auth exists', t => {
   t.is(typeof auth, 'function');
 });
 

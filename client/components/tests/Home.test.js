@@ -4,11 +4,11 @@ import Adapter from 'enzyme-adapter-react-16';
 import test from 'ava';
 import React from 'react';
 
-import {UserAuth} from '../index.jsx';
+import {Home} from '../index.jsx';
 
 configure({ adapter: new Adapter()});
 
-test('CLIENT - User exists', t => {
-  const wrapper = shallow(<UserAuth />);
-  t.is(typeof wrapper, 'object');
+test('CLIENT - Home exists', t => {
+  const wrapped = shallow(<Home />);
+  t.is(typeof wrapped, 'object');
 });

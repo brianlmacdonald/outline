@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { auth } from '../store';
 import PropTypes from 'prop-types';
 
-const UserAuth = (props) => {
+export const UserAuth = (props) => {
   const {name, handleSubmit, displayName, error} = props;
 
   return(
