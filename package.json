@@ -1,7 +1,7 @@
 {
- "name": "outline",
+ "name": "super",
  "version": "1.0.0",
- "description": "visual outline project",
+ "description": "a boilerplate thingy",
  "main": "index.js",
  "scripts": {
   "test": "cross-env NODE_ENV=test ava -v --match='!*DB*'",
