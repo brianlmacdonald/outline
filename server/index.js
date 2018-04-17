@@ -32,9 +32,7 @@ passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser((id, done) => {
   return db.models.user.findById(id)
-    .then(user => {
-      return done(null, user);
-    })
+    .then(foundUser => done(null, foundUser))
     .catch(done);
 });
 module.exports = app

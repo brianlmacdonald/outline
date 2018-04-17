@@ -61,7 +61,8 @@ export const loadUserProjects = (userId) =>
     dispatch(allProjectsLoading());
     return axios.get(`api/projects/${userId}`)
     .then(foundProjects => {
-      if (!foundProjects) {
+      console.log(foundProjects.data);
+      if (foundProjects.data.length === 0) {
         axios.post(`api/projects/${userId}`)
         .then(createdProject => {
           dispatch(allProjectsLoaded([createdProject.data]));

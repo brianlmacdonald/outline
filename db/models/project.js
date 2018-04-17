@@ -9,9 +9,6 @@ module.exports = db => db.define('project', {
     ,defaultValue: untitledProject
     ,validate: require('./validations.js')
   }
-  ,dateCreated: {
-    type: Sequelize.DATE
-  }
 });
 
 module.exports.associations = function(Project, {User, Note}) {

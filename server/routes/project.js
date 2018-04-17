@@ -21,7 +21,7 @@ router.param('userId', (req, res, next, id) => {
 
 router.get('/:userId', (req, res, next) => {
   return Project.findAll({
-    where: {userId: req.user.id},
+    where: {user_id: req.user.id},
     attributes: ['id', 'title'],
   })
   .then(res.json.bind(res))
@@ -30,7 +30,7 @@ router.get('/:userId', (req, res, next) => {
 
 router.post('/:userId', (req, res, next) => {
   return Project.create(req.body)
-  .then(newProject => newProject.setUser(req.body.userId))
+  .then(newProject => newProject.setUser(req.user.id))
   .then(res.json.bind(res))
   .catch(next);
 });
