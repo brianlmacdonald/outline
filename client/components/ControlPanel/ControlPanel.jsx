@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './ControlPanel.css';
+// import style from './ControlPanel.css';
 
 export default function ControlPanel(){
   return(
