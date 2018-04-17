@@ -61,18 +61,31 @@ export default function project(state = Map({}), action) {
   let project;
 
   switch(action.type) {
+
     case ALL_PROJECTS_REQUEST:
       return state.setIn(['userProjects', 'isFetching'], true);
+      
     case PROJECT_REQUEST:
       return state.setIn(['userProjects', action.payload, 'isFetching'], true);
+
     case ALL_PROJECTS_SUCCESS:
       allProjects = action.payload;
-      state.setIn(['userProjects, isFetching'], false);
-      return state.withMutations((map) => {
+      return state.setIn(['userProjects', 'isFetching'], false).withMutations(map => {
         allProjects.forEach(project => (
-          map.setIn(['userProjects', project.title], fromJS(project).set('isFetching', false))
+          map.setIn([
+            'userProjects',
+            project.title],
+            fromJS(project).set('isFetching', false))
         ));
       });
+    case PROJECT_SUCCESS:
+      return state.withMutations(map => {
+        map.setIn([
+          'userProjects',
+          action.payload.title],
+          fromJS(action.payload).set('isFetching', false));
+      });
+
     default:
       return state;
   }
