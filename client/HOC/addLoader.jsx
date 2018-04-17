@@ -8,7 +8,7 @@ const LoaderHOC = (propName) => (WrappedComponent) => {
     }
 
     isEmpty(prop) {
-      prop === null ||
+      return prop === null ||
       prop === undefined ||
       (prop.hasOwnPropery('length') && prop.length === 0) ||
       (prop.constructor === Object.keys(prop).length === 0);

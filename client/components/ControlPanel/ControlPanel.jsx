@@ -1,8 +1,10 @@
 import React from 'react';
+import style from './ControlPanel.css';
 
 export default function ControlPanel(){
   return(
     <div className='controlPanel'>
+      <button>new project</button>
       <button>add story</button>
       <button>add act</button>
       <button>add sequence</button>

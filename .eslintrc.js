@@ -37,7 +37,6 @@ module.exports = {
                 "args": "none"
             }
         ],
-        "comma-style": [2, "first"],
         "no-console": 0,
         "ava/assertion-arguments": "error",
         "ava/max-asserts": ["off", 5],

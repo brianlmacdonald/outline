@@ -9,6 +9,6 @@ import store from './store';
 import Routes from './routes';
 
 render(
-  <Provider store={store} >
+  <Provider store={store}>
     <Routes />
   </Provider>, document.getElementById('start'));
