@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux';
-import defaultReducer from './defaultReducer'; //delete 
 import user from './user';
+import project from './project';
 
-const rootReducer = combineReducers({defaultReducer, user});
+const rootReducer = combineReducers({ user, project });
 
 export default rootReducer;
 export * from './user';
+export * from './project';

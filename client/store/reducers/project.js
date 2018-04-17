@@ -1,13 +1,14 @@
-"use strict";
-import { Map, fromJS } from "immutable";
+'use strict';
+import { Map, fromJS } from 'immutable';
+import axios from 'axios';
 
-export const PROJECT_REQUEST = "PROJECT_REQUEST";
-export const PROJECT_SUCCESS = "PROJECT_SUCCESS";
-export const PROJECT_FAILURE = "PROJECT_FAILURE";
+export const PROJECT_REQUEST = 'PROJECT_REQUEST';
+export const PROJECT_SUCCESS = 'PROJECT_SUCCESS';
+export const PROJECT_FAILURE = 'PROJECT_FAILURE';
 
-export const ALL_PROJECTS_REQUEST = "PROJECTS_REQUEST";
-export const ALL_PROJECTS_SUCCESS = "PROJECTS_SUCCESS";
-export const ALL_PROJECTS_FAILURE = "PROJECTS_FAILURE";
+export const ALL_PROJECTS_REQUEST = 'ALL_PROJECTS_REQUEST';
+export const ALL_PROJECTS_SUCCESS = 'ALL_PROJECTS_SUCCESS';
+export const ALL_PROJECTS_FAILURE = 'ALL_PROJECTS_FAILURE';
 
 export function projectLoading(title) {
   return {
@@ -23,12 +24,12 @@ export function projectLoaded(project) {
   };
 }
 
-export function projectLoadError(error, project) {
+export function projectLoadError(error, title) {
   return {
     type: PROJECT_FAILURE,
     payload: {
       error,
-      project
+      title
     },
   };
 }
@@ -46,15 +47,32 @@ export function allProjectsLoaded(projects) {
   };
 }
 
-export function allProjectsLoadError(error, projects) {
+export function allProjectsLoadError(error) {
   return {
     type: ALL_PROJECTS_FAILURE,
     payload: {
       error,
-      projects
     },
   };
 }
+
+export const loadUserProjects = (userId) =>
+  dispatch => {
+    dispatch(allProjectsLoading());
+    return axios.get(`api/projects/${userId}`)
+    .then(foundProjects => {
+      if (!foundProjects) {
+        axios.post(`api/projects/${userId}`)
+        .then(createdProject => {
+          dispatch(allProjectsLoaded([createdProject.data]));
+        })
+        .catch(err => dispatch(allProjectsLoadError(err)));
+      } else {
+        dispatch(allProjectsLoaded(foundProjects.data));
+      }
+    })
+    .catch(err => dispatch(allProjectsLoadError(err)));
+};
 
 export default function project(state = Map({}), action) {
   let allProjects;
@@ -84,6 +102,18 @@ export default function project(state = Map({}), action) {
           'userProjects',
           action.payload.title],
           fromJS(action.payload).set('isFetching', false));
+      });
+    
+    case ALL_PROJECTS_FAILURE:
+      return state.withMutations(map => {
+        map.setIn(['userProjects', 'isFetching'], false);
+        map.setIn(['userProjects', 'error'], action.payload.error.message);
+      });
+    
+    case PROJECT_FAILURE:
+      return state.withMutations(map => {
+        map.setIn(['userProjects', action.payload.title, 'isFetching'], false);
+        map.setIn(['userProjects', action.payload.title, 'error'], action.payload.error.message);
       });
 
     default:

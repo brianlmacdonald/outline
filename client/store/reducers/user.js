@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {Map} from 'immutable';
 
+import { loadUserProjects } from './index';
+
 import history from '../../history';
 
 const GET_USER = 'GET_USER';
@@ -25,6 +27,8 @@ export const auth = (email, password, method, firstName, lastName) =>
     axios.post(`/auth/${method}`, { email, password, firstName, lastName })
       .then(res => {
         dispatch(getUser(res.data));
+        console.log('data id', res.data.id)
+        dispatch(loadUserProjects(res.data.id));
       }, authError => {
         dispatch(getUser({ error: authError }));
       })
