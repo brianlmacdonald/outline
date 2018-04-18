@@ -32,14 +32,14 @@ export const projectLoading = (project) => {
     type: PROJECT_REQUEST,
     payload: project
   };
-}
+};
 
 export const projectLoaded = (project) => {
   return {
     type: PROJECT_SUCCESS,
     payload: project
   };
-}
+};
 
 export const projectLoadError = (error, project) => {
   return {
@@ -49,20 +49,20 @@ export const projectLoadError = (error, project) => {
       project
     },
   };
-}
+};
 
 export const allProjectsLoading = () => {
   return {
     type: ALL_PROJECTS_REQUEST,
   };
-}
+};
 
 export const allProjectsLoaded = (projects) => {
   return {
     type: ALL_PROJECTS_SUCCESS,
     payload: projects
   };
-}
+};
 
 export const allProjectsLoadError = (error) => {
   return {
@@ -71,35 +71,35 @@ export const allProjectsLoadError = (error) => {
       error,
     },
   };
-}
+};
 
 export const createDraft = (project) => {
   return {
     type: CREATE_DRAFT_PROJECT,
     payload: project,
   };
-}
+};
 
 export const discardDraft = (project) => {
   return {
     type: DISCARD_DRAFT_PROJECT,
     payload: project,
   };
-}
+};
 
 export const savingDraft = (project) => {
   return {
     type: SAVE_DRAFT_REQUEST,
     payload: project
   };
-}
+};
 
 export const draftSaved = (project) => {
   return {
     type: SAVE_DRAFT_SUCCESS,
     payload: project
   };
-}
+};
 
 export const errorSavingDraft = (project, error) => {
   return {
@@ -109,49 +109,49 @@ export const errorSavingDraft = (project, error) => {
       error
     }
   };
-}
+};
 
 export const updatingProject = (project) => {
   return {
     type: UPDATE_PROJECT_REQUEST,
     payload: project
   };
-}
+};
 
 export const projectUpdated = (project) => {
   return {
     type: UPDATE_PROJECT_SUCCESS,
     payload: project
   };
-}
+};
 
 export const updateProjectFailure = (project, error) => {
   return {
     type: UPDATE_PROJECT_FAILURE,
     payload: { project, error }
   };
-}
+};
 
 export const deletingProject = (project) => {
   return {
     type: PROJECT_DELETE_REQUEST,
     payload: project
   };
-}
+};
 
 export const projectDeleted = (project) => {
   return {
     type: PROJECT_DELETE_SUCCESS,
     payload: project
   };
-}
+};
 
 export const projectDeletionError = (project, error) => {
   return {
     type: PROJECT_DELETE_FAILURE,
     payload: {project, error}
-  }
-}
+  };
+};
 
 //loadUserProjects tries to find and load the user's existing projects,
 //if none are found it creates a new project and loads that.
