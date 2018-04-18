@@ -58,7 +58,7 @@ import project, {
       'Mr Mustard']).get('isFetching'),
       false);
 
-    const nextState = project(state, projectLoading('Mr Mustard'));
+    const nextState = project(state, projectLoading({title: 'Mr Mustard'}));
 
     t.deepEqual(nextState.getIn([
       'userProjects',
@@ -69,7 +69,7 @@ import project, {
   test('REDUCER - projectLoaded adds the projects full details', t => {
     const preState = project(undefined, allProjectsLoading());
     const state = project(preState, allProjectsLoaded(testProjects));
-    const nextState = project(state, projectLoading('Mr Mustard'));
+    const nextState = project(state, projectLoading({title: 'Mr Mustard'}));
     const finalState = project(nextState, projectLoaded(loadedProject));
 
     t.deepEqual(finalState.getIn([
