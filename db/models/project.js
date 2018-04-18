@@ -8,6 +8,9 @@ module.exports = db => db.define('project', {
     ,allowNull: false
     ,defaultValue: untitledProject
     ,validate: require('./validations.js')
+  },
+  body: {
+    type: Sequelize.JSON
   }
 });
 

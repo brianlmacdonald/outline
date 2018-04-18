@@ -1,23 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 const Thumbnail = (props) => {
   const { 
-    title, 
-    description,
-    userName,
-    userId,
-    projectName,
-    projectId
+    title,
+    body,
+    handleClick
   } = props;
+  const bodyPrev = body.slice(0, 15) + '...';
 
   return (
-    <Link to={`/editor/${userName} + ${userId}/${projectName} + ${projectId}`}>
-      <div className='thumbnail'>
+      <div
+        className='thumbnail'
+        onClick={handleClick}>
         <p>{title}</p>
-        <p>{description}</p>
+        <p>{bodyPrev}</p>
       </div>
-    </Link>
   );
 };
 

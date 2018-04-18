@@ -1,42 +1,23 @@
-import React, { Component } from 'react';
-import propTypes from 'prop-types';
+'use strict';
+import React from 'react';
 
-import TitleEditor from '../Title/TitleEditor.jsx';
-import NoteEditor from '../Text/TextEditor.jsx';
-
-class Editor extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      titleValue: this.props.titleValue,
-      noteValue: this.props.noteValue,
-    };
-  }
-
-  handleChange(stateTarget) {
-    return (value) => {
-      this.setState({stateTarget: value});
-    };
-  }
-
-  render() {
-    return (
+const Editor = (props) => {
+  const { displayName, parentId, subordinateIds, handleSubmit, error, name } = props;
+  const hasSubordinates = subordinateIds.length !== 0;
+  return(
+    <div>
       <div>
-        <TitleEditor
-        onChange={this.handleChange('titleValue')}
-        />
-        <NoteEditor
-        onChange={this.handleChange('noteValue')}
-        />
-        <div className='editorButtonGroup'>
-          <button>save</button>
-          <button>reset</button>
-          <button>cancel</button>
-          <button>delete</button>
-        </div>
-      </div>
-    );
-  }
-}
+      </div>      
+      <form onSubmit={handleSubmit} name={name}>
+        <label>title</label>
+        <input name='title' type='text' />
+        <label>body</label>
+        <input name='body' type='text' />        
+      </form>
+      {hasSubordinates && subordinateIds.map(id => {
 
-export default Editor;
+      })}
+    </div>
+  );
+};
+

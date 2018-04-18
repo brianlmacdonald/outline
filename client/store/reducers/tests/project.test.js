@@ -1,13 +1,18 @@
 'use strict';
 import test from 'ava';
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import project, { 
   projectLoaded,
   projectLoading,
   projectLoadError,
   allProjectsLoaded, 
   allProjectsLoading, 
-  allProjectsLoadError
+  allProjectsLoadError,
+  createDraft,
+  discardDraft,
+  savingDraft,
+  draftSaved,
+  errorSavingDraft
   } from '../project';
 
   const testProjects = [
@@ -75,10 +80,35 @@ import project, {
     t.deepEqual(finalState.getIn([
       'userProjects',
       'Mr Mustard']).get('body'),
-      'He is a gentleman and a scholar.');
+      loadedProject.body);
 
     t.deepEqual(finalState.getIn([
       'userProjects',
       'Mr Mustard']).get('isFetching'),
       false);
+  });
+
+  test('REDUCER - createDraft creates a draft in draftProjects', t => {
+    const preState = project(undefined, createDraft(loadedProject));
+    t.deepEqual(preState.getIn([
+      'draftProjects',
+      loadedProject.title
+    ]).get('body'),
+      loadedProject.body);
+  });
+
+  test('REDUCER - discardDraft deletes the specific draft ONLY', t => {
+    const preState = project(undefined, createDraft(testProjects[0]));
+    const currentState = project(preState, createDraft(testProjects[1]));
+    const nextState = project(currentState, discardDraft(testProjects[0]));
+    t.deepEqual(nextState.getIn([
+      'draftProjects',
+      testProjects[0].title
+    ]),
+      undefined);
+    t.deepEqual(nextState.getIn([
+      'draftProjects',
+      testProjects[1].title
+    ]).get('title'),
+    testProjects[1].title);
   });

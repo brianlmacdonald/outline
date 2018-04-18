@@ -63,7 +63,7 @@ export default function (state = Map({}), action) {
   switch (action.type) {
     
     case GET_USER:
-      return state.mergeDeep(action.user);
+      return state.mergeDeep(action.payload);
     
     case GET_USER_ERROR:
       return state.set('error', action.payload);
