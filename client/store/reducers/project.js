@@ -289,15 +289,25 @@ export default function project(state = Map({}), action) {
       });
     
     case PROJECT_DELETE_REQUEST:
-      return state.setIn(['userProjects', action.payload.title, 'isSaving'], true);
+      return state.setIn([
+        'userProjects',
+        action.payload.title,
+        'isSaving'], true);
     
     case PROJECT_DELETE_SUCCESS:
-      return state.deleteIn(['userProjects', action.payload.title]):
+      return state.deleteIn(['userProjects', action.payload.title]);
 
     case PROJECT_DELETE_FAILURE:
       return state.withMutations(map => {
-        map.setIn(['userProjects', action.payload.title, 'isSaving'], false);
-        map.setIn(['userProjects', action.payload.title, 'error'], action.payload.error);
+        map.setIn([
+          'userProjects',
+          action.payload.title,
+          'isSaving'], false);
+        map.setIn([
+          'userProjects',
+          action.payload.title,
+          'error'],
+          action.payload.error);
       });
     
     case REMOVE_USER:
