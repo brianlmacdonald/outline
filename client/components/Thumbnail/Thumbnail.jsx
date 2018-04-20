@@ -11,11 +11,11 @@ const Thumbnail = (props) => {
   const bodyPrev = body.slice(0, 15) + '...';
 
   return (
-      <div
+      <div id={title + 'div'}
         className='thumbnail'
         onClick={handleClick}>
-        <p>{title}</p>
-        <p>{bodyPrev}</p>
+        <h4 id={title + 'h4'}>{title}</h4>
+        <p id={title + 'p'}>{bodyPrev}</p>
       </div>
   );
 };

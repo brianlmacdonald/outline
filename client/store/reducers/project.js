@@ -1,5 +1,5 @@
 'use strict';
-import { Map, fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import axios from 'axios';
 
 import { REMOVE_USER } from './user';
@@ -204,7 +204,7 @@ export default function project(state = Map({}), action) {
       return state.setIn([
         'userProjects',
         'isFetching'],
-        false).withMutations(map => {
+        false).setIn(['userProjects', 'loaded'], List([])).withMutations(map => {
         allProjects.forEach(project => (
           map.setIn([
             'userProjects',

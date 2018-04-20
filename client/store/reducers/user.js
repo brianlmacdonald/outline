@@ -2,7 +2,6 @@ import axios from 'axios';
 import {Map} from 'immutable';
 
 import { loadUserProjects } from './index';
-
 import history from '../../history';
 
 const GET_USER = 'GET_USER';
@@ -46,6 +45,7 @@ export const auth = (email, password, method, firstName, lastName) =>
       .then(res => {
         dispatch(getUser(res.data));
         dispatch(loadUserProjects(res.data.id));
+        history.replace('/user');
       }, authError => {
         dispatch(getUser({ error: authError }));
       })
@@ -56,6 +56,7 @@ export const logout = () =>
     axios.post('/auth/logout')
       .then(_ => {
         dispatch(removeUser());
+        history.push('/');
       })
       .catch(error => errorGettingUser(error));
 

@@ -5,7 +5,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './reducers';
 
-const middleWare = composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({diff: true})));
+const middleWare = composeWithDevTools(
+  applyMiddleware(
+    thunkMiddleware,
+    createLogger({diff: true})
+  )
+);
 
 const store = createStore(rootReducer, middleWare);
 

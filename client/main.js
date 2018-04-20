@@ -4,7 +4,7 @@ import {render} from 'react-dom';
 import {Provider, connect} from 'react-redux';
 
 //stopped while adding in browserROuter and walking through react-router
-
+import './main.css';
 import store from './store';
 import Routes from './routes';
 

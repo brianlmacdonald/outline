@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  border: 2px #9899A6 solid;
+}
+
+.project {
+  background-color: #F5F2D4;
+}
+
+.act {
+  background-color: #B098A4;
+}

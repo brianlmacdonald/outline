@@ -4,8 +4,6 @@ const { Project, User } = require('APP/db');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-const LoadedProject = Project.scope('all');
-
 module.exports = router;
 
 router.param('userId', (req, res, next, id) => {
@@ -47,7 +45,7 @@ router.post('/:userId', (req, res, next) => {
 
 //get and load one single project.
 router.get('/:userid/:projectId', (req, res, next) => {
-  return LoadedProject.find({
+  return Project.find({
     where: {
       [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]}}
     )
