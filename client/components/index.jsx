@@ -11,6 +11,9 @@ export { default as Display } from './Display/Display.jsx';
 export { default as LoaderHOC} from './HOC/LoaderHOC.jsx';
 export { default as User } from './User/User.jsx';
 export { 
+  default as HierarchyControl 
+} from './HierarchyControl/HierarchyControl.jsx';
+export { 
   ProjectContainer,
   ActContainer,
   SequenceContainer,

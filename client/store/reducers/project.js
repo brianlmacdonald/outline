@@ -1,5 +1,5 @@
 'use strict';
-import { Map, List, fromJS } from 'immutable';
+import { Map, fromJS, List } from 'immutable';
 import axios from 'axios';
 
 import { REMOVE_USER } from './user';
@@ -184,54 +184,54 @@ export const loadSingleProject = (userId, project) =>
       .catch(err => dispatch(projectLoadError(project, err)));
   };
 
-export default function project(state = Map({}), action) {
+const defaultState = Map({
+  isFetching: false,
+  draftProjects: Map({}),
+  userProjects: Map({})}
+);
+
+export default function project(state = defaultState, action) {
   let allProjects;
   let title;
 
   switch(action.type) {
 
     case ALL_PROJECTS_REQUEST:
-      return state.setIn(['userProjects', 'isFetching'], true);
+      return state.set('isFetching', true);
       
     case PROJECT_REQUEST:
-      return state.setIn([
-        'userProjects',
-        action.payload.title,
-        'isFetching'], true);
+      return state.set('isFetching', true);
 
     case ALL_PROJECTS_SUCCESS:
       allProjects = action.payload;
-      return state.setIn([
-        'userProjects',
-        'isFetching'],
-        false).setIn(['userProjects', 'loaded'], List([])).withMutations(map => {
+      return state.set(
+        'isFetching',
+        false).withMutations(map => {
         allProjects.forEach(project => (
           map.setIn([
             'userProjects',
             project.title],
-            fromJS(project).set('isFetching', false))
+            fromJS(project))
         ));
       });
     case PROJECT_SUCCESS:
-      return state.withMutations(map => {
+      return state.set('isFetching', false).withMutations(map => {
         map.setIn([
           'userProjects',
           action.payload.title],
-          fromJS(action.payload).set('isFetching', false));
+          fromJS(action.payload));
       });
     
     case ALL_PROJECTS_FAILURE:
       return state.withMutations(map => {
-        map.setIn(['userProjects', 'isFetching'], false);
+        map.set('isFetching', false);
         map.setIn(['userProjects', 'error'], action.payload.error.message);
       });
     
     case PROJECT_FAILURE:
       return state.withMutations(map => {
-        map.setIn([
-          'userProjects',
-          action.payload.project.title,
-          'isFetching'], false);
+        map.set(
+          'isFetching', false);
         map.setIn([
           'userProjects',
           action.payload.project.title,

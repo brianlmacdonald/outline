@@ -7,17 +7,17 @@ import './Container.css';
 const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);
 
 const Container = (props) => {
-  const { type, handleAdd, framesToRender, children } = props;
-  
+  const { type, handleAdd, thumbs, children } = props;
+  console.log(thumbs);
   return (
     <div name={type} className={type}>
       <div className='container'>
         <button onClick={handleAdd}>add {type}</button>
-        {framesToRender.map( el => {
-          return (<Thumbnail
-            id={el.title}
-            title={el.title}
-            body={el.body}
+        {thumbs.map( el => {
+            return (<Thumbnail
+            id={el.get('id')}
+            title={el.get('title')}
+            body={el.get('body')}
             handleClick={console.log.bind(this)}
           />);
         })}
@@ -52,7 +52,7 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-const WrappedContainer = LoaderHOC('framesToRender')(Container);
+const WrappedContainer = LoaderHOC('thumbs')(Container);
 
 const connectIt = (mapper) => {
   return connect(mapper, mapDispatch)(WrappedContainer);
