@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import LoaderHoc from '../HOC/LoaderHOC.jsx';
 
-
+//each Thumbnail should maybe have a modal that pops up the full view and edit.
+//it could also be something else-- that rearranges the information to show only what you'd need.
+//Following previous scene, following scene, relevant beats.
+//might be a good spot for visualization.
 const Thumbnail = (props) => {
   const { 
     id,
@@ -21,4 +25,4 @@ const Thumbnail = (props) => {
   );
 };
 
-export default Thumbnail;
+export default LoaderHoc('title')(Thumbnail);
