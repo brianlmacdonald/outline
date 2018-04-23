@@ -11,13 +11,7 @@ import {
   superState as testProject 
 } from '../../store/reducers/tests/superState.js';
 
-// const testProject = [
-//   {title: 'a', id: 1, body: 'a tale of two cities', acts: {act1: {title: 'the beginning'}}},
-//   {title: 'b', id: 2, body: 'a tale of deception', acts: {act1: {title: 'flashback'}}},
-//   {title: 'c', id: 3, body: 'a tale of tails', acts: {act1: {title: 'flashback again'}}}
-// ];
-
-class User extends Component {
+class ProjectOverview extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -46,6 +40,6 @@ const mapState = state => ({
   user: state.user
 });
 
-const WrappedUser = LoaderHOC('user')(User);
-const ConnectedUser = connect(mapState)(WrappedUser);
-export default ConnectedUser;
+const WrappedProjectOverview = LoaderHOC('user')(ProjectOverview);
+const ConnectedProjectOverView = connect(mapState)(WrappedProjectOverview);
+export default ConnectedProjectOverView;

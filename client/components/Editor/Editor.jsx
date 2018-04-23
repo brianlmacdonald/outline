@@ -2,21 +2,16 @@
 import React from 'react';
 
 const Editor = (props) => {
-  const { displayName, parentId, subordinateIds, handleSubmit, error, name } = props;
-  const hasSubordinates = subordinateIds.length !== 0;
-  return(
-    <div>
+  const { type, handleSave, handleReset, handleCancel, handleClose } = props;
+  return (
+    <div name={type} className={type}>
+      <div className='container'>
+        <button onClick={handleAdd}>add {type}</button>
+    
+      </div>
       <div>
-      </div>      
-      <form onSubmit={handleSubmit} name={name}>
-        <label>title</label>
-        <input name='title' type='text' />
-        <label>body</label>
-        <input name='body' type='text' />        
-      </form>
-      {hasSubordinates && subordinateIds.map(id => {
-
-      })}
+        {children}
+      </div>
     </div>
   );
 };

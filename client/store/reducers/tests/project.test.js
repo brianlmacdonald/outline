@@ -56,7 +56,7 @@ import project, {
 
     t.deepEqual(nextState.getIn([
       'userProjects',
-      testProjects[0].title]).get('title'),
+      testProjects[0].id]).get('title'),
       testProjects[0].title);
   });
 
@@ -74,12 +74,12 @@ import project, {
   test('REDUCER - projectLoaded adds the projects full details', t => {
     const preState = project(undefined, allProjectsLoading());
     const state = project(preState, allProjectsLoaded(testProjects));
-    const nextState = project(state, projectLoading({title: 'Mr Mustard'}));
+    const nextState = project(state, projectLoading());
     const finalState = project(nextState, projectLoaded(loadedProject));
 
     t.deepEqual(finalState.getIn([
       'userProjects',
-      'Mr Mustard']).get('body'),
+      loadedProject.id]).get('body'),
       loadedProject.body);
 
     t.deepEqual(finalState.get('isFetching'),
@@ -90,7 +90,7 @@ import project, {
     const preState = project(undefined, createDraft(loadedProject));
     t.deepEqual(preState.getIn([
       'draftProjects',
-      loadedProject.title
+      loadedProject.id
     ]).get('body'),
       loadedProject.body);
   });
@@ -101,12 +101,12 @@ import project, {
     const nextState = project(currentState, discardDraft(testProjects[0]));
     t.deepEqual(nextState.getIn([
       'draftProjects',
-      testProjects[0].title
+      testProjects[0].id
     ]),
       undefined);
     t.deepEqual(nextState.getIn([
       'draftProjects',
-      testProjects[1].title
+      testProjects[1].id
     ]).get('title'),
     testProjects[1].title);
   });
@@ -193,8 +193,8 @@ import project, {
   const projectPayload = bigProjectPayloadFunction(4);
   test('REDUCER - correctly access and render projects', t => {
     const superState = project(undefined, allProjectsLoaded(projectPayload));
-    console.log(superState.get('userProjects').keySeq());
-    t.deepEqual(superState.get('userProjects').keySeq().toArray(), [ "0 project test", "1 project test", "2 project test", "3 project test" ]);
+
+    t.deepEqual(superState.get('userProjects').toArray()[0].get('title'), '0 project test');
   });
 
 

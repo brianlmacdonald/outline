@@ -9,7 +9,11 @@ export { default as TitleEditor } from './Title/TitleEditor.jsx';
 export { default as TextEditor } from './Text/TextEditor.jsx'; 
 export { default as Display } from './Display/Display.jsx';
 export { default as LoaderHOC} from './HOC/LoaderHOC.jsx';
-export { default as User } from './User/User.jsx';
+export { default as ModalLauncher } from './HOC/ModalLauncher.jsx';
+export {default as CardView} from './CardView/CardView.jsx';
+export { 
+  default as ProjectOverview 
+} from './ProjectOverview/ProjectOverview.jsx';
 export { 
   default as HierarchyControl 
 } from './HierarchyControl/HierarchyControl.jsx';

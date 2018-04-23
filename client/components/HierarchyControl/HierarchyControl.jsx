@@ -6,13 +6,14 @@ import {
   BeatContainer
 } from '../index.jsx';
 import React from 'react';
-
+import { projectPayload } from '../../store/reducers/tests/superState';//for dev purps only. delete later
+ 
 const HierarchyControl = (props) => {
   const { project } = props; //activeProject, activeAct, activeSequence, activeScene, loader
   //these are temporary for testing and need to be replaced.
   const forProjects = project.get('userProjects').toArray();
-  const forActs = project.getIn(['userProjects', '0 project test', 'acts']).toArray();
-  const forSequences = project.getIn(['userProjects', '0 project test', 'acts', '1', 'sequences']).toArray();
+  const forActs = project.getIn(['userProjects', projectPayload[0].id, 'acts']).toArray();
+  const forSequences = project.getIn(['userProjects', projectPayload[0].id, 'acts', '1', 'sequences']).toArray();
   // const forScenes = project.getIn(['userProjects', activeSequence, 'scenes']).toArray();
   // const forBeats = project.getIn(['userProjects', activeScene, 'beats']).toArray();
   const forScenes = null;

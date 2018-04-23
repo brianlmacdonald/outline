@@ -45,7 +45,7 @@ export const auth = (email, password, method, firstName, lastName) =>
       .then(res => {
         dispatch(getUser(res.data));
         dispatch(loadUserProjects(res.data.id));
-        history.replace('/user');
+        history.replace('/projects');
       }, authError => {
         dispatch(getUser({ error: authError }));
       })

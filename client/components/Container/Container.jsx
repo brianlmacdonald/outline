@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { addProjectElement } from 'APP/client/store';
+import { createDraft } from 'APP/client/store';
 import { Thumbnail, LoaderHOC } from 'APP/client/components/index.jsx';
 import './Container.css';
 
 const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);
 
 const Container = (props) => {
-  const { type, handleAdd, thumbs, children } = props;
-  console.log(thumbs);
+  const { type, handleAdd, handleEdit, thumbs, children } = props;
+  
   return (
     <div name={type} className={type}>
       <div className='container'>
@@ -16,9 +16,9 @@ const Container = (props) => {
         {thumbs.map( el => {
             return (<Thumbnail
             id={el.get('id')}
-            title={el.get('title')}
-            body={el.get('body')}
+            card={el}
             handleClick={console.log.bind(this)}
+            handleEdit={() => handleEdit(el)}
           />);
         })}
       </div>
@@ -43,12 +43,15 @@ const mapBeat = mapBuild('beat');
 
 const mapDispatch = (dispatch) => {
   return {
-    handleAdd (evt) {
+    handleAdd(evt) {
       evt.preventDefault();
       const elementName = evt.target.name;
       const pathToNewElement = evt.target.pathToNewElement;
       dispatch(addProjectElement(elementName, pathToNewElement));
-    }
+    },
+    handleEdit(project) {
+      dispatch(createDraft(project));
+    },
   };
 };
 

@@ -94,7 +94,7 @@ import project, {
     }
     return arr;
   };
-  const projectPayload = bigProjectPayloadFunction(4);
+  export const projectPayload = bigProjectPayloadFunction(4);
   export const superState = project(undefined, allProjectsLoaded(projectPayload));
   // test('REDUCER - console logging purposes only', t => {
   //   const superState = project(undefined, allProjectsLoaded(projectPayload));

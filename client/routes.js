@@ -6,7 +6,7 @@ import {
   Home,
   Login,
   Signup,
-  User,
+  ProjectOverview,
 } from './components/index.jsx';
 import React from 'react';
 
@@ -18,7 +18,7 @@ const Routes = () => (
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
-      <Route path='/user' component={User} />
+      <Route path='/projects' component={ProjectOverview} />
     </Switch>
     </div>
   </Router>

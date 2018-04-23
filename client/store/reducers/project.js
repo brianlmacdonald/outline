@@ -1,6 +1,7 @@
 'use strict';
 import { Map, fromJS, List } from 'immutable';
 import axios from 'axios';
+import history from '../../history';
 
 import { REMOVE_USER } from './user';
 
@@ -27,10 +28,9 @@ export const PROJECT_DELETE_REQUEST = 'PROJECT_DELETE_REQUEST';
 export const PROJECT_DELETE_SUCCESS = 'PROJECT_DELETE_SUCCESS';
 export const PROJECT_DELETE_FAILURE = 'PROJECT_DELETE_FAILURE';
 
-export const projectLoading = (project) => {
+export const projectLoading = () => {
   return {
     type: PROJECT_REQUEST,
-    payload: project
   };
 };
 
@@ -177,7 +177,7 @@ export const loadUserProjects = (userId) =>
 
 export const loadSingleProject = (userId, project) => 
   dispatch => {
-    dispatch(projectLoading(project));
+    dispatch(projectLoading());
 
     return axios.get(`api/projects/${userId}/${project.id}`)//think on this...
       .then(singleProject => projectLoaded(singleProject))
@@ -192,7 +192,7 @@ const defaultState = Map({
 
 export default function project(state = defaultState, action) {
   let allProjects;
-  let title;
+  let id;
 
   switch(action.type) {
 
@@ -210,15 +210,16 @@ export default function project(state = defaultState, action) {
         allProjects.forEach(project => (
           map.setIn([
             'userProjects',
-            project.title],
+            project.id],
             fromJS(project))
         ));
       });
+
     case PROJECT_SUCCESS:
       return state.set('isFetching', false).withMutations(map => {
         map.setIn([
           'userProjects',
-          action.payload.title],
+          action.payload.id],
           fromJS(action.payload));
       });
     
@@ -243,69 +244,69 @@ export default function project(state = defaultState, action) {
       return state.withMutations(map => {
         map.setIn([
           'draftProjects',
-          action.payload.title],
+          action.payload.id],
           fromJS(action.payload));
       });
     
     case DISCARD_DRAFT_PROJECT:
-      return state.deleteIn(['draftProjects', action.payload.title]);
+      return state.deleteIn(['draftProjects', action.payload.id]);
     
     case SAVE_DRAFT_REQUEST:
       return state.setIn([
         'draftProjects',
-        action.payload.title,
+        action.payload.id,
         'isSaving'], true);
     
     case SAVE_DRAFT_SUCCESS:
       return state.withMutations(map => {
         map.deleteIn([
           'draftProjects',
-          action.payload.title]);
+          action.payload.id]);
         map.setIn([
             'userProjects',
-            action.payload.title],
-            fromJS(action.payload).set('isSaving', false));
+            action.payload.id],
+            fromJS(action.payload));
       });
     
     case SAVE_DRAFT_FAILURE:
-      title = action.payload.project.title;
+      id = action.payload.project.id;
       return state.withMutations(map => {
-        map.setIn(['draftProjects', title, 'isSaving'], false);
-        map.setIn(['draftProjects', title, 'error'], action.payload.error);
+        map.setIn(['draftProjects', id, 'isSaving'], false);
+        map.setIn(['draftProjects', id, 'error'], action.payload.error);
       });
 
     case UPDATE_PROJECT_REQUEST:
       return state.setIn([
         'userProjects',
-        action.payload.title,
+        action.payload.id,
         'isSaving'], true);
     
     case UPDATE_PROJECT_SUCCESS:
       return state.withMutations(map => {
         map.setIn([
           'userProjects',
-          action.payload.title],
+          action.payload.id],
           fromJS(action.payload).set('isSaving', false));
       });
     
     case PROJECT_DELETE_REQUEST:
       return state.setIn([
         'userProjects',
-        action.payload.title,
+        action.payload.id,
         'isSaving'], true);
     
     case PROJECT_DELETE_SUCCESS:
-      return state.deleteIn(['userProjects', action.payload.title]);
+      return state.deleteIn(['userProjects', action.payload.id]);
 
     case PROJECT_DELETE_FAILURE:
       return state.withMutations(map => {
         map.setIn([
           'userProjects',
-          action.payload.title,
+          action.payload.id,
           'isSaving'], false);
         map.setIn([
           'userProjects',
-          action.payload.title,
+          action.payload.id,
           'error'],
           action.payload.error);
       });

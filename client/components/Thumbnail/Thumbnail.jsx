@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LoaderHoc from '../HOC/LoaderHOC.jsx';
+import { CardView, ModalLauncher } from '../index.jsx';
+import LoaderHOC from '../HOC/LoaderHOC.jsx';
 
 //each Thumbnail should maybe have a modal that pops up the full view and edit.
 //it could also be something else-- that rearranges the information to show only what you'd need.
@@ -9,20 +10,26 @@ import LoaderHoc from '../HOC/LoaderHOC.jsx';
 const Thumbnail = (props) => {
   const { 
     id,
-    title,
-    body,
-    handleClick
+    card,
+    handleSelect,
+    handleEdit,
+    handleView
   } = props;
-  const bodyPrev = body.slice(0, 15) + '...';
+  const bodyPrev = card.get('body').slice(0, 15) + '...';
+  const title = card.get('title');
 
   return (
       <div key={id}
-        className='thumbnail'
-        onClick={handleClick}>
+        className='thumbnail'>
         <h4 key={id}>{title}</h4>
         <p key={id}>{bodyPrev}</p>
+        <div>
+          <ModalLauncher>
+            <CardView {...props} />
+          </ModalLauncher>
+        </div>
       </div>
   );
 };
 
-export default LoaderHoc('title')(Thumbnail);
+export default LoaderHOC('id')(Thumbnail);
