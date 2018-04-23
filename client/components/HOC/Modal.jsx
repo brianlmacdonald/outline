@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ModalLauncherHOC from "./ModalLauncher.jsx";
 import { isNil } from "lodash";
+import './Modal.css';
 
 class Modal extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Modal extends Component {
     const { close, children } = this.props;
 
     return (
-      <div>
+      <div className='modal'>
         <div ref={node => (this.modal = node)}>{children}</div>
       </div>
     );
