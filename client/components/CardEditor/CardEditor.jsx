@@ -1,18 +1,21 @@
 'use strict';
 import React from 'react';
 
-const Editor = (props) => {
-  const { type, handleSave, handleReset, handleCancel, handleClose } = props;
+const CardEditor = (props) => {
+  const { handleEdit, card } = props;
+
   return (
-    <div name={type} className={type}>
-      <div className='container'>
-        <button onClick={handleAdd}>add {type}</button>
-    
-      </div>
-      <div>
-        {children}
-      </div>
+    <div
+    className={'cardEditor'}>
+      <h1>
+        {card.get('title')}
+      </h1>
+      <p>
+        {card.get('body')}
+      </p>
     </div>
   );
 };
+
+export default CardEditor;
 

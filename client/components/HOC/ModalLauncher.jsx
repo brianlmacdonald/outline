@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import Modal from "./Modal.jsx";
+import React, { Component } from 'react';
+import Modal from './Modal.jsx';
+import './ModalLauncher.css';
 
 class ModalLauncher extends Component {
   constructor(props) {
@@ -15,11 +16,14 @@ class ModalLauncher extends Component {
   }
 
   render() {
-    const { type, children } = this.props;
+    const { type, children, styleClass} = this.props;
     const { toggle } = this.state;
+    const action = styleClass[0] === 'a' ? 'add' : 'open';
     return (
       <div>
-        <button onClick={this.handleToggleModal}>open</button>
+        <button
+        className={styleClass}
+        onClick={this.handleToggleModal}>{action} {type}</button>
         {toggle && <Modal close={this.handleToggleModal}>{children}</Modal>}
       </div>
     );

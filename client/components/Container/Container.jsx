@@ -1,21 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createDraft } from 'APP/client/store';
-import { Thumbnail, LoaderHOC } from 'APP/client/components/index.jsx';
+import { Thumbnail, LoaderHOC, CardEditor } from 'APP/client/components/index.jsx';
 import './Container.css';
-
+import ModalLauncher from'../HOC/ModalLauncher.jsx';
+import { Map } from 'immutable';
 const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);
+const tempCard = Map({id: 1, title: '', body: ''});
 
 const Container = (props) => {
-  const { type, handleAdd, handleEdit, thumbs, children } = props;
+  const { type, handleAdd, handleEdit, thumbs, children, parentPath } = props;
   
   return (
     <div name={type} className={type}>
       <div className='container'>
-        <button onClick={handleAdd}>add {type}</button>
+        <ModalLauncher type={type} styleClass={'addButton'}>
+          <CardEditor
+          card={tempCard}/>
+        </ModalLauncher>
         {thumbs.map( el => {
             return (<Thumbnail
             id={el.get('id')}
+            type={type}
             card={el}
             handleClick={console.log.bind(this)}
             handleEdit={() => handleEdit(el)}

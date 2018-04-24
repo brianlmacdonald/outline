@@ -18,7 +18,7 @@ const HierarchyControl = (props) => {
   // const forBeats = project.getIn(['userProjects', activeScene, 'beats']).toArray();
   const forScenes = null;
   const forBeats = null;
-  const loader = console.log;
+  const addNewCard = console.log;
 
   //possibly a switch to decide what gets rendered instead of targetProp &&...
 
@@ -26,27 +26,27 @@ const HierarchyControl = (props) => {
     <ProjectContainer
         type="project"
         thumbs={forProjects}
-        onClick={loader}
+        handleAdd={addNewCard}
       >
         <ActContainer
           type='act'
           thumbs={forActs}
-          onClick={loader}
+          handleAdd={addNewCard}
         >
           <SequenceContainer
             type='sequence'
             thumbs={forSequences}
-            onClick={loader}
+            handleAdd={addNewCard}
             >
             <SceneContainer
               type='scene'
               thumbs={forScenes}
-              onClick={loader}
+              handleAdd={addNewCard}
             >
               <BeatContainer 
               type='beat'
               thumbs={forBeats}
-              onClick={loader}
+              handleAdd={addNewCard}
               />
             </SceneContainer>
           </SequenceContainer>

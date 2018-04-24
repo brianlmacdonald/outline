@@ -1,4 +1,11 @@
 .thumbnail {
   display: flex;
-  border: 1px, black, solid;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin: 1em;
+  background-color: linen;
+  height: 145px;
+  width: 145px;
+  border: 2px black solid;
 }
