@@ -1,29 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createDraft } from 'APP/client/store';
-import { Thumbnail, LoaderHOC, CardEditor } from 'APP/client/components/index.jsx';
+import { 
+  Thumbnail,
+  LoaderHOC,
+  CardEditor } from 'APP/client/components/index.jsx';
 import './Container.css';
 import ModalLauncher from'../HOC/ModalLauncher.jsx';
 import { Map } from 'immutable';
 const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);
-const tempCard = Map({id: 1, title: '', body: ''});
+const tempCard = Map({id: 1, title: '', body: ''}); 
 
 const Container = (props) => {
-  const { type, handleAdd, handleEdit, thumbs, children, parentPath } = props;
-  
+  const { type, handleNavigation, handleEdit, thumbs, children, parent } = props;
+  //container renders an add button that launches a new blank card in a modal.
+  //and renders the existing cards.
+
   return (
     <div name={type} className={type}>
       <div className='container'>
         <ModalLauncher type={type} styleClass={'addButton'}>
           <CardEditor
-          card={tempCard}/>
+          parentPath={parent}/>
         </ModalLauncher>
-        {thumbs.map( el => {
+        {thumbs.map((el, idx )=> {
             return (<Thumbnail
             id={el.get('id')}
+            index={idx}
             type={type}
             card={el}
-            handleClick={console.log.bind(this)}
+            parent={parent}
+            handleNavigation={handleNavigation}
             handleEdit={() => handleEdit(el)}
           />);
         })}
@@ -37,7 +44,8 @@ const Container = (props) => {
 
 const mapBuild = name => state => {
   return {
-    name
+    name,
+    navigator: state.navigator
   };
 };
 

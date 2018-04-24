@@ -95,7 +95,6 @@ import project, {
     return arr;
   };
   export const projectPayload = bigProjectPayloadFunction(4);
-  export const superState = project(undefined, allProjectsLoaded(projectPayload));
   // test('REDUCER - console logging purposes only', t => {
   //   const superState = project(undefined, allProjectsLoaded(projectPayload));
   //   console.log(superState.getIn(['userProjects', '0 project test', 'acts', '0', 'sequences']).toArray());

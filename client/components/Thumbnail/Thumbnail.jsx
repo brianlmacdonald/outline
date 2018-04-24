@@ -11,17 +11,21 @@ import './Thumbnail.css';
 const Thumbnail = (props) => {
   const { 
     id,
+    index,
+    parent,
     type,
     card,
-    handleSelect,
+    handleNavigation,
     handleEdit,
     handleView
   } = props;
   const bodyPrev = card.get('body').slice(0, 15) + '...';
   const title = card.get('title');
+  const location = type === 'project' ? id : index;
 
   return (
       <div key={id}
+        onDoubleClick={() => handleNavigation(type, location)}
         className='thumbnail'>
         <h4 key={id}>{title}</h4>
         <p key={id}>{bodyPrev}</p>
