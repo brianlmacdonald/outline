@@ -95,5 +95,3 @@ import project, {
     return obj;
   };
   export const projectPayload = bigProjectPayloadFunction(4);
-
-  export const superState = project(undefined, allProjectsLoaded(projectPayload));

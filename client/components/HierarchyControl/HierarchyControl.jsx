@@ -90,13 +90,12 @@ class HierarchyControl extends Component {
         throw new Error("Unknown type");
     }
   }
-
-  ableToRender(type, payload) {
+  //ableToRender will be deleted soon. It's unnecessary in this ne
+  ableToRender(type) {
     const { navigator } = this.props;
 
     try {
       if (navigator.get(type) === null) return false;
-      this.payloadSwitch(payload);
     } catch (err) {
       if (err instanceof TypeError) return false;
     }
@@ -112,28 +111,28 @@ class HierarchyControl extends Component {
         parent={null}
         handleNavigation={handleNavigation}
       >
-        {this.ableToRender(PROJECT_NAV, GET_ACTS) && (
+        {this.ableToRender(PROJECT_NAV) && (
           <ActContainer
             type={ACT_TYPE}
             thumbs={this.payloadSwitch(GET_ACTS)}
             parent={{ id: navigator.get(PROJECT_NAV), type: PROJECT_TYPE }}
             handleNavigation={handleNavigation}
           >
-            {this.ableToRender(ACT_NAV, GET_SEQUENCES) && (
+            {this.ableToRender(ACT_NAV) && (
               <SequenceContainer
                 type={SEQUENCE_TYPE}
                 parent={{ id: navigator.get(ACT_NAV), type: ACT_TYPE }}
                 thumbs={this.payloadSwitch(GET_SEQUENCES)}
                 handleNavigation={handleNavigation}
               >
-                {this.ableToRender(SEQUENCE_NAV, GET_SCENES) && (
+                {this.ableToRender(SEQUENCE_NAV) && (
                   <SceneContainer
                     type={SCENE_TYPE}
                     parent={{ id: navigator.get(SEQUENCE_NAV), type: SEQUENCE_TYPE }}
                     thumbs={this.payloadSwitch(GET_SCENES)}
                     handleNavigation={handleNavigation}
                   >
-                    {this.ableToRender(SCENE_NAV, GET_BEATS) && (
+                    {this.ableToRender(SCENE_NAV) && (
                       <BeatContainer
                         type={BEAT_TYPE}
                         parent={{ id: navigator.get(SCENE_NAV), type: SCENE_TYPE }}
