@@ -84,6 +84,7 @@ class HierarchyControl extends Component {
       console.log('got here', err);
       if (err instanceof TypeError) return false;
     }
+    console.log(type, payload, 'is able');
     return true;
   }
   //possibly a switch to decide what gets rendered instead of targetProp &&...
@@ -138,32 +139,37 @@ class HierarchyControl extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  handleNavigation(type, id) {
-    switch(type) {
+  handleNavigation(action) {
+    switch(action.type) {
       case 'beat':
-      return dispatch(addNavigationPath('beat', id));
+      dispatch(addNavigationPath('beat', action.payload));
+      break;
   
       case 'scene':
       dispatch(removeNavigationPath('beat'));
-      return dispatch(addNavigationPath('scene', id));
+      dispatch(addNavigationPath('scene', action.payload));
+      break;
   
       case 'sequence':
       dispatch(removeNavigationPath('beat'));
       dispatch(removeNavigationPath('scene'));
-      return dispatch(addNavigationPath('sequence', id));
+      dispatch(addNavigationPath('sequence', action.payload));
+      break;
   
       case 'act':
       dispatch(removeNavigationPath('beat'));
       dispatch(removeNavigationPath('scene'));
       dispatch(removeNavigationPath('sequence'));
-      return dispatch(addNavigationPath('act', id));
+      dispatch(addNavigationPath('act', action.payload));
+      break;
   
       case 'project':
       dispatch(removeNavigationPath('beat'));
       dispatch(removeNavigationPath('scene'));
       dispatch(removeNavigationPath('sequence'));
       dispatch(removeNavigationPath('act'));
-      return dispatch(addNavigationPath('project', id));
+      dispatch(addNavigationPath('project', action.payload));
+      break;
       
       default:
       throw new Error('bad type');

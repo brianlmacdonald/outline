@@ -25,7 +25,7 @@ const Thumbnail = (props) => {
 
   return (
       <div key={id}
-        onDoubleClick={() => handleNavigation(type, location)}
+        onDoubleClick={() => handleNavigation({type, payload:location})}
         className='thumbnail'>
         <h4 key={id}>{title}</h4>
         <p key={id}>{bodyPrev}</p>

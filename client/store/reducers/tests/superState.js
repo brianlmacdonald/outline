@@ -16,7 +16,7 @@ import project, {
   } from '../project';
 
   const bigProjectPayloadFunction = (num) => {
-    const arr = [];
+    const obj = {};
     for (let i = 0; i < num; i++) {
       const fakeProject = {
         title: i + ' project test',
@@ -90,9 +90,9 @@ import project, {
           }
         ]
       };
-      arr.push(fakeProject);
+      obj[fakeProject.id] = fakeProject;
     }
-    return arr;
+    return obj;
   };
   export const projectPayload = bigProjectPayloadFunction(4);
   // test('REDUCER - console logging purposes only', t => {

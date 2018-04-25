@@ -187,8 +187,8 @@ export const loadSingleProject = (userId, project) =>
   };
 
 
-// const uP = fromJS(projectPayload);
-const uP = Map({});
+const uP = fromJS(projectPayload);
+// const uP = Map({});
 
 const defaultState = Map({
   isFetching: false,
