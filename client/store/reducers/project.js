@@ -3,7 +3,7 @@ import { Map, fromJS, List } from 'immutable';
 import axios from 'axios';
 import history from '../../history';
 
-import { projectPayload } from './tests/superState'
+import { projectPayload } from './tests/superState';//development testing delete for production or once seeded db.
 
 import { REMOVE_USER } from './user';
 

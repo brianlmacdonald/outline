@@ -3,11 +3,22 @@ import { Link } from 'react-router-dom';
 import { CardView, ModalLauncher } from '../index.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import './Thumbnail.css';
+import {
+  PROJECT_NAV,
+  ACT_NAV,
+  SEQUENCE_NAV,
+  SCENE_NAV,
+  BEAT_NAV
+} from '../../store';
+import {
+  PROJECT_TYPE,
+  ACT_TYPE,
+  SEQUENCE_TYPE,
+  SCENE_TYPE,
+  BEAT_TYPE,
+  TYPE_TO_NAV
+} from '../HierarchyControl/CardTypes';
 
-//each Thumbnail should maybe have a modal that pops up the full view and edit.
-//it could also be something else-- that rearranges the information to show only what you'd need.
-//Following previous scene, following scene, relevant beats.
-//might be a good spot for visualization.
 const Thumbnail = (props) => {
   const { 
     id,
@@ -21,14 +32,14 @@ const Thumbnail = (props) => {
   } = props;
   const bodyPrev = card.get('body').slice(0, 15) + '...';
   const title = card.get('title');
-  const location = type === 'project' ? id : index;
+  const location = type === PROJECT_TYPE ? id : index;
 
   return (
-      <div key={id}
-        onDoubleClick={() => handleNavigation({type, payload:location})}
+      <div key={id + 'd'}
+        onDoubleClick={() => handleNavigation({ type: TYPE_TO_NAV[type], payload:location})}
         className='thumbnail'>
-        <h4 key={id}>{title}</h4>
-        <p key={id}>{bodyPrev}</p>
+        <h4 key={id + 'h4'}>{title}</h4>
+        <p key={id + 'p'}>{bodyPrev}</p>
         <div>
           <ModalLauncher
           styleClass={'openButton'}

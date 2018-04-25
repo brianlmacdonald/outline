@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 
 const UserNav = connect( ({user}) => ({user}))(({ user }) => {
   const userName = user.get('firstName');
-  console.log(user);
-  (user && console.log(user.get('firstName')));
+  
   return (
     <div>
       <nav>

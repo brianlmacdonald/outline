@@ -9,6 +9,27 @@ import {
   BeatContainer
 } from "../index.jsx";
 import React, { Component } from "react";
+import {
+  PROJECT_NAV,
+  ACT_NAV,
+  SEQUENCE_NAV,
+  SCENE_NAV,
+  BEAT_NAV
+} from '../../store';
+import {
+  PROJECT_TYPE,
+  ACT_TYPE,
+  SEQUENCE_TYPE,
+  SCENE_TYPE,
+  BEAT_TYPE,
+  GET_PROJECTS,
+  GET_ACTS,
+  GET_SEQUENCES,
+  GET_SCENES,
+  GET_BEATS
+} from './CardTypes';
+
+
 
 class HierarchyControl extends Component {
   constructor(props) {
@@ -20,110 +41,103 @@ class HierarchyControl extends Component {
 
   payloadSwitch(cardRequest) {
     const { project, navigator } = this.props;
-    console.log(project);
+
     switch (cardRequest) {
-      case "projects":
-        return project.get("userProjects").toArray();
+      case GET_PROJECTS:
+        return project.get("userProjects");
 
-      case "acts":
+      case GET_ACTS:
         return project
-          .getIn(["userProjects", navigator.get("project"), "acts"])
-          .toArray();
+          .getIn(["userProjects", navigator.get(PROJECT_NAV), "acts"]);
 
-      case "sequences":
+      case GET_SEQUENCES:
         return project
           .getIn([
             "userProjects",
-            navigator.get("project"),
+            navigator.get(PROJECT_NAV),
             "acts",
-            navigator.get("act"),
+            navigator.get(ACT_NAV),
             "sequences"
-          ])
-          .toArray();
+          ]);
 
-      case "sences":
+      case GET_SCENES:
         return project
           .getIn([
             "userProjects",
-            navigator.get("project"),
+            navigator.get(PROJECT_NAV),
             "acts",
-            navigator.get("act"),
+            navigator.get(ACT_NAV),
             "sequences",
-            navigator.get("sequence"),
+            navigator.get(SCENE_NAV),
             "scenes"
-          ])
-          .toArray();
+          ]);
 
-      case "beats":
+      case GET_BEATS:
         return project
           .getIn([
             "userProjects",
-            navigator.get("project"),
+            navigator.get(PROJECT_NAV),
             "acts",
-            navigator.get("act"),
+            navigator.get(ACT_NAV),
             "sequences",
-            navigator.get("sequence"),
+            navigator.get(SEQUENCE_NAV),
             "scenes",
-            navigator.get("scene"),
+            navigator.get(SCENE_NAV),
             "beats"
-          ])
-          .toArray();
+          ]);
 
       default:
-        throw new Error("bad type", cardRequest);
+        throw new Error("Unknown type");
     }
   }
 
   ableToRender(type, payload) {
-    const {navigator} = this.props;
+    const { navigator } = this.props;
 
     try {
-      if (!navigator.get(type)) return false;
+      if (navigator.get(type) === null) return false;
       this.payloadSwitch(payload);
     } catch (err) {
-      console.log('got here', err);
       if (err instanceof TypeError) return false;
     }
-    console.log(type, payload, 'is able');
     return true;
   }
-  //possibly a switch to decide what gets rendered instead of targetProp &&...
+
   render() {
-    console.log(this.ableToRender('project', 'acts'));
     const { handleNavigation, navigator } = this.props;
     return (
       <ProjectContainer
-        type="project"
-        thumbs={this.payloadSwitch("projects")}
+        type={PROJECT_TYPE}
+        thumbs={this.payloadSwitch(GET_PROJECTS)}
         parent={null}
         handleNavigation={handleNavigation}
       >
-        {this.ableToRender("project", "acts") && (
+        {this.ableToRender(PROJECT_NAV, GET_ACTS) && (
           <ActContainer
-            type="act"
-            thumbs={this.payloadSwitch("acts")}
-            parent={{ id: navigator.get("project"), type: "project" }}
+            type={ACT_TYPE}
+            thumbs={this.payloadSwitch(GET_ACTS)}
+            parent={{ id: navigator.get(PROJECT_NAV), type: PROJECT_TYPE }}
             handleNavigation={handleNavigation}
           >
-            {this.ableToRender("act", "sequences") && (
+            {this.ableToRender(ACT_NAV, GET_SEQUENCES) && (
               <SequenceContainer
-                type="sequence"
-                parent={{ id: navigator.get("act"), type: "act" }}
-                thumbs={this.payloadSwitch("sequences")}
+                type={SEQUENCE_TYPE}
+                parent={{ id: navigator.get(ACT_NAV), type: ACT_TYPE }}
+                thumbs={this.payloadSwitch(GET_SEQUENCES)}
                 handleNavigation={handleNavigation}
               >
-                {this.ableToRender("sequence", "scenes") && (
+                {this.ableToRender(SEQUENCE_NAV, GET_SCENES) && (
                   <SceneContainer
-                    type="scene"
-                    parent={{ id: navigator.get("sequence"), type: "sequence" }}
-                    thumbs={this.payloadSwitch("scenes")}
+                    type={SCENE_TYPE}
+                    parent={{ id: navigator.get(SEQUENCE_NAV), type: SEQUENCE_TYPE }}
+                    thumbs={this.payloadSwitch(GET_SCENES)}
                     handleNavigation={handleNavigation}
                   >
-                    {this.ableToRender("scene", "beats") && (
+                    {this.ableToRender(SCENE_NAV, GET_BEATS) && (
                       <BeatContainer
-                        type="beat"
-                        parent={{ id: navigator.get("scene"), type: "scene" }}
-                        thumbs={this.payloadSwitch("beats")}
+                        type={BEAT_TYPE}
+                        parent={{ id: navigator.get(SCENE_NAV), type: SCENE_TYPE }}
+                        thumbs={this.payloadSwitch(GET_BEATS)}
                         handleNavigation={handleNavigation}
                       />
                     )}
@@ -140,35 +154,36 @@ class HierarchyControl extends Component {
 
 const mapDispatch = dispatch => ({
   handleNavigation(action) {
+
     switch(action.type) {
-      case 'beat':
-      dispatch(addNavigationPath('beat', action.payload));
+      case BEAT_NAV:
+      dispatch(addNavigationPath(BEAT_NAV, action.payload));
       break;
   
-      case 'scene':
-      dispatch(removeNavigationPath('beat'));
-      dispatch(addNavigationPath('scene', action.payload));
+      case SCENE_NAV:
+      dispatch(removeNavigationPath(BEAT_NAV));
+      dispatch(addNavigationPath(SCENE_NAV, action.payload));
       break;
   
-      case 'sequence':
-      dispatch(removeNavigationPath('beat'));
-      dispatch(removeNavigationPath('scene'));
-      dispatch(addNavigationPath('sequence', action.payload));
+      case SEQUENCE_NAV:
+      dispatch(removeNavigationPath(BEAT_NAV));
+      dispatch(removeNavigationPath(SCENE_NAV));
+      dispatch(addNavigationPath(SEQUENCE_NAV, action.payload));
       break;
   
-      case 'act':
-      dispatch(removeNavigationPath('beat'));
-      dispatch(removeNavigationPath('scene'));
-      dispatch(removeNavigationPath('sequence'));
-      dispatch(addNavigationPath('act', action.payload));
+      case ACT_NAV:
+      dispatch(removeNavigationPath(BEAT_NAV));
+      dispatch(removeNavigationPath(SCENE_NAV));
+      dispatch(removeNavigationPath(SEQUENCE_NAV));
+      dispatch(addNavigationPath(ACT_NAV, action.payload));
       break;
   
-      case 'project':
-      dispatch(removeNavigationPath('beat'));
-      dispatch(removeNavigationPath('scene'));
-      dispatch(removeNavigationPath('sequence'));
-      dispatch(removeNavigationPath('act'));
-      dispatch(addNavigationPath('project', action.payload));
+      case PROJECT_NAV:
+      dispatch(removeNavigationPath(BEAT_NAV));
+      dispatch(removeNavigationPath(SCENE_NAV));
+      dispatch(removeNavigationPath(SEQUENCE_NAV));
+      dispatch(removeNavigationPath(ACT_NAV));
+      dispatch(addNavigationPath(PROJECT_NAV, action.payload));
       break;
       
       default:

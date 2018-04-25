@@ -8,7 +8,8 @@ export { default as TitleEditor } from './Title/TitleEditor.jsx';
 export { default as TextEditor } from './Text/TextEditor.jsx'; 
 export { default as LoaderHOC} from './HOC/LoaderHOC.jsx';
 export { default as ModalLauncher } from './HOC/ModalLauncher.jsx';
-export {default as CardView} from './CardView/CardView.jsx';
+export { default as CardView} from './CardView/CardView.jsx';
+export { default as ThumbsContainer } from './Container/ThumbsContainer.jsx';
 export { 
   default as ProjectOverview 
 } from './ProjectOverview/ProjectOverview.jsx';

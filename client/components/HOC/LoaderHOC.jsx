@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import './addLoader.css';
+import { isEmpty, isImmutable } from 'immutable';
 
-const isEmpty = (prop) => {
+console.log(isImmutable);
+
+const checkIsEmpty = (prop) => {
   return prop === null ||
   prop === undefined ||
+  (isImmutable(prop) && prop.isEmpty()) ||
   (prop.hasOwnPropery && prop.hasOwnPropery('length') && prop.length === 0) ||
   (prop.constructor === Object.keys(prop).length === 0);
+};
+
+const DefaultEmpty = () => {
+  return (<div className='loader'></div>);
 };
 
 const LoaderHOC = (propName) => (WrappedComponent) => {
@@ -15,8 +23,9 @@ const LoaderHOC = (propName) => (WrappedComponent) => {
     }
 
     render() {
-      return isEmpty(this.props[propName]) ?
-      <div className='loader'></div> :
+      const EmptyReturn = this.props.empty ? this.props.empty : DefaultEmpty;
+      return checkIsEmpty(this.props[propName]) ?
+      <EmptyReturn /> :
       <WrappedComponent {...this.props} />;
     }
   };

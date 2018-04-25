@@ -4,15 +4,20 @@ import { Map, List, Seq } from 'immutable';
 import project, {projectLoaded} from '../project';
 import navigator, {
   addNavigationPath,
-  removeNavigationPath
+  removeNavigationPath,
+  PROJECT_NAV,
+  ACT_NAV,
+  SEQUENCE_NAV,
+  SCENE_NAV,
+  BEAT_NAV
 } from '../navigator';
 
 const testProject = {
   id: 'f1',
   title: 'Best project',
   type: 'project',
-  acts: {
-    a1: {
+  acts: [
+    {
       id: 'a1',
       title: 'the beginning',
       body: 'disco!',
@@ -31,40 +36,42 @@ const testProject = {
         }
       }
     },
-    a2: {
+    {
       id: 'a2',
       title: 'the middle',
+      body: 'no disco.',
       type: 'act'
     },
-    a3:{
+    {
       id: 'a3',
       title: 'the end',
+      body: 'def no disco',
       type: 'act'
     }
-  }
+  ]
   };
 
 const testState = project(undefined, projectLoaded(testProject));
 
 test('REDUCER - navigator can add to the slug path and correctly find', t => {
   const firstNavigatorState = navigator(
-    undefined, addNavigationPath(testProject.type, testProject.id)
+    undefined, addNavigationPath(PROJECT_NAV, testProject.id)
   );
   const secondNavigatorState = navigator(
     firstNavigatorState,
     addNavigationPath(
-      testProject.acts.a1.type,
-      testProject.acts.a1.id
+      ACT_NAV,
+      0
     )
   );
-  const projectPath = secondNavigatorState.get('project');
-  const actPath = secondNavigatorState.get('act');
-  
+  const projectPath = secondNavigatorState.get(PROJECT_NAV);
+  const actPath = secondNavigatorState.get(ACT_NAV);
+  console.log(secondNavigatorState.get(ACT_NAV));
   t.deepEqual(testState.getIn([
     'userProjects', projectPath, 'title'
   ]), testProject.title);
   t.deepEqual(typeof testState
-    .getIn(["userProjects", secondNavigatorState.get("project"), "acts"]).toArray(), 'object');
-  t.deepEqual(testState.getIn(['userProjects', projectPath, 'acts', actPath, 'body']), testProject.acts.a1.body);
+    .getIn(["userProjects", secondNavigatorState.get(PROJECT_NAV), "acts"]).toArray(), 'object');
+  t.deepEqual(testState.getIn(['userProjects', projectPath, 'acts', secondNavigatorState.get(ACT_NAV), 'body']), 'disco!');
 });
 
