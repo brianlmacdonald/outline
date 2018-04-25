@@ -1,32 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createDraft } from 'APP/client/store';
-import { Thumbnail, LoaderHOC, CardEditor } from 'APP/client/components/index.jsx';
+import {
+  ThumbsContainer,
+  Thumbnail,
+  CardEditor } from 'APP/client/components/index.jsx';
 import './Container.css';
 import ModalLauncher from'../HOC/ModalLauncher.jsx';
 import { Map } from 'immutable';
-const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);
+const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);//for development, please remove.
 const tempCard = Map({id: 1, title: '', body: ''});
+import {
+  CLASS_NAME_OBJ
+} from '../HierarchyControl/CardTypes';
+
+const EmptyProp = (type) => () => {
+  return (<div>please add {CLASS_NAME_OBJ[type]}</div>);
+}
 
 const Container = (props) => {
-  const { type, handleAdd, handleEdit, thumbs, children, parentPath } = props;
+  const { type, handleNavigation, handleEdit, thumbs, children, parent } = props;
   
   return (
-    <div name={type} className={type}>
+    <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
       <div className='container'>
         <ModalLauncher type={type} styleClass={'addButton'}>
           <CardEditor
-          card={tempCard}/>
+          parentPath={parent}/>
         </ModalLauncher>
-        {thumbs.map( el => {
-            return (<Thumbnail
-            id={el.get('id')}
-            type={type}
-            card={el}
-            handleClick={console.log.bind(this)}
-            handleEdit={() => handleEdit(el)}
-          />);
-        })}
+        <ThumbsContainer {...props} empty={EmptyProp(type)} />
       </div>
       <div>
         {children}
@@ -37,7 +39,8 @@ const Container = (props) => {
 
 const mapBuild = name => state => {
   return {
-    name
+    name,
+    navigator: state.navigator
   };
 };
 
@@ -61,10 +64,8 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-const WrappedContainer = LoaderHOC('thumbs')(Container);
-
 const connectIt = (mapper) => {
-  return connect(mapper, mapDispatch)(WrappedContainer);
+  return connect(mapper, mapDispatch)(Container);
 };
 
 export const ProjectContainer = connectIt(mapProject);

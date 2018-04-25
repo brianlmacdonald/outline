@@ -3,6 +3,8 @@ import { Map, fromJS, List } from 'immutable';
 import axios from 'axios';
 import history from '../../history';
 
+import { projectPayload } from './tests/superState';//development testing delete for production or once seeded db.
+
 import { REMOVE_USER } from './user';
 
 export const PROJECT_REQUEST = 'PROJECT_REQUEST';
@@ -184,11 +186,15 @@ export const loadSingleProject = (userId, project) =>
       .catch(err => dispatch(projectLoadError(project, err)));
   };
 
+
+const uP = fromJS(projectPayload);
+// const uP = Map({});
+
 const defaultState = Map({
   isFetching: false,
   draftProjects: Map({}),
-  userProjects: Map({})}
-);
+  userProjects: uP
+});
 
 export default function project(state = defaultState, action) {
   let allProjects;

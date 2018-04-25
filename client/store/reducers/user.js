@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Map} from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 import { loadUserProjects } from './index';
 import history from '../../history';
@@ -28,6 +28,7 @@ export const errorGettingUser = (error) => {
   };
 };
 
+const developmentDefaultUser = fromJS({firstName: 'Brian', lastName: 'M', id: 1});
 const defaultUser = Map({});
 
 export const me = () =>
@@ -60,7 +61,7 @@ export const logout = () =>
       })
       .catch(error => errorGettingUser(error));
 
-export default function (state = Map({}), action) {
+export default function (state = developmentDefaultUser, action) {
   switch (action.type) {
     
     case GET_USER:
