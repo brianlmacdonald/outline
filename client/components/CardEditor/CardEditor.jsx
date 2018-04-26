@@ -1,25 +1,32 @@
 'use strict';
 import React, { Component } from 'react';
-import { createNew, loadExisting, discardDraft } from '../../store/index';
+import { PROJECT_TYPE } from '../../store';
+import { creatingNewProject, discardDraft } from '../../store/index';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { Map } from 'immutable';
 
 class CardEditor extends Component {
   constructor(props){
     super(props);
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     const {
+      newCard,
+      type,
       parentPath,
       handleEdit,
-      selfPath,
-      card,
-      newCard 
+      card, 
+      project
     } = this.props;
 
-    if (!selfPath) {
-      createNew(parentPath);
+    if (newCard && type === PROJECT_TYPE) {
+      const createdCard = await creatingNewProject()
+      .then(id => project.getIn(['userProjects', id]));
+      this.setState({draftCard: createdCard});
     } else {
-      loadExisting(selfPath);
+      this.setState({draftCard: card});
     }
 
     const leaveWarning = 'Are you sure you want to leave this page?';
@@ -62,5 +69,6 @@ class CardEditor extends Component {
   }
 }
 
-export default CardEditor;
+const ConnectedCardEditor = connect()(CardEditor);
+export default ConnectCardEditor;
 
