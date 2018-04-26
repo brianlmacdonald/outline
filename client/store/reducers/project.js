@@ -2,7 +2,7 @@
 import { Map, fromJS, List } from 'immutable';
 import uuid from 'uuid';
 
-// import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
+import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
 
 import { REMOVE_USER } from './user';
 
@@ -25,6 +25,8 @@ export const ALL_PROJECTS_FAILURE = 'ALL_PROJECTS_FAILURE';
 
 export const CREATE_DRAFT_PROJECT = 'CREATE_DRAFT_PROJECT';
 export const CREATE_NEW_PROJECT = 'CREATE_NEW_PROJECT';
+export const NEW_PROJECT_CREATED = 'NEW_PROJECT_CREATED'
+export const NEW_PROJECT_ERROR = 'NEW_PROJECT_ERROR';
 export const CREATE_NEW_ACT = 'CREATE_NEW_ACT';
 export const CREATE_NEW_SEQUENCE = 'CREATE_NEW_SEQUENCE';
 export const CREATE_NEW_SCENE = 'CREATE_NEW_SCENE';
@@ -88,6 +90,13 @@ export const allProjectsLoadError = error => {
   };
 };
 
+export const projectCreationError = error => {
+  return {
+    type: NEW_PROJECT_ERROR,
+    payload: error
+  };
+};
+
 export const createDraft = project => {
   return {
     type: CREATE_DRAFT_PROJECT,
@@ -98,6 +107,13 @@ export const createDraft = project => {
 export const createNewProject = () => {
   return {
     type: CREATE_NEW_PROJECT
+  };
+};
+
+export const newProjectCreated = project => {
+  return {
+    type: NEW_PROJECT_CREATED,
+    payload: project
   };
 };
 
@@ -212,12 +228,7 @@ export const loadUserProjects = userId => dispatch => {
     .get(`api/projects/${userId}`)
     .then(foundProjects => {
       if (foundProjects.data.length === 0) {
-        axios
-          .post(`api/projects/${userId}`)
-          .then(createdProject => {
-            dispatch(allProjectsLoaded([createdProject.data]));
-          })
-          .catch(err => dispatch(allProjectsLoadError(err)));
+        return;
       } else {
         dispatch(allProjectsLoaded(foundProjects.data));
       }
@@ -234,6 +245,12 @@ export const loadSingleProject = (userId, project) => dispatch => {
     .catch(err => dispatch(projectLoadError(project, err)));
 };
 
+export const creatingNewProject = (userId) => dispatch => {
+  return axios.post(`api/projects/${userId}`)
+  .then(createdProject => dispatch(newProjectCreated(createdProject)))
+  .catch(err => dispatch(projectCreationError(err)));
+};
+
 // const uP = fromJS(projectPayload);
 const uP = Map({});
 
@@ -242,8 +259,6 @@ const defaultState = Map({
   draftProjects: Map({}),
   userProjects: uP
 });
-
-console.log(defaultState, '<<<<<<<<<<defaultState');
 
 export default function project(state = defaultState, action) {
   let allProjects;
@@ -304,17 +319,20 @@ export default function project(state = defaultState, action) {
           action.payload[action.payload.length - 1]
         );
       });
-
     case CREATE_NEW_PROJECT:
-      id = 4;
-      return state.setIn(['draftProjects', id], Map({})).withMutations(map => {
+      return state.set('isFetching', true);
+
+    case NEW_PROJECT_CREATED:
+      id = action.payload.id;
+      return state.set('isFetching', false)
+      .setIn(['draftProjects', id], Map({})).withMutations(map => {
         map.setIn(['draftProjects', id, 'acts'], List([]));
         map.setIn(['draftProjects', id, 'type'], PROJECT_TYPE);
         map.setIn(['draftProjects', id, 'id'], id);
         map.setIn(['draftProjects', id, 'body'], '');
         map.setIn(
           ['draftProjects', id, 'title'],
-          'untitled_project_' + Date.now()
+          action.payload.title
         );
       });
 
@@ -404,9 +422,11 @@ export default function project(state = defaultState, action) {
           action.payload.error
         );
       });
+    case NEW_PROJECT_ERROR:
+      return state.setIn(['draftProjects', 'error'], action.payload);
 
     case REMOVE_USER:
-      return state.clear();
+      return state.set(defaultState);
 
     default:
       return state;

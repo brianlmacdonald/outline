@@ -14,7 +14,7 @@ import project, {
   savingDraft,
   draftSaved,
   errorSavingDraft,
-  createNewProject,
+  newProjectCreated,
   createNewAct
   } from '../project';
 
@@ -202,7 +202,7 @@ import project, {
   // });
 
   test('REDUCER - can create a new project', t => {
-    const preState = project(undefined, createNewProject());
+    const preState = project(undefined, newProjectCreated({title: 'hi', id: 4, 'body': null, type: null, acts: []}));//this needs alteration.
     t.deepEqual(preState.getIn(['draftProjects', 4, 'id']), 4);
     const firstPayload = ['draftProjects', 4, 'acts', 0];
     t.deepEqual(firstPayload[firstPayload.length - 1], 0);
@@ -210,6 +210,7 @@ import project, {
     const secondPayload = ['draftProjects', 4, 'acts', 1];
     t.deepEqual(nextState.getIn(['draftProjects', 4, 'acts', 0, 'type']), 'ACT_TYPE');
     t.deepEqual(nextState.getIn(['draftProjects', 4, 'acts']).toArray().length, 1);
+    t.deepEqual(nextState.getIn(['draftProjects', 4, 'type']), 'PROJECT_TYPE');
     const finalState = project(nextState, createNewAct(secondPayload));
     t.deepEqual(finalState.getIn(['draftProjects', 4, 'acts', 1, 'type']), 'ACT_TYPE');
     t.deepEqual(finalState.getIn(['draftProjects', 4, 'acts']).toArray().length, 2);

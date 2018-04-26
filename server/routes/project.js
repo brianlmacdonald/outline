@@ -37,7 +37,7 @@ router.get('/:userId', (req, res, next) => {
 //create a new project. No scope is called on this project,
 //since it has no notes or acts.
 router.post('/:userId', (req, res, next) => {
-  return Project.create(req.body)
+  return Project.create()
   .then(newProject => newProject.setUser(req.user.id))
   .then(res.json.bind(res))
   .catch(next);
