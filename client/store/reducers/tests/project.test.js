@@ -14,13 +14,12 @@ import project, {
   savingDraft,
   draftSaved,
   errorSavingDraft,
-  createNewProject,
+  newProjectCreated,
   createNewAct
   } from '../project';
 
   const defaultState = Map({
     isFetching: false,
-    draftProjects: Map({}),
     userProjects: Map({})}
   );
 
@@ -88,10 +87,10 @@ import project, {
       false);
   });
 
-  test('REDUCER - createDraft creates a draft in draftProjects', t => {
+  test('REDUCER - createDraft creates a draft in userProjects', t => {
     const preState = project(undefined, createDraft(loadedProject));
     t.deepEqual(preState.getIn([
-      'draftProjects',
+      'userProjects',
       loadedProject.id
     ]).get('body'),
       loadedProject.body);
@@ -102,12 +101,12 @@ import project, {
     const currentState = project(preState, createDraft(testProjects[1]));
     const nextState = project(currentState, discardDraft(testProjects[0]));
     t.deepEqual(nextState.getIn([
-      'draftProjects',
+      'userProjects',
       testProjects[0].id
     ]),
       undefined);
     t.deepEqual(nextState.getIn([
-      'draftProjects',
+      'userProjects',
       testProjects[1].id
     ]).get('title'),
     testProjects[1].title);
@@ -202,17 +201,19 @@ import project, {
   // });
 
   test('REDUCER - can create a new project', t => {
-    const preState = project(undefined, createNewProject());
-    t.deepEqual(preState.getIn(['draftProjects', 4, 'id']), 4);
-    const firstPayload = ['draftProjects', 4, 'acts', 0];
+    const preState = project(undefined, newProjectCreated({title: 'hi', id: 4, 'body': null, type: null, acts: []}));//this needs alteration.
+    t.deepEqual(preState.getIn(['userProjects', 4, 'id']), 4);
+    t.deepEqual(preState.getIn(['userProjects', 4]), []);
+    const firstPayload = ['userProjects', 4, 'acts', 0];
     t.deepEqual(firstPayload[firstPayload.length - 1], 0);
     const nextState = project(preState, createNewAct(firstPayload));
-    const secondPayload = ['draftProjects', 4, 'acts', 1];
-    t.deepEqual(nextState.getIn(['draftProjects', 4, 'acts', 0, 'type']), 'ACT_TYPE');
-    t.deepEqual(nextState.getIn(['draftProjects', 4, 'acts']).toArray().length, 1);
+    const secondPayload = ['userProjects', 4, 'acts', 1];
+    t.deepEqual(nextState.getIn(['userProjects', 4, 'acts', 0, 'type']), 'ACT_TYPE');
+    t.deepEqual(nextState.getIn(['userProjects', 4, 'acts']).toArray().length, 1);
+    t.deepEqual(nextState.getIn(['userProjects', 4, 'type']), 'PROJECT_TYPE');
     const finalState = project(nextState, createNewAct(secondPayload));
-    t.deepEqual(finalState.getIn(['draftProjects', 4, 'acts', 1, 'type']), 'ACT_TYPE');
-    t.deepEqual(finalState.getIn(['draftProjects', 4, 'acts']).toArray().length, 2);
+    t.deepEqual(finalState.getIn(['userProjects', 4, 'acts', 1, 'type']), 'ACT_TYPE');
+    t.deepEqual(finalState.getIn(['userProjects', 4, 'acts']).toArray().length, 2);
 
   });
 

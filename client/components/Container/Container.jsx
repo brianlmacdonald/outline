@@ -20,12 +20,14 @@ const EmptyProp = (type) => () => {
 
 const Container = (props) => {
   const { type, handleNavigation, handleEdit, thumbs, children, parent } = props;
-  
+  console.log(type);
   return (
     <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
       <div className='container'>
         <ModalLauncher type={type} styleClass={'addButton'}>
           <CardEditor
+          type={type}
+          newCard={true}
           parentPath={parent}/>
         </ModalLauncher>
         <ThumbsContainer {...props} empty={EmptyProp(type)} />

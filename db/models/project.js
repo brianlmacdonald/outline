@@ -10,8 +10,15 @@ module.exports = db => db.define('project', {
     ,validate: require('./validations.js')
   },
   body: {
-    type: Sequelize.JSON
+    type: Sequelize.TEXT
+  },
+  type: {
+    type: Sequelize.STRING
+  },
+  acts: {
+    type: Sequelize.ARRAY(Sequelize.JSON)
   }
+
 });
 
 module.exports.associations = function(Project, {User, Note}) {
