@@ -1,7 +1,7 @@
 'use strict';
 import test from 'ava';
 import { Map, List, Seq } from 'immutable';
-import project, {projectLoaded} from '../project';
+import project, { projectLoaded } from '../project';
 import navigator, {
   addNavigationPath,
   removeNavigationPath,
@@ -66,12 +66,11 @@ test('REDUCER - navigator can add to the slug path and correctly find', t => {
   );
   const projectPath = secondNavigatorState.get(PROJECT_NAV);
   const actPath = secondNavigatorState.get(ACT_NAV);
-  console.log(secondNavigatorState.get(ACT_NAV));
+  
   t.deepEqual(testState.getIn([
     'userProjects', projectPath, 'title'
   ]), testProject.title);
   t.deepEqual(typeof testState
-    .getIn(["userProjects", secondNavigatorState.get(PROJECT_NAV), "acts"]).toArray(), 'object');
+    .getIn(['userProjects', secondNavigatorState.get(PROJECT_NAV), 'acts']).toArray(), 'object');
   t.deepEqual(testState.getIn(['userProjects', projectPath, 'acts', secondNavigatorState.get(ACT_NAV), 'body']), 'disco!');
 });
-

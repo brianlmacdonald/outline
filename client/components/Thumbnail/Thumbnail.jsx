@@ -8,16 +8,14 @@ import {
   ACT_NAV,
   SEQUENCE_NAV,
   SCENE_NAV,
-  BEAT_NAV
-} from '../../store';
-import {
+  BEAT_NAV,
   PROJECT_TYPE,
   ACT_TYPE,
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-  TYPE_TO_NAV
-} from '../HierarchyControl/CardTypes';
+} from '../../store';
+import { TYPE_TO_NAV } from '../HierarchyControl/CardTypes';
 
 const Thumbnail = (props) => {
   const { 

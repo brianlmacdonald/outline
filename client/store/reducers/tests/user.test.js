@@ -1,6 +1,6 @@
 'use strict';
 import test from 'ava';
-import user, {getUser, removeUser} from '../user';
+import user, { getUser, removeUser} from '../user';
 import { Map } from 'immutable';
 
 test('REDUCER - "user" reducer exists', t => {

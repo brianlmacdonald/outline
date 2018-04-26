@@ -16,7 +16,7 @@ import {
 
 const EmptyProp = (type) => () => {
   return (<div>please add {CLASS_NAME_OBJ[type]}</div>);
-}
+};
 
 const Container = (props) => {
   const { type, handleNavigation, handleEdit, thumbs, children, parent } = props;

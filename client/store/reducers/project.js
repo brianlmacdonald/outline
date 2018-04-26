@@ -1,11 +1,19 @@
 'use strict';
 import { Map, fromJS, List } from 'immutable';
+import uuid from 'uuid';
+
+// import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
+
+import { REMOVE_USER } from './user';
+
 import axios from 'axios';
 import history from '../../history';
 
-import { projectPayload } from './tests/superState';//development testing delete for production or once seeded db.
-
-import { REMOVE_USER } from './user';
+export const PROJECT_TYPE = 'PROJECT_TYPE';
+export const ACT_TYPE = 'ACT_TYPE';
+export const SEQUENCE_TYPE = 'SEQUENCE_TYPE';
+export const SCENE_TYPE = 'SCENE_TYPE';
+export const BEAT_TYPE = 'BEAT_TYPE';
 
 export const PROJECT_REQUEST = 'PROJECT_REQUEST';
 export const PROJECT_SUCCESS = 'PROJECT_SUCCESS';
@@ -16,6 +24,11 @@ export const ALL_PROJECTS_SUCCESS = 'ALL_PROJECTS_SUCCESS';
 export const ALL_PROJECTS_FAILURE = 'ALL_PROJECTS_FAILURE';
 
 export const CREATE_DRAFT_PROJECT = 'CREATE_DRAFT_PROJECT';
+export const CREATE_NEW_PROJECT = 'CREATE_NEW_PROJECT';
+export const CREATE_NEW_ACT = 'CREATE_NEW_ACT';
+export const CREATE_NEW_SEQUENCE = 'CREATE_NEW_SEQUENCE';
+export const CREATE_NEW_SCENE = 'CREATE_NEW_SCENE';
+export const CREATE_NEW_BEAT = 'CREATE_NEW_BEAT';
 export const DISCARD_DRAFT_PROJECT = 'DISCARD_DRAFT_PROJECT';
 
 export const SAVE_DRAFT_REQUEST = 'SAVE_DRAFT_REQUEST';
@@ -32,11 +45,11 @@ export const PROJECT_DELETE_FAILURE = 'PROJECT_DELETE_FAILURE';
 
 export const projectLoading = () => {
   return {
-    type: PROJECT_REQUEST,
+    type: PROJECT_REQUEST
   };
 };
 
-export const projectLoaded = (project) => {
+export const projectLoaded = project => {
   return {
     type: PROJECT_SUCCESS,
     payload: project
@@ -49,54 +62,88 @@ export const projectLoadError = (error, project) => {
     payload: {
       error,
       project
-    },
+    }
   };
 };
 
 export const allProjectsLoading = () => {
   return {
-    type: ALL_PROJECTS_REQUEST,
+    type: ALL_PROJECTS_REQUEST
   };
 };
 
-export const allProjectsLoaded = (projects) => {
+export const allProjectsLoaded = projects => {
   return {
     type: ALL_PROJECTS_SUCCESS,
     payload: projects
   };
 };
 
-export const allProjectsLoadError = (error) => {
+export const allProjectsLoadError = error => {
   return {
     type: ALL_PROJECTS_FAILURE,
     payload: {
-      error,
-    },
+      error
+    }
   };
 };
 
-export const createDraft = (project) => {
+export const createDraft = project => {
   return {
     type: CREATE_DRAFT_PROJECT,
-    payload: project,
+    payload: project
   };
 };
 
-export const discardDraft = (project) => {
+export const createNewProject = () => {
+  return {
+    type: CREATE_NEW_PROJECT
+  };
+};
+
+export const createNewAct = parent => {
+  return {
+    type: CREATE_NEW_ACT,
+    payload: parent
+  };
+};
+
+export const createNewSequence = parent => {
+  return {
+    type: CREATE_NEW_SEQUENCE,
+    payload: parent
+  };
+};
+
+export const createNewScene = parent => {
+  return {
+    type: CREATE_NEW_SCENE,
+    payload: parent
+  };
+};
+
+export const createNewBeat = parent => {
+  return {
+    type: CREATE_NEW_BEAT,
+    payload: parent
+  };
+};
+
+export const discardDraft = project => {
   return {
     type: DISCARD_DRAFT_PROJECT,
-    payload: project,
+    payload: project
   };
 };
 
-export const savingDraft = (project) => {
+export const savingDraft = project => {
   return {
     type: SAVE_DRAFT_REQUEST,
     payload: project
   };
 };
 
-export const draftSaved = (project) => {
+export const draftSaved = project => {
   return {
     type: SAVE_DRAFT_SUCCESS,
     payload: project
@@ -113,14 +160,14 @@ export const errorSavingDraft = (project, error) => {
   };
 };
 
-export const updatingProject = (project) => {
+export const updatingProject = project => {
   return {
     type: UPDATE_PROJECT_REQUEST,
     payload: project
   };
 };
 
-export const projectUpdated = (project) => {
+export const projectUpdated = project => {
   return {
     type: UPDATE_PROJECT_SUCCESS,
     payload: project
@@ -134,14 +181,14 @@ export const updateProjectFailure = (project, error) => {
   };
 };
 
-export const deletingProject = (project) => {
+export const deletingProject = project => {
   return {
     type: PROJECT_DELETE_REQUEST,
     payload: project
   };
 };
 
-export const projectDeleted = (project) => {
+export const projectDeleted = project => {
   return {
     type: PROJECT_DELETE_SUCCESS,
     payload: project
@@ -151,25 +198,26 @@ export const projectDeleted = (project) => {
 export const projectDeletionError = (project, error) => {
   return {
     type: PROJECT_DELETE_FAILURE,
-    payload: {project, error}
+    payload: { project, error }
   };
 };
 
 //loadUserProjects tries to find and load the user's existing projects,
 //if none are found it creates a new project and loads that.
 //**this thunk is run in the auth thunk in user.
-export const loadUserProjects = (userId) =>
-  dispatch => {
-    dispatch(allProjectsLoading());
+export const loadUserProjects = userId => dispatch => {
+  dispatch(allProjectsLoading());
 
-    return axios.get(`api/projects/${userId}`)
+  return axios
+    .get(`api/projects/${userId}`)
     .then(foundProjects => {
       if (foundProjects.data.length === 0) {
-        axios.post(`api/projects/${userId}`)
-        .then(createdProject => {
-          dispatch(allProjectsLoaded([createdProject.data]));
-        })
-        .catch(err => dispatch(allProjectsLoadError(err)));
+        axios
+          .post(`api/projects/${userId}`)
+          .then(createdProject => {
+            dispatch(allProjectsLoaded([createdProject.data]));
+          })
+          .catch(err => dispatch(allProjectsLoadError(err)));
       } else {
         dispatch(allProjectsLoaded(foundProjects.data));
       }
@@ -177,18 +225,17 @@ export const loadUserProjects = (userId) =>
     .catch(err => dispatch(allProjectsLoadError(err)));
 };
 
-export const loadSingleProject = (userId, project) => 
-  dispatch => {
-    dispatch(projectLoading());
+export const loadSingleProject = (userId, project) => dispatch => {
+  dispatch(projectLoading());
 
-    return axios.get(`api/projects/${userId}/${project.id}`)//think on this...
-      .then(singleProject => projectLoaded(singleProject))
-      .catch(err => dispatch(projectLoadError(project, err)));
-  };
+  return axios
+    .get(`api/projects/${userId}/${project.id}`) //think on this...
+    .then(singleProject => projectLoaded(singleProject))
+    .catch(err => dispatch(projectLoadError(project, err)));
+};
 
-
-const uP = fromJS(projectPayload);
-// const uP = Map({});
+// const uP = fromJS(projectPayload);
+const uP = Map({});
 
 const defaultState = Map({
   isFetching: false,
@@ -196,84 +243,135 @@ const defaultState = Map({
   userProjects: uP
 });
 
+console.log(defaultState, '<<<<<<<<<<defaultState');
+
 export default function project(state = defaultState, action) {
   let allProjects;
   let id;
 
-  switch(action.type) {
+  switch (action.type) {
+    case CREATE_NEW_BEAT:
+      id = uuid();
+      return state.setIn(action.payload, Map({})).withMutations(map => {
+        map.setIn(action.payload.concat('type'), BEAT_TYPE);
+        map.setIn(action.payload.concat('id'), id);
+        map.setIn(action.payload.concat('body'), '');
+        map.setIn(action.payload.concat('title'), 'untitled beat');
+        map.setIn(
+          action.payload.concat('index'),
+          action.payload[action.payload.length - 1]
+        );
+      });
+
+    case CREATE_NEW_SCENE:
+      id = uuid();
+      return state.setIn(action.payload, Map({})).withMutations(map => {
+        map.setIn(action.payload.concat('beats'), List());
+        map.setIn(action.payload.concat('type'), SCENE_TYPE);
+        map.setIn(action.payload.concat('id'), id);
+        map.setIn(action.payload.concat('body'), '');
+        map.setIn(action.payload.concat('title'), 'untitled scene');
+        map.setIn(
+          action.payload.concat('index'),
+          action.payload[action.payload.length - 1]
+        );
+      });
+
+    case CREATE_NEW_SEQUENCE:
+      id = uuid();
+      return state.setIn(action.payload, Map({})).withMutations(map => {
+        map.setIn(action.payload.concat('scenes'), List());
+        map.setIn(action.payload.concat('type'), SEQUENCE_TYPE);
+        map.setIn(action.payload.concat('id'), id);
+        map.setIn(action.payload.concat('body'), '');
+        map.setIn(action.payload.concat('title'), 'untitled sequence');
+        map.setIn(
+          action.payload.concat('index'),
+          action.payload[action.payload.length - 1]
+        );
+      });
+
+    case CREATE_NEW_ACT:
+      id = uuid();
+      return state.setIn(action.payload, Map({})).withMutations(map => {
+        map.setIn(action.payload.concat('sequences'), List());
+        map.setIn(action.payload.concat('type'), ACT_TYPE);
+        map.setIn(action.payload.concat('id'), id);
+        map.setIn(action.payload.concat('body'), '');
+        map.setIn(action.payload.concat('title'), 'untitled act');
+        map.setIn(
+          action.payload.concat('index'),
+          action.payload[action.payload.length - 1]
+        );
+      });
+
+    case CREATE_NEW_PROJECT:
+      id = 4;
+      return state.setIn(['draftProjects', id], Map({})).withMutations(map => {
+        map.setIn(['draftProjects', id, 'acts'], List([]));
+        map.setIn(['draftProjects', id, 'type'], PROJECT_TYPE);
+        map.setIn(['draftProjects', id, 'id'], id);
+        map.setIn(['draftProjects', id, 'body'], '');
+        map.setIn(
+          ['draftProjects', id, 'title'],
+          'untitled_project_' + Date.now()
+        );
+      });
 
     case ALL_PROJECTS_REQUEST:
       return state.set('isFetching', true);
-      
+
     case PROJECT_REQUEST:
       return state.set('isFetching', true);
 
     case ALL_PROJECTS_SUCCESS:
       allProjects = action.payload;
-      return state.set(
-        'isFetching',
-        false).withMutations(map => {
-        allProjects.forEach(project => (
-          map.setIn([
-            'userProjects',
-            project.id],
-            fromJS(project))
-        ));
+      return state.set('isFetching', false).withMutations(map => {
+        allProjects.forEach(project =>
+          map.setIn(['userProjects', project.id], fromJS(project))
+        );
       });
 
     case PROJECT_SUCCESS:
       return state.set('isFetching', false).withMutations(map => {
-        map.setIn([
-          'userProjects',
-          action.payload.id],
-          fromJS(action.payload));
+        map.setIn(['userProjects', action.payload.id], fromJS(action.payload));
       });
-    
+
     case ALL_PROJECTS_FAILURE:
       return state.withMutations(map => {
         map.set('isFetching', false);
         map.setIn(['userProjects', 'error'], action.payload.error.message);
       });
-    
+
     case PROJECT_FAILURE:
       return state.withMutations(map => {
-        map.set(
-          'isFetching', false);
-        map.setIn([
-          'userProjects',
-          action.payload.project.title,
-          'error'
-        ], action.payload.error.message);
+        map.set('isFetching', false);
+        map.setIn(
+          ['userProjects', action.payload.project.title, 'error'],
+          action.payload.error.message
+        );
       });
-    
+
     case CREATE_DRAFT_PROJECT:
       return state.withMutations(map => {
-        map.setIn([
-          'draftProjects',
-          action.payload.id],
-          fromJS(action.payload));
+        map.setIn(['draftProjects', action.payload.id], fromJS(action.payload));
       });
-    
+
     case DISCARD_DRAFT_PROJECT:
       return state.deleteIn(['draftProjects', action.payload.id]);
-    
+
     case SAVE_DRAFT_REQUEST:
-      return state.setIn([
-        'draftProjects',
-        action.payload.id,
-        'isSaving'], true);
-    
+      return state.setIn(
+        ['draftProjects', action.payload.id, 'isSaving'],
+        true
+      );
+
     case SAVE_DRAFT_SUCCESS:
       return state.withMutations(map => {
-        map.deleteIn([
-          'draftProjects',
-          action.payload.id]);
-        map.setIn([
-            'userProjects',
-            action.payload.id],
-            fromJS(action.payload));
+        map.deleteIn(['draftProjects', action.payload.id]);
+        map.setIn(['userProjects', action.payload.id], fromJS(action.payload));
       });
-    
+
     case SAVE_DRAFT_FAILURE:
       id = action.payload.project.id;
       return state.withMutations(map => {
@@ -282,47 +380,35 @@ export default function project(state = defaultState, action) {
       });
 
     case UPDATE_PROJECT_REQUEST:
-      return state.setIn([
-        'userProjects',
-        action.payload.id,
-        'isSaving'], true);
-    
+      return state.setIn(['userProjects', action.payload.id, 'isSaving'], true);
+
     case UPDATE_PROJECT_SUCCESS:
       return state.withMutations(map => {
-        map.setIn([
-          'userProjects',
-          action.payload.id],
-          fromJS(action.payload).set('isSaving', false));
+        map.setIn(
+          ['userProjects', action.payload.id],
+          fromJS(action.payload).set('isSaving', false)
+        );
       });
-    
+
     case PROJECT_DELETE_REQUEST:
-      return state.setIn([
-        'userProjects',
-        action.payload.id,
-        'isSaving'], true);
-    
+      return state.setIn(['userProjects', action.payload.id, 'isSaving'], true);
+
     case PROJECT_DELETE_SUCCESS:
       return state.deleteIn(['userProjects', action.payload.id]);
 
     case PROJECT_DELETE_FAILURE:
       return state.withMutations(map => {
-        map.setIn([
-          'userProjects',
-          action.payload.id,
-          'isSaving'], false);
-        map.setIn([
-          'userProjects',
-          action.payload.id,
-          'error'],
-          action.payload.error);
+        map.setIn(['userProjects', action.payload.id, 'isSaving'], false);
+        map.setIn(
+          ['userProjects', action.payload.id, 'error'],
+          action.payload.error
+        );
       });
-    
+
     case REMOVE_USER:
       return state.clear();
 
     default:
       return state;
   }
-
 }
-

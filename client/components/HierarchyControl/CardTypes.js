@@ -6,11 +6,13 @@ import {
   BEAT_NAV
 } from '../../store';
 
-export const PROJECT_TYPE = 'PROJECT_TYPE';
-export const ACT_TYPE = 'ACT_TYPE';
-export const SEQUENCE_TYPE = 'SEQUENCE_TYPE';
-export const SCENE_TYPE = 'SCENE_TYPE';
-export const BEAT_TYPE = 'BEAT-TYPE';
+import { 
+  PROJECT_TYPE,
+  ACT_TYPE,
+  SEQUENCE_TYPE,
+  SCENE_TYPE,
+  BEAT_TYPE
+} from '../../store';
 
 export const GET_PROJECTS = 'GET_PROJECTS';
 export const GET_ACTS = 'GET_ACTS';

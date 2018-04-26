@@ -1,27 +1,27 @@
-"use strict";
-import { connect } from "react-redux";
-import { addNavigationPath, removeNavigationPath } from "../../store";
+'use strict';
+import { connect } from 'react-redux';
+import { addNavigationPath, removeNavigationPath } from '../../store';
 import {
   ProjectContainer,
   ActContainer,
   SequenceContainer,
   SceneContainer,
   BeatContainer
-} from "../index.jsx";
-import React, { Component } from "react";
+} from '../index.jsx';
+import React, { Component } from 'react';
 import {
   PROJECT_NAV,
   ACT_NAV,
   SEQUENCE_NAV,
   SCENE_NAV,
-  BEAT_NAV
-} from '../../store';
-import {
+  BEAT_NAV,
   PROJECT_TYPE,
   ACT_TYPE,
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
+} from '../../store';
+import {
   GET_PROJECTS,
   GET_ACTS,
   GET_SEQUENCES,
@@ -44,61 +44,59 @@ class HierarchyControl extends Component {
 
     switch (cardRequest) {
       case GET_PROJECTS:
-        return project.get("userProjects");
+        return project.get('userProjects');
 
       case GET_ACTS:
         return project
-          .getIn(["userProjects", navigator.get(PROJECT_NAV), "acts"]);
+          .getIn(['userProjects', navigator.get(PROJECT_NAV), 'acts']);
 
       case GET_SEQUENCES:
         return project
           .getIn([
-            "userProjects",
+            'userProjects',
             navigator.get(PROJECT_NAV),
-            "acts",
+            'acts',
             navigator.get(ACT_NAV),
-            "sequences"
+            'sequences'
           ]);
 
       case GET_SCENES:
         return project
           .getIn([
-            "userProjects",
+            'userProjects',
             navigator.get(PROJECT_NAV),
-            "acts",
+            'acts',
             navigator.get(ACT_NAV),
-            "sequences",
+            'sequences',
             navigator.get(SCENE_NAV),
-            "scenes"
+            'scenes'
           ]);
 
       case GET_BEATS:
         return project
           .getIn([
-            "userProjects",
+            'userProjects',
             navigator.get(PROJECT_NAV),
-            "acts",
+            'acts',
             navigator.get(ACT_NAV),
-            "sequences",
+            'sequences',
             navigator.get(SEQUENCE_NAV),
-            "scenes",
+            'scenes',
             navigator.get(SCENE_NAV),
-            "beats"
+            'beats'
           ]);
 
       default:
-        throw new Error("Unknown type");
+        throw new Error('Unknown type');
     }
   }
-  //ableToRender will be deleted soon. It's unnecessary in this ne
+  //ableToRender is extraneous at the moment, but will keep in place
+  //in case of other render checks later.  Will be deleted otherwise.
   ableToRender(type) {
     const { navigator } = this.props;
 
-    try {
-      if (navigator.get(type) === null) return false;
-    } catch (err) {
-      if (err instanceof TypeError) return false;
-    }
+    if (navigator.get(type) === null) return false;
+
     return true;
   }
 

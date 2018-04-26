@@ -1,7 +1,7 @@
-import { Map } from "immutable";
+import { Map } from 'immutable';
 
-const ADD_PATH = "ADD_PATH";
-const DELETE_PATH = "DELETE_PATH";
+const ADD_PATH = 'ADD_PATH';
+const DELETE_PATH = 'DELETE_PATH';
 
 export const PROJECT_NAV = 'PROJECT_NAV';
 export const ACT_NAV = 'ACT_NAV';

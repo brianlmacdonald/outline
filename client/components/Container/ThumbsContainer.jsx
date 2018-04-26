@@ -1,6 +1,6 @@
-import React from "react";
-import LoaderHOC from "../HOC/LoaderHOC.jsx";
-import { Thumbnail } from "APP/client/components/index.jsx";
+import React from 'react';
+import LoaderHOC from '../HOC/LoaderHOC.jsx';
+import { Thumbnail } from 'APP/client/components/index.jsx';
 
 const ThumbsContainer = props => {
   const {
@@ -14,7 +14,7 @@ const ThumbsContainer = props => {
     return (
       <Thumbnail
         key={card.get('id') + 'tnc'}
-        id={card.get("id")}
+        id={card.get('id')}
         index={idx}
         type={type}
         card={card}

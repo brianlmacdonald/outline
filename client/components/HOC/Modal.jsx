@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import ModalLauncherHOC from "./ModalLauncher.jsx";
-import { isNil } from "lodash";
+import React, { Component } from 'react';
+import ModalLauncherHOC from './ModalLauncher.jsx';
+import { isNil } from 'lodash';
 import './Modal.css';
 
 class Modal extends Component {
@@ -11,13 +11,13 @@ class Modal extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("keyup", this.handleKeyUp, false);
-    document.addEventListener("click", this.handleOutsideClick, false);
+    window.addEventListener('keyup', this.handleKeyUp, false);
+    document.addEventListener('click', this.handleOutsideClick, false);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keyup", this.handleKeyUp, false);
-    document.removeEventListener("click", this.handleOutsideClick, false);
+    window.removeEventListener('keyup', this.handleKeyUp, false);
+    document.removeEventListener('click', this.handleOutsideClick, false);
   }
 
   handleKeyUp(e) {
@@ -26,7 +26,7 @@ class Modal extends Component {
       27: () => {
         e.preventDefault();
         close();
-        window.removeEventListener("keyup", this.handleKeyUp, false);
+        window.removeEventListener('keyup', this.handleKeyUp, false);
       }
     };
 
@@ -40,7 +40,7 @@ class Modal extends Component {
     if (!isNil(this.modal)) {
       if (!this.modal.contains(e.target)) {
         close();
-        document.removeEventListener("click", this.handleOutsideClick, false);
+        document.removeEventListener('click', this.handleOutsideClick, false);
       }
     }
   }
