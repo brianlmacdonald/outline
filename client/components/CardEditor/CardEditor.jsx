@@ -1,7 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
-import { PROJECT_TYPE } from '../../store';
-import { creatingNewProject, discardDraft } from '../../store/index';
+import { PROJECT_TYPE, CARD_TYPE_ID } from '../../store';
+import { 
+  creatingNewProject,
+  discardDraft,
+  createNewAct,
+  createNewDraftCardThunk 
+} from '../../store/index';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
@@ -13,26 +18,32 @@ class CardEditor extends Component {
 
   async componentDidMount(){
     const {
+      handleNewProject,
+      handleNewDraft,
       newCard,
       type,
       parentPath,
       handleEdit,
       card, 
-      project
+      project,
+      user
     } = this.props;
 
+    console.log(newCard, type);
     if (newCard && type === PROJECT_TYPE) {
-      const createdCard = await creatingNewProject()
-      .then(id => project.getIn(['userProjects', id]));
-      this.setState({draftCard: createdCard});
+        const newProjectId = await handleNewProject(user.get('id'));
+        handleNewDraft(newProjectId);
+    } else if (newCard) {
+      const createdCard = await createNewAct(parentPath)
+      .then(id => createNewAct(parentPath));      
     } else {
-      this.setState({draftCard: card});
+      createNewDraftCardThunk(card);
     }
 
     const leaveWarning = 'Are you sure you want to leave this page?';
 
     this.exitWarning = (event) => {
-      if (this.props.draftProject) {
+      if (!this.props.draft.get(CARD_TYPE_ID)) {
         // This message is ignored in most browsers, but its presence
         // triggers the confirmation dialog
         event.returnValue = leaveWarning;
@@ -44,7 +55,7 @@ class CardEditor extends Component {
   }
 
   componentWillUnmount(){
-    if (this.props.draftProject) discardDraft();
+    if (this.props.draft) discardDraft();
     window.removeEventListener('beforeunload', this.exitBlocker);
   }
 
@@ -54,21 +65,37 @@ class CardEditor extends Component {
     }
   }
 
-  render({ handleEdit, card, isNew }) {
+  render() {
+    const { draft } = this.props;
     return (
       <div
       className={'cardEditor'}>
         <h1>
-          {card.get('title')}
+          {draft.get('type')}
         </h1>
         <p>
-          {card.get('body')}
+          {draft.get('id')}
         </p>
       </div>
     );
   }
 }
 
-const ConnectedCardEditor = connect()(CardEditor);
-export default ConnectCardEditor;
+const MapState = state => ({
+  project: state.project,
+  draft: state.draft,
+  user: state.user
+});
+
+const MapDispatch = dispatch => ({
+  handleNewProject(userId){
+    return dispatch(creatingNewProject(userId));
+  },
+  handleNewDraft(card){
+    dispatch(createNewDraftCardThunk(card));
+  }
+});
+
+const ConnectedCardEditor = connect(MapState, MapDispatch)(CardEditor);
+export default ConnectedCardEditor;
 

@@ -203,6 +203,7 @@ import project, {
   test('REDUCER - can create a new project', t => {
     const preState = project(undefined, newProjectCreated({title: 'hi', id: 4, 'body': null, type: null, acts: []}));//this needs alteration.
     t.deepEqual(preState.getIn(['userProjects', 4, 'id']), 4);
+    t.deepEqual(preState.getIn(['userProjects', 4]), []);
     const firstPayload = ['userProjects', 4, 'acts', 0];
     t.deepEqual(firstPayload[firstPayload.length - 1], 0);
     const nextState = project(preState, createNewAct(firstPayload));

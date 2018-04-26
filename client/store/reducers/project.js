@@ -159,13 +159,6 @@ export const savingDraft = project => {
   };
 };
 
-export const draftSaved = project => {
-  return {
-    type: SAVE_DRAFT_SUCCESS,
-    payload: project
-  };
-};
-
 export const errorSavingDraft = (project, error) => {
   return {
     type: SAVE_DRAFT_FAILURE,
@@ -238,7 +231,7 @@ export const loadSingleProject = (userId, project) => dispatch => {
 
   return axios
     .get(`api/projects/${userId}/${project.id}`)
-    .then(singleProject => projectLoaded(singleProject))
+    .then(singleProject => projectLoaded(singleProject.data))
     .catch(err => dispatch(projectLoadError(project, err)));
 };
 
@@ -246,8 +239,8 @@ export const creatingNewProject = (userId) => dispatch => {
   dispatch(createNewProject());
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
-    dispatch(newProjectCreated(createdProject));
-    return createdProject.id;
+    dispatch(newProjectCreated(createdProject.data));
+    return createdProject.data.id;
   })
   .catch(err => dispatch(projectCreationError(err)));
 };
@@ -386,7 +379,7 @@ export default function project(state = defaultState, action) {
 
     case SAVE_DRAFT_SUCCESS:
       return state.withMutations(map => {
-        map.setIn(['userProjects', action.payload.id], fromJS(action.payload));
+        map.setIn(['userProjects', action.payload.id], action.payload);
       });
 
     case SAVE_DRAFT_FAILURE:
