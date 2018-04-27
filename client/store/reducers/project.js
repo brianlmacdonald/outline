@@ -202,7 +202,7 @@ const defaultState = Map({
   userProjects: uP
 });
 
-export default function project(state = defaultState, action) {
+const project = (state = defaultState, action) => {
   let allProjects;
   let id;
 
@@ -354,4 +354,6 @@ export default function project(state = defaultState, action) {
     default:
       return state;
   }
-}
+};
+
+export default project;

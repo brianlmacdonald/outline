@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Map, fromJS } from 'immutable';
-
-import { loadUserProjects } from './index';
+//import directly from the file otherwise it breaks AVA
+import { loadUserProjects } from './project';
 import history from '../../history';
 
 export const GET_USER = 'GET_USER';

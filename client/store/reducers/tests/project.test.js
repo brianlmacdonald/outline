@@ -12,8 +12,7 @@ import project, {
   newProjectCreated,
   createNewAct
   } from '../project';
-  console.log({project, projectLoaded, projectLoading, projectLoadError, allProjectsLoaded, allProjectsLoading, allProjectsLoadError, newProjectCreated, createNewAct})
-
+ 
   const defaultState = Map({
     isFetching: false,
     userProjects: Map({})}
@@ -84,9 +83,10 @@ import project, {
   });
 
   test('REDUCER - can create a new project', t => {
-    const preState = project(undefined, newProjectCreated({title: 'hi', id: 4, 'body': null, type: null, acts: []}));//this needs alteration.
+    const testProjectAlpha = {title: 'hi', id: 4, 'body': null, type: null, acts: []};
+    const preState = project(undefined, newProjectCreated(testProjectAlpha));//this needs alteration.
     t.deepEqual(preState.getIn(['userProjects', 4, 'id']), 4);
-    t.deepEqual(preState.getIn(['userProjects', 4]), []);
+    t.deepEqual(typeof preState.getIn(['userProjects', 4]), 'object');
     const firstPayload = ['userProjects', 4, 'acts', 0];
     t.deepEqual(firstPayload[firstPayload.length - 1], 0);
     const nextState = project(preState, createNewAct(firstPayload));

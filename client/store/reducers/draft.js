@@ -144,7 +144,17 @@ const draft = (state = defaultDraft, action) => {
       return state.set('error', action.payload);
 
     case DRAFT_SAVED:
-      return state.clear();
+      return state.withMutations(map => {
+        map.set(CARD_TYPE_ID, null)
+        .set(CARD_TYPE_TYPE, null)
+        .set(CARD_TYPE_TITLE, null)
+        .set(CARD_TYPE_BODY, null)
+        .set(CARD_TYPE_INDEX, null)
+        .set(CARD_TYPE_ACTS, null)
+        .set(CARD_TYPE_SEQUENCES, null)
+        .set(CARD_TYPE_SCENES, null)
+        .set(CARD_TYPE_BEATS, null);
+      });
     
     default:
       return state;
