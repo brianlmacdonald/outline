@@ -9,14 +9,10 @@ import project, {
   allProjectsLoaded, 
   allProjectsLoading, 
   allProjectsLoadError,
-  createDraft,
-  discardDraft,
-  savingDraft,
-  draftSaved,
-  errorSavingDraft,
   newProjectCreated,
   createNewAct
   } from '../project';
+  console.log({project, projectLoaded, projectLoading, projectLoadError, allProjectsLoaded, allProjectsLoading, allProjectsLoadError, newProjectCreated, createNewAct})
 
   const defaultState = Map({
     isFetching: false,
@@ -86,119 +82,6 @@ import project, {
     t.deepEqual(finalState.get('isFetching'),
       false);
   });
-
-  test('REDUCER - createDraft creates a draft in userProjects', t => {
-    const preState = project(undefined, createDraft(loadedProject));
-    t.deepEqual(preState.getIn([
-      'userProjects',
-      loadedProject.id
-    ]).get('body'),
-      loadedProject.body);
-  });
-
-  test('REDUCER - discardDraft deletes the specific draft ONLY', t => {
-    const preState = project(undefined, createDraft(testProjects[0]));
-    const currentState = project(preState, createDraft(testProjects[1]));
-    const nextState = project(currentState, discardDraft(testProjects[0]));
-    t.deepEqual(nextState.getIn([
-      'userProjects',
-      testProjects[0].id
-    ]),
-      undefined);
-    t.deepEqual(nextState.getIn([
-      'userProjects',
-      testProjects[1].id
-    ]).get('title'),
-    testProjects[1].title);
-  });
-
-  const bigProjectPayloadFunction = (num) => {
-    const arr = [];
-    for (let i = 0; i < num; i++) {
-      const fakeProject = {
-        title: i + ' project test',
-        id: uuid(),
-        acts: [
-          {
-            title: 'one',
-            id: uuid(),
-            body: i + ' act one',
-            sequences: [
-              {
-                title: 'one',
-                id: uuid(),
-                body: i + ' sequence one',
-                scenes: [
-                  1, 2, 3, 4, 5
-                ]
-              }, {
-                title: 'two',
-                id: uuid(),
-                body: i + ' sequence two',
-                scenes: [6, 7, 8, 9, 10]
-              }
-            ]
-          }, {
-            title: 'two',
-            id: uuid(),
-            body: i + ' act two',
-            sequences: [
-              {
-                title: 'three',
-                id: uuid(),
-                body: i + ' sequence three',
-                scenes: []
-              }, {
-                title: 'four',
-                id: uuid(),
-                body: i + ' sequence four',
-                scenes: []
-              },
-              {
-                title: 'five',
-                id: uuid(),
-                body: i + ' sequence five',
-                scenes: []
-              }, {
-                title: 'six',
-                id: uuid(),
-                body: i + ' sequence six',
-                scenes: []
-              }
-            ]
-          }, {
-            title: 'three',
-            id: uuid(),
-            body: i + ' act three',
-            sequences: [
-              {
-                title: 'five',
-                id: uuid(),
-                body: i + ' sequence seven',
-                scenes: []
-              }, {
-                title: 'six',
-                id: uuid(),
-                body: i + ' sequence eight',
-                scenes: []
-              }
-            ]
-          }
-        ]
-      };
-      arr.push(fakeProject);
-    }
-    return arr;
-  };
-
-
-
-  const projectPayload = bigProjectPayloadFunction(4);
-  // test('REDUCER - correctly access and render projects', t => {
-  //   const superState = project(undefined, allProjectsLoaded(projectPayload));
-
-  //   t.deepEqual(superState.get('userProjects').toArray()[0].get('title'), '0 project test');
-  // });
 
   test('REDUCER - can create a new project', t => {
     const preState = project(undefined, newProjectCreated({title: 'hi', id: 4, 'body': null, type: null, acts: []}));//this needs alteration.

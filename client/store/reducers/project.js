@@ -23,7 +23,6 @@ export const ALL_PROJECTS_REQUEST = 'ALL_PROJECTS_REQUEST';
 export const ALL_PROJECTS_SUCCESS = 'ALL_PROJECTS_SUCCESS';
 export const ALL_PROJECTS_FAILURE = 'ALL_PROJECTS_FAILURE';
 
-export const CREATE_DRAFT_PROJECT = 'CREATE_DRAFT_PROJECT';
 export const CREATE_NEW_PROJECT = 'CREATE_NEW_PROJECT';
 export const NEW_PROJECT_CREATED = 'NEW_PROJECT_CREATED'
 export const NEW_PROJECT_ERROR = 'NEW_PROJECT_ERROR';
@@ -31,15 +30,10 @@ export const CREATE_NEW_ACT = 'CREATE_NEW_ACT';
 export const CREATE_NEW_SEQUENCE = 'CREATE_NEW_SEQUENCE';
 export const CREATE_NEW_SCENE = 'CREATE_NEW_SCENE';
 export const CREATE_NEW_BEAT = 'CREATE_NEW_BEAT';
-export const DISCARD_DRAFT_PROJECT = 'DISCARD_DRAFT_PROJECT';
 
-export const SAVE_DRAFT_REQUEST = 'SAVE_DRAFT_REQUEST';
-export const SAVE_DRAFT_SUCCESS = 'SAVE_DRAFT_SUCCESS';
-export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
-
-export const UPDATE_PROJECT_REQUEST = 'UPDATE_PROJECT_REQUEST';
-export const UPDATE_PROJECT_SUCCESS = 'UPDATE_PROJECT_SUCCESS';
-export const UPDATE_PROJECT_FAILURE = 'UPDATE_PROJECT_FAILURE';
+export const PERSIST_PROJECT_REQUEST = 'PERSIST_PROJECT_REQUEST';
+export const PERSIST_PROJECT_SUCCESS = 'PERSIST_PROJECT_SUCCESS';
+export const PERSIST_PROJECT_FAILURE = 'PERSIST_PROJECT_FAILURE';
 
 export const PROJECT_DELETE_REQUEST = 'PROJECT_DELETE_REQUEST';
 export const PROJECT_DELETE_SUCCESS = 'PROJECT_DELETE_SUCCESS';
@@ -97,13 +91,6 @@ export const projectCreationError = error => {
   };
 };
 
-export const createDraft = project => {
-  return {
-    type: CREATE_DRAFT_PROJECT,
-    payload: project
-  };
-};
-
 export const createNewProject = () => {
   return {
     type: CREATE_NEW_PROJECT
@@ -145,50 +132,12 @@ export const createNewBeat = parent => {
   };
 };
 
-export const discardDraft = project => {
+export const persistProject = project => {
   return {
-    type: DISCARD_DRAFT_PROJECT,
+    type: PERSIST_PROJECT_REQUEST,
     payload: project
   };
-};
-
-export const savingDraft = project => {
-  return {
-    type: SAVE_DRAFT_REQUEST,
-    payload: project
-  };
-};
-
-export const errorSavingDraft = (project, error) => {
-  return {
-    type: SAVE_DRAFT_FAILURE,
-    payload: {
-      project,
-      error
-    }
-  };
-};
-
-export const updatingProject = project => {
-  return {
-    type: UPDATE_PROJECT_REQUEST,
-    payload: project
-  };
-};
-
-export const projectUpdated = project => {
-  return {
-    type: UPDATE_PROJECT_SUCCESS,
-    payload: project
-  };
-};
-
-export const updateProjectFailure = (project, error) => {
-  return {
-    type: UPDATE_PROJECT_FAILURE,
-    payload: { project, error }
-  };
-};
+}; 
 
 export const deletingProject = project => {
   return {
@@ -363,41 +312,23 @@ export default function project(state = defaultState, action) {
         );
       });
 
-    case CREATE_DRAFT_PROJECT:
-      return state.withMutations(map => {
-        map.setIn(['userProjects', action.payload.id], fromJS(action.payload));
-      });
-
-    case DISCARD_DRAFT_PROJECT:
-      return state.deleteIn(['userProjects', action.payload.id]);
-
-    case SAVE_DRAFT_REQUEST:
+    case PERSIST_PROJECT_REQUEST:
       return state.setIn(
         ['userProjects', action.payload.id, 'isSaving'],
         true
       );
 
-    case SAVE_DRAFT_SUCCESS:
+    case PERSIST_PROJECT_SUCCESS:
       return state.withMutations(map => {
-        map.setIn(['userProjects', action.payload.id], action.payload);
+        map.setIn(['userProjects', action.payload.id, 'isSaving'], false)
+        .setIn(['userProjects', action.payload.id], action.payload);
       });
 
-    case SAVE_DRAFT_FAILURE:
+    case PERSIST_PROJECT_FAILURE:
       id = action.payload.project.id;
       return state.withMutations(map => {
         map.setIn(['userProjects', id, 'isSaving'], false)
         .setIn(['userProjects', id, 'error'], action.payload.error);
-      });
-
-    case UPDATE_PROJECT_REQUEST:
-      return state.setIn(['userProjects', action.payload.id, 'isSaving'], true);
-
-    case UPDATE_PROJECT_SUCCESS:
-      return state.withMutations(map => {
-        map.setIn(
-          ['userProjects', action.payload.id],
-          fromJS(action.payload).set('isSaving', false)
-        );
       });
 
     case PROJECT_DELETE_REQUEST:
