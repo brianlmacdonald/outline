@@ -2,16 +2,17 @@
 import { toJS } from 'immutable';
 import axios from 'axios';
 import {
-  errorSavingDraft,
-  draftSaved,
-  savingDraft
+  persistingProjectFailure,
+  persistingProject,
+  persistedProject
 } from '../index';
 
-export const persistProject = (payload) => dispatch => {
-  const {userId, projectId, card} = payload;
-  return axios.put(`api/projects/${userId}/${projectId}`, toJS(card))
-  .then(res => {
-    console.log(res);
-  })
-  .catch(err => )
-}
+export const persistProjectToDB = (saveObj) => dispatch => {
+  const {userId, card} = saveObj;
+  const id = card.get('id');
+  
+  dispatch(persistingProject(card));
+  return axios.put(`api/projects/update/${userId}/${id}`, card)
+  .then(status => dispatch(persistedProject(card)))
+  .catch(err => dispatch(persistingProjectFailure(card, err)));
+};

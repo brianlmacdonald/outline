@@ -26,10 +26,7 @@ router.param('userId', (req, res, next, id) => {
 //thumbnail purpose. If none are found,
 //we make a later call to create a new project.
 router.get('/:userId', (req, res, next) => {
-  return Project.findAll({
-    where: {user_id: req.user.id},
-    attributes: ['id', 'title'],
-  })
+  return Project.findAll({where: {user_id: req.user.id}}) //for now loading everything, development only
   .then(res.json.bind(res))
   .catch(next);
 });
@@ -53,11 +50,11 @@ router.get('/:userid/:projectId', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/:userId/:projectId', (req, res, next) => {
+router.put('/update/:userId/:projectId', (req, res, next) => {
   return Project.find({where: {
     [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]
   }})
   .then(foundProject => foundProject.update(req.body))
-  .then(res => res.send(204))
+  .then(updatedProject => res.sendStatus(204))
   .catch(next);
 });

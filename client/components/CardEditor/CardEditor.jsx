@@ -1,11 +1,24 @@
 'use strict';
 import React, { Component } from 'react';
-import { PROJECT_TYPE, CARD_TYPE_ID } from '../../store';
+import { 
+  PROJECT_TYPE,
+  CARD_TYPE_ID,
+  CARD_TYPE_PARENT,
+  CARD_TYPE_ACTS,
+  CARD_TYPE_BEATS,
+  CARD_TYPE_SCENES,
+  CARD_TYPE_SEQUENCES,
+  CARD_TYPE_INDEX,
+  CARD_TYPE_BODY,
+  CARD_TYPE_TITLE,
+  CARD_TYPE_TYPE
+} from '../../store';
 import { 
   creatingNewProject,
   discardDraft,
   createNewAct,
-  createNewDraftCardThunk 
+  createNewDraftCardThunk,
+  persistProjectToDB 
 } from '../../store/index';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -68,10 +81,25 @@ class CardEditor extends Component {
   }
 
   render() {
-    const { draft } = this.props;
+    const { draft, user, handleSave } = this.props;
     return (
       <div
       className={'cardEditor'}>
+        <form>
+          <textarea
+          value={draft.get('body')}
+          >
+          </textarea>
+        </form>
+        <button
+        onClick={(evt) => {
+          evt.preventDefault();
+          return handleSave({
+            userId: user.get('id'),
+            card: draft
+          });
+        }}
+        >save</button>
         <h1>
           {draft.get('type')}
         </h1>
@@ -96,8 +124,9 @@ const MapDispatch = dispatch => ({
   handleNewDraft(card){
     dispatch(createNewDraftCardThunk(card));
   },
-  handleSave(){
-    //persist in db through project
+  handleSave(saveObj){
+    console.log(saveObj, '<<<<<in handle save');
+    dispatch(persistProjectToDB(saveObj));
   },
   handleReset(){
     //reload the card from project

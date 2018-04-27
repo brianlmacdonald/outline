@@ -16,3 +16,4 @@ const store = createStore(rootReducer, middleWare);
 
 export default store;
 export * from './reducers';
+export * from './actions';

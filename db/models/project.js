@@ -10,13 +10,16 @@ module.exports = db => db.define('project', {
     ,validate: require('./validations.js')
   },
   body: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    defaultValue: ''
   },
   type: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue: 'PROJECT_TYPE'
   },
   acts: {
-    type: Sequelize.ARRAY(Sequelize.JSON)
+    type: Sequelize.ARRAY(Sequelize.JSON),
+    defaultValue: []
   }
 
 });

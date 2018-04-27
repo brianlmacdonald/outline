@@ -132,12 +132,26 @@ export const createNewBeat = parent => {
   };
 };
 
-export const persistProject = project => {
+export const persistingProject = project => {
   return {
     type: PERSIST_PROJECT_REQUEST,
     payload: project
   };
 }; 
+
+export const persistedProject = project => {
+  return {
+    type: PERSIST_PROJECT_SUCCESS,
+    payload: project
+  };
+};
+
+export const persistingProjectFailure = (project, error) => {
+  return {
+    type: PERSIST_PROJECT_FAILURE,
+    payload: { project, error }
+  };
+};
 
 export const deletingProject = project => {
   return {
@@ -268,10 +282,10 @@ const project = (state = defaultState, action) => {
       id = action.payload.id;
       return state.set('isFetching', false)
       .setIn(['userProjects', id], Map({})).withMutations(map => {
-        map.setIn(['userProjects', id, 'acts'], List([]))
-        .setIn(['userProjects', id, 'type'], PROJECT_TYPE)
+        map.setIn(['userProjects', id, 'acts'], List(action.payload.acts))
+        .setIn(['userProjects', id, 'type'], action.payload.type)
         .setIn(['userProjects', id, 'id'], id)
-        .setIn(['userProjects', id, 'body'], '')
+        .setIn(['userProjects', id, 'body'], action.payload.body)
         .setIn(
           ['userProjects', id, 'title'],
           action.payload.title
@@ -313,15 +327,14 @@ const project = (state = defaultState, action) => {
       });
 
     case PERSIST_PROJECT_REQUEST:
-      return state.setIn(
-        ['userProjects', action.payload.id, 'isSaving'],
-        true
-      );
+      id = action.payload.get('id');
+      return state.setIn(['userProjects', id, 'isSaving'], true);
 
     case PERSIST_PROJECT_SUCCESS:
+      id = action.payload.get('id');
       return state.withMutations(map => {
-        map.setIn(['userProjects', action.payload.id, 'isSaving'], false)
-        .setIn(['userProjects', action.payload.id], action.payload);
+        map.setIn(['userProjects', id, 'isSaving'], false)
+        .setIn(['userProjects', id], action.payload);
       });
 
     case PERSIST_PROJECT_FAILURE:

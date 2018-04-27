@@ -83,7 +83,7 @@ import project, {
   });
 
   test('REDUCER - can create a new project', t => {
-    const testProjectAlpha = {title: 'hi', id: 4, 'body': null, type: null, acts: []};
+    const testProjectAlpha = {title: 'hi', id: 4, 'body': '', type: 'PROJECT_TYPE', acts: []};
     const preState = project(undefined, newProjectCreated(testProjectAlpha));//this needs alteration.
     t.deepEqual(preState.getIn(['userProjects', 4, 'id']), 4);
     t.deepEqual(typeof preState.getIn(['userProjects', 4]), 'object');
