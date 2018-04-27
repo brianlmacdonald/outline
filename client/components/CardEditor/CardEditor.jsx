@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
 
+//add the save warnings to the modal click / nav events.
+//right now if you click away there will be no save check.
+
 class CardEditor extends Component {
   constructor(props){
     super(props);
@@ -29,7 +32,6 @@ class CardEditor extends Component {
       user
     } = this.props;
 
-    console.log(newCard, type);
     if (newCard && type === PROJECT_TYPE) {
         const newProjectId = await handleNewProject(user.get('id'));
         handleNewDraft(newProjectId);
@@ -93,6 +95,18 @@ const MapDispatch = dispatch => ({
   },
   handleNewDraft(card){
     dispatch(createNewDraftCardThunk(card));
+  },
+  handleSave(){
+    //persist in db through project
+  },
+  handleReset(){
+    //reload the card from project
+  },
+  handleDelete(){
+    //delete the card
+  },
+  handleCancel(){
+    //clear draft state.
   }
 });
 

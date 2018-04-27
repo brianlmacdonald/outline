@@ -6,6 +6,10 @@ import './Modal.css';
 class Modal extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isEditor: false
+    };
+    
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }

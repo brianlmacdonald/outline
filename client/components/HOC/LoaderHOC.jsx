@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import './addLoader.css';
 import { isEmpty, isImmutable } from 'immutable';
 
-console.log(isImmutable);
-
 const checkIsEmpty = (prop) => {
   return prop === null ||
   prop === undefined ||

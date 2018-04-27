@@ -52,3 +52,12 @@ router.get('/:userid/:projectId', (req, res, next) => {
     .then(res.json.bind(res))
     .catch(next);
 });
+
+router.put('/:userId/:projectId', (req, res, next) => {
+  return Project.find({where: {
+    [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]
+  }})
+  .then(foundProject => foundProject.update(req.body))
+  .then(res => res.send(204))
+  .catch(next);
+});

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const {User, Project} = require('APP/db/');
+const { User, Project } = require('APP/db/');
 module.exports = router;
 
 const mustHavePassword = (req, res, next) => {
@@ -13,14 +13,15 @@ const mustHavePassword = (req, res, next) => {
 };
 
 router.post('/login', mustHavePassword, (req, res, next) => {
-  return User.findOne({where: {email: req.body.email}})
+  return User.findOne({
+    where: {email: req.body.email}})
     .then(user => {
       if (!user) {
         return res.status(401).send('User not found');
       } else if (!user.checkPassword(req.body.password)) {
         return res.status(401).send('Incorrect password');
       } else {
-        return req.login(cleanUser(user), err => (err ?
+        return req.login(user, err => (err ?
           next(err) :
           res.json(cleanUser(user))));
       }
@@ -54,7 +55,7 @@ router.get('/me', (req, res) => {
 router.use('/google', require('./google'));
 
 function cleanUser(user) {
-  user.set('password', null);
-  user.set('salt', null);
+  user.set('password');
+  user.set('salt');
   return user;
 }

@@ -1,1 +1,1 @@
-A Boilerplate thingy.
+Outlining for storytelling.
