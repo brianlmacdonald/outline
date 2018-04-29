@@ -12,6 +12,22 @@ import project, {
   newProjectCreated,
   createNewAct
   } from '../project';
+  import navigator,{
+    addNavigationPath,
+    GET_PROJECTS,
+    PROJECT_TYPE,
+    PROJECT_NAV,
+    ACT_TYPE,
+    ACT_NAV,
+    SEQUENCE_TYPE,
+    SEQUENCE_NAV,
+    SCENE_TYPE,
+    SCENE_NAV,
+    BEAT_TYPE,
+    BEAT_NAV
+  } from '../navigator';
+
+  import { projectPayload } from './superState';
  
   const defaultState = Map({
     isFetching: false,
@@ -81,9 +97,8 @@ import project, {
     t.deepEqual(finalState.get('isFetching'),
       false);
   });
-
+  const testProjectAlpha = {title: 'hi', id: 4, 'body': '', type: 'PROJECT_TYPE', acts: []};
   test('REDUCER - can create a new project', t => {
-    const testProjectAlpha = {title: 'hi', id: 4, 'body': '', type: 'PROJECT_TYPE', acts: []};
     const preState = project(undefined, newProjectCreated(testProjectAlpha));//this needs alteration.
     t.deepEqual(preState.getIn(['userProjects', 4, 'id']), 4);
     t.deepEqual(typeof preState.getIn(['userProjects', 4]), 'object');
@@ -100,3 +115,63 @@ import project, {
 
   });
 
+
+  const getOrSetPayloadSwitch = (method) => (state, cardRequest, opts = {}) => {
+    const { project, navigator } = state;
+    const { sourcePath = undefined, payload = undefined } = opts;
+
+    switch (cardRequest) {
+      case GET_PROJECTS:
+        return project.get('userProjects');
+  
+      case ACT_TYPE:
+        return project[method](sourcePath.concat('acts'), payload);
+  
+      case SEQUENCE_TYPE:
+        return project[method](
+          sourcePath.concat(
+            'acts',
+            navigator.get(ACT_NAV),
+            'sequences'),
+            payload);
+  
+      case SCENE_TYPE:
+        return project[method](
+          sourcePath.concat('acts',
+          navigator.get(ACT_NAV),
+          'sequences',
+          navigator.get(SEQUENCE_NAV),
+          'scenes'
+        ), payload);
+
+      case BEAT_TYPE:
+        return project[method](
+          sourcePath.concat('acts',
+          navigator.get(ACT_NAV),
+          'sequences',
+          navigator.get(SEQUENCE_NAV),
+          'scenes',
+          navigator.get(SCENE_NAV),
+          'beats'
+        ), payload);
+      
+      case PROJECT_TYPE:
+        return payload;
+  
+      default:
+        throw new Error('Unknown type');
+    }
+  };
+  
+  test('EXPERIMENT - switch can get or set', t => {
+    const projectState = project(undefined, allProjectsLoaded(projectPayload));
+    const navigatorState = navigator(undefined, addNavigationPath(PROJECT_NAV, 1));
+    const basePathGet = ['userProjects', navigatorState.get(PROJECT_NAV)];
+    console.log(basePathGet);
+    const result1 = getOrSetPayloadSwitch('')({project:projectState, navigator:navigatorState}, GET_PROJECTS);
+    const foundProjects = projectState.get('userProjects');
+   
+    t.deepEqual(foundProjects.get('1'), 'what');
+    const result2 = getOrSetPayloadSwitch('getIn')({project: projectState, navigator: navigatorState}, ACT_TYPE, {sourcePath: basePathGet});
+    t.deepEqual(PROJECT_TYPE, foundProjects.get('type'));
+  });

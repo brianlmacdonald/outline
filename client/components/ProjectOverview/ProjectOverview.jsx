@@ -7,36 +7,25 @@ import {
   HierarchyControl
 } from '../index.jsx';
 import { toJS } from 'immutable';
-import { 
-  superState as testProject 
-} from '../../store/reducers/tests/superState.js';
+
+//this will eventually be a visualization component for the entire store.
+//hierachy view is more of an organization for editing. project/overview vs project/edit
 
 class ProjectOverview extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      project: null,
-      act: null,
-      sequence: null,
-      scene: null,
-      beat: null
-    };
   }
 
   render(){
     const { user } = this.props;
-    const project = testProject;
 
     return(
-      <HierarchyControl
-        project={project}
-      />
+      <HierarchyControl />
     );
   }
 }
 
 const mapState = state => ({
-  project: state.project,
   user: state.user
 });
 

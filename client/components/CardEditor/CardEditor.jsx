@@ -125,7 +125,6 @@ const MapDispatch = dispatch => ({
     dispatch(createNewDraftCardThunk(card));
   },
   handleSave(saveObj){
-    console.log(saveObj, '<<<<<in handle save');
     dispatch(persistProjectToDB(saveObj));
   },
   handleReset(){

@@ -16,12 +16,12 @@ import project, {
   } from '../project';
 
   const bigProjectPayloadFunction = (num) => {
-    const obj = {};
+    const arr = [];
     for (let i = 0; i < num; i++) {
       const fakeProject = {
         title: i + ' project test',
         body: 'what' + i,
-        id: uuid(),
+        id: i + 1,
         acts: [
           {
             title: 'one',
@@ -33,13 +33,37 @@ import project, {
                 id: uuid(),
                 body: i + ' sequence one',
                 scenes: [
-                  1, 2, 3, 4, 5
+                  {
+                    title: `scene ${i + 1}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 1}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 1}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 1} dollars`
+                      }
+                    ]
+                  }
                 ]
               }, {
                 title: 'two',
                 id: uuid(),
                 body: i + ' sequence two',
-                scenes: [6, 7, 8, 9, 10]
+                scenes: [
+                  {
+                    title: `scene ${i + 2}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 2}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 2}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 2} dollars`
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }, {
@@ -51,23 +75,75 @@ import project, {
                 title: 'three',
                 id: uuid(),
                 body: i + ' sequence three',
-                scenes: []
+                scenes: [
+                  {
+                    title: `scene ${i + 3}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 3}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 3}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 3} dollars`
+                      }
+                    ]
+                  }
+                ]
               }, {
                 title: 'four',
                 id: uuid(),
                 body: i + ' sequence four',
-                scenes: []
+                scenes: [
+                  {
+                    title: `scene ${i + 4}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 4}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 4}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 4} dollars`
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 title: 'five',
                 id: uuid(),
                 body: i + ' sequence five',
-                scenes: []
+                scenes: [
+                  {
+                    title: `scene ${i + 5}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 5}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 5}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 5} dollars`
+                      }
+                    ]
+                  }
+                ]
               }, {
                 title: 'six',
                 id: uuid(),
                 body: i + ' sequence six',
-                scenes: []
+                scenes: [
+                  {
+                    title: `scene ${i + 6}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 6}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 6}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 6} dollars`
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }, {
@@ -76,22 +152,48 @@ import project, {
             body: i + ' act three',
             sequences: [
               {
-                title: 'five',
+                title: 'seven',
                 id: uuid(),
                 body: i + ' sequence seven',
-                scenes: []
+                scenes: [
+                  {
+                    title: `scene ${i + 7}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 7}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 7}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 7} dollars`
+                      }
+                    ]
+                  }
+                ]
               }, {
-                title: 'six',
+                title: 'eight',
                 id: uuid(),
                 body: i + ' sequence eight',
-                scenes: []
+                scenes: [
+                  {
+                    title: `scene ${i + 8}`,
+                    id: uuid(),
+                    body: `what a scene: ${i + 8}`,
+                    beats: [
+                      {
+                        title: `beat ${i + 8}`,
+                        id: uuid(),
+                        body: `john tries to steal ${i + 8} dollars`
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
         ]
       };
-      obj[fakeProject.id] = fakeProject;
+      arr.push(fakeProject);
     }
-    return obj;
+    return arr;
   };
-  export const projectPayload = bigProjectPayloadFunction(4);
+  export const projectPayload = bigProjectPayloadFunction(1);

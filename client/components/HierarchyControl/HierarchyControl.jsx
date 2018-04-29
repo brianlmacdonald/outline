@@ -68,7 +68,7 @@ class HierarchyControl extends Component {
             'acts',
             navigator.get(ACT_NAV),
             'sequences',
-            navigator.get(SCENE_NAV),
+            navigator.get(SEQUENCE_NAV),
             'scenes'
           ]);
 

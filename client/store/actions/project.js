@@ -1,10 +1,16 @@
 'use strict';
 import { toJS } from 'immutable';
 import axios from 'axios';
-import {
+import store, {
   persistingProjectFailure,
   persistingProject,
-  persistedProject
+  persistedProject,
+  CARD_TYPE_TYPE,
+  PROJECT_TYPE,
+  ACT_TYPE,
+  SEQUENCE_TYPE,
+  SCENE_TYPE,
+  BEAT_TYPE
 } from '../index';
 
 export const persistProjectToDB = (saveObj) => dispatch => {
