@@ -68,7 +68,7 @@ export const allProjectsLoading = () => {
   };
 };
 
-export const allProjectsLoaded = projects => {
+export const allProjectsLoaded = project => {
   return {
     type: ALL_PROJECTS_SUCCESS,
     payload: projects

@@ -1,6 +1,7 @@
 {
   "presets": [
-    "@babel/preset-react"
+    "@babel/preset-react",
+    "flow",
     ,["@babel/preset-env", {"targets": {"node": "current"}}]
     ,["@babel/preset-stage-2", {"decoratorsLegacy": true}]
   ]
