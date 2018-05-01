@@ -34,7 +34,10 @@ function createAndSync(force = app.isTesting, retries = 0, maxRetries = 5) {
         console.error(chalk.red('*************************************'));
         return;
       }
-      debug(`${retries ? `[retry ${retries}]` : ''} Creating database ${name}...`);
+      debug(`${retries ?
+        `[retry ${retries}]` :
+        ''} Creating database ${name}...`
+        );
       return new Promise(resolve =>
         require('child_process').exec(`createdb "${name}"`, resolve)
       ).then(() => createAndSync(true, retries + 1));

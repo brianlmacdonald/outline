@@ -108,7 +108,7 @@ const defaultDraft = Map({
   parent: null,
 });
 
-const draft = (state = defaultDraft, action) => {
+const draftReducer = (state = defaultDraft, action) => {
 
   switch(action.type) {
 
@@ -161,4 +161,4 @@ const draft = (state = defaultDraft, action) => {
   }
 };
 
-export default draft;
+export default draftReducer;

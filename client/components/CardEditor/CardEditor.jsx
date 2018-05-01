@@ -75,7 +75,7 @@ class CardEditor extends Component {
   }
 
   handleDelete(){
-    if (!window.confirm('Are you sure you want to delete this card, as well as your unsaved changes from the current session?')) {
+    if (!window.confirm('Are you sure you want to delete this card?')) {
       return;
     }
   }

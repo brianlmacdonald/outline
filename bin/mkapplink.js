@@ -36,7 +36,9 @@ function ensureAppSymlink() {
   try {
     const currently = fs.readlinkSync(appLink);
     if (currently !== '..') {
-      throw new Error(`${appLink} is pointing to '${currently}' rather than '..'`);
+      throw new Error(
+        `${appLink} is pointing to '${currently}' rather than '..'`
+        );
     }
   } catch (error) {
     makeAppSymlink();

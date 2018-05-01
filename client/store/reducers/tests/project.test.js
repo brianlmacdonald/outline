@@ -97,25 +97,56 @@ import project, {
     t.deepEqual(finalState.get('isFetching'),
       false);
   });
-  const testProjectAlpha = {title: 'hi', id: 4, 'body': '', type: 'PROJECT_TYPE', acts: []};
+  const testProjectAlpha = {
+    title: 'hi',
+    id: 4,
+    'body': '',
+    type: 'PROJECT_TYPE',
+    acts: []
+    };
+
   test('REDUCER - can create a new project', t => {
-    const preState = project(undefined, newProjectCreated(testProjectAlpha));//this needs alteration.
+    const preState = project(undefined, newProjectCreated(testProjectAlpha));
     t.deepEqual(preState.getIn(['userProjects', 4, 'id']), 4);
     t.deepEqual(typeof preState.getIn(['userProjects', 4]), 'object');
     const firstPayload = ['userProjects', 4, 'acts', 0];
     t.deepEqual(firstPayload[firstPayload.length - 1], 0);
     const nextState = project(preState, createNewAct(firstPayload));
     const secondPayload = ['userProjects', 4, 'acts', 1];
-    t.deepEqual(nextState.getIn(['userProjects', 4, 'acts', 0, 'type']), 'ACT_TYPE');
-    t.deepEqual(nextState.getIn(['userProjects', 4, 'acts']).toArray().length, 1);
-    t.deepEqual(nextState.getIn(['userProjects', 4, 'type']), 'PROJECT_TYPE');
+    t.deepEqual(nextState.getIn([
+      'userProjects',
+      4,
+      'acts',
+      0,
+      'type'
+      ]), 'ACT_TYPE');
+    t.deepEqual(nextState.getIn([
+      'userProjects',
+      4,
+      'acts'
+      ]).toArray().length, 1);
+    t.deepEqual(nextState.getIn([
+      'userProjects',
+      4,
+      'type'
+      ]), 'PROJECT_TYPE');
     const finalState = project(nextState, createNewAct(secondPayload));
-    t.deepEqual(finalState.getIn(['userProjects', 4, 'acts', 1, 'type']), 'ACT_TYPE');
-    t.deepEqual(finalState.getIn(['userProjects', 4, 'acts']).toArray().length, 2);
+    t.deepEqual(finalState.getIn([
+      'userProjects',
+      4,
+      'acts',
+      1,
+      'type'
+      ]), 'ACT_TYPE');
+    t.deepEqual(finalState.getIn([
+      'userProjects',
+      4,
+      'acts'
+      ]).toArray().length, 2);
 
   });
 
-
+//function to be tested
   const getOrSetPayloadSwitch = (method) => (state, cardRequest, opts = {}) => {
     const { project, navigator } = state;
     const { sourcePath = undefined, payload = undefined } = opts;
@@ -162,16 +193,3 @@ import project, {
         throw new Error('Unknown type');
     }
   };
-  
-  test('EXPERIMENT - switch can get or set', t => {
-    const projectState = project(undefined, allProjectsLoaded(projectPayload));
-    const navigatorState = navigator(undefined, addNavigationPath(PROJECT_NAV, 1));
-    const basePathGet = ['userProjects', navigatorState.get(PROJECT_NAV)];
-    console.log(basePathGet);
-    const result1 = getOrSetPayloadSwitch('')({project:projectState, navigator:navigatorState}, GET_PROJECTS);
-    const foundProjects = projectState.get('userProjects');
-   
-    t.deepEqual(foundProjects.get('1'), 'what');
-    const result2 = getOrSetPayloadSwitch('getIn')({project: projectState, navigator: navigatorState}, ACT_TYPE, {sourcePath: basePathGet});
-    t.deepEqual(PROJECT_TYPE, foundProjects.get('type'));
-  });

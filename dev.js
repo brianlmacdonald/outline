@@ -50,7 +50,7 @@ function task(command, {
     proc.stderr.on('data', stderr);
   };
 }
-
+/* eslint-disable */
 function log({
   name,
   ts = timestamp,
@@ -65,7 +65,7 @@ function log({
     .split('\n')
     .forEach(line => out.write(`${color(`${ts()} ${name}   \t⎹ `)}${text(line)}\n`));
 }
-
+/* eslint-disable */
 const dateformat = require('dateformat');
 function timestamp() {
   return dateformat('yyyy-mm-dd HH:MM:ss (Z)');

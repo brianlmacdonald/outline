@@ -60,7 +60,9 @@ module.exports = app
       next();
     }
   })
-  .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
+  .get('/*', (_, res) => res.sendFile(
+    resolve(__dirname, '..', 'public', 'index.html')
+    ))
   .use((err, req, res, next) => {
     console.error(prettyError.render(err));
     finalHandler(req, res)(err);

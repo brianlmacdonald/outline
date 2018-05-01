@@ -14,7 +14,8 @@ import type {
 } from 'APP/Types/User';
 import type { 
   Dispatch,
-  Reducer
+  Reducer,
+  State
   } from 'APP/Types/Reducer';
 
 import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
@@ -224,14 +225,13 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
 };
 
 // const uP = fromJS(projectPayload);
-const uP: {} = Map({});
 
-const defaultState: {} = Map({
-  isFetching: false,
-  userProjects: uP
-});
+const defaultState: State = Map({
+  'isFetching': false,
+  'userProjects': Map({})
+  });
 
-const project: Reducer = (state = defaultState, action) => {
+const projectReducer: Reducer = (state = defaultState, action) => {
   let allProjects;
   let id;
 
@@ -384,4 +384,4 @@ const project: Reducer = (state = defaultState, action) => {
   }
 };
 
-export default project;
+export default projectReducer;

@@ -8,8 +8,9 @@ import {
 } from '../index.jsx';
 import { toJS } from 'immutable';
 
-//this will eventually be a visualization component for the entire store.
-//hierachy view is more of an organization for editing. project/overview vs project/edit
+//this will eventually be a visualization component for the entire story.
+//hierachy view is more of an organization for editing. 
+//project/overview vs project/edit
 
 class ProjectOverview extends Component {
   constructor(props){

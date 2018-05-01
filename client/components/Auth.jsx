@@ -1,29 +1,35 @@
 'use strict';
-import React, {component} from 'react';
+import React, { component } from 'react';
 import { connect } from 'react-redux';
 import { auth } from '../store';
 import PropTypes from 'prop-types';
 
-export const UserAuth = (props) => {
-  const {name, handleSubmit, displayName, error} = props;
+export const UserAuth = props => {
+  const { name, handleSubmit, displayName, error } = props;
 
-  return(
+  return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
-        {name === 'signup' && <div><div>
-          <label>first name</label>
-          <input name='firstName' type='text' />
+        {name === 'signup' && (
+          <div>
+            <div>
+              <label>first name</label>
+              <input name="firstName" type="text" />
+            </div>
+            <div>
+              <label>last name</label>
+              <input name="lastName" type="text" />
+            </div>
+          </div>
+        )}
+        <div>
+          <label htmlFor="email">email</label>
+          <input name="email" type="text" />
         </div>
         <div>
-          <label>last name</label>
-          <input name='lastName' type='text' />
-        </div></div>}
-        <div>
-          <label htmlFor='email'>email</label>
-          <input name='email' type='text' />
-        </div>
-        <div>
-          <label htmlFor="password"><small>password</small></label>
+          <label htmlFor="password">
+            <small>password</small>
+          </label>
           <input name="password" type="password" />
         </div>
         <div>
@@ -36,31 +42,38 @@ export const UserAuth = (props) => {
   );
 };
 
-const mapLogin = (state) => {
+const mapLogin = state => {
   return {
-    name: 'login'
-    ,displayName: 'Login'
-    ,error: state.user.error
+    name: 'login',
+    displayName: 'Login',
+    error: state.user.error
   };
 };
 
-const mapSignup = (state) => {
+const mapSignup = state => {
   return {
-    name: 'signup'
-    ,displayName: 'Sign Up'
-    ,error: state.user.error
+    name: 'signup',
+    displayName: 'Sign Up',
+    error: state.user.error
   };
 };
 
-const mapDispatch = (dispatch) => {
+const mapDispatch = dispatch => {
   return {
-    handleSubmit (evt) {
+    handleSubmit(evt) {
       evt.preventDefault();
       const formName = evt.target.name;
       const email = evt.target.email.value;
       const password = evt.target.password.value;
-      const firstName = formName === 'signup' ? evt.target.firstName.value : null;
-      const lastName = formName === 'signup' ? evt.target.lastName.value : null;
+      const firstName =
+        formName === 'signup' ?
+        evt.target.firstName.value :
+        null;
+      const lastName = 
+        formName === 'signup' ?
+        evt.target.lastName.value :
+        null;
+        
       dispatch(auth(email, password, formName, firstName, lastName));
     }
   };
@@ -73,8 +86,8 @@ export const Signup = connect(mapSignup, mapDispatch)(UserAuth);
  * PROP TYPES
  */
 UserAuth.propTypes = {
-  name: PropTypes.string.isRequired
-  ,displayName: PropTypes.string.isRequired
-  ,handleSubmit: PropTypes.func.isRequired
-  ,error: PropTypes.object
+  name: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  error: PropTypes.object
 };

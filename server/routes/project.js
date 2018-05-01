@@ -25,13 +25,15 @@ router.param('userId', (req, res, next, id) => {
 //only loads Id and title. This serves a
 //thumbnail purpose. If none are found,
 //we make a later call to create a new project.
+//for now loading everything, development only
 router.get('/:userId', (req, res, next) => {
-  return Project.findAll({where: {user_id: req.user.id}}) //for now loading everything, development only
+  return Project.findAll({where: {user_id: req.user.id}})
   .then(res.json.bind(res))
   .catch(next);
 });
 
-//create a new project. No scope is called on this project,
+//create a new project. 
+//No scope is called on this project,
 //since it has no notes or acts.
 router.post('/:userId', (req, res, next) => {
   return Project.create()

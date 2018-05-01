@@ -126,14 +126,20 @@ class HierarchyControl extends Component {
                 {this.ableToRender(SEQUENCE_NAV) && (
                   <SceneContainer
                     type={SCENE_TYPE}
-                    parent={{ id: navigator.get(SEQUENCE_NAV), type: SEQUENCE_TYPE }}
+                    parent={{
+                      id: navigator.get(SEQUENCE_NAV),
+                      type: SEQUENCE_TYPE
+                      }}
                     thumbs={this.payloadSwitch(GET_SCENES)}
                     handleNavigation={handleNavigation}
                   >
                     {this.ableToRender(SCENE_NAV) && (
                       <BeatContainer
                         type={BEAT_TYPE}
-                        parent={{ id: navigator.get(SCENE_NAV), type: SCENE_TYPE }}
+                        parent={{
+                          id: navigator.get(SCENE_NAV),
+                          type: SCENE_TYPE
+                          }}
                         thumbs={this.payloadSwitch(GET_BEATS)}
                         handleNavigation={handleNavigation}
                       />

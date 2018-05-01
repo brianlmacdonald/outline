@@ -8,8 +8,7 @@ import {
 import './Container.css';
 import ModalLauncher from'../HOC/ModalLauncher.jsx';
 import { Map } from 'immutable';
-const addProjectElement = (thing1, thing2) => console.log(thing1, thing2);//for development, please remove.
-const tempCard = Map({id: 1, title: '', body: ''});
+
 import {
   CLASS_NAME_OBJ
 } from '../HierarchyControl/CardTypes';
@@ -19,8 +18,15 @@ const EmptyProp = (type) => () => {
 };
 
 const Container = (props) => {
-  const { type, handleNavigation, handleEdit, thumbs, children, parent } = props;
-  console.log(type);
+  const { 
+    type,
+    handleNavigation,
+    handleEdit,
+    thumbs,
+    children,
+    parent 
+    } = props;
+    
   return (
     <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
       <div className='container'>
@@ -54,12 +60,6 @@ const mapBeat = mapBuild('beat');
 
 const mapDispatch = (dispatch) => {
   return {
-    handleAdd(evt) {
-      evt.preventDefault();
-      const elementName = evt.target.name;
-      const pathToNewElement = evt.target.pathToNewElement;
-      dispatch(addProjectElement(elementName, pathToNewElement));
-    },
     handleEdit(project) {
       dispatch(createDraft(project));
     },

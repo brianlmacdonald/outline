@@ -74,7 +74,7 @@ test('DB - User\'s projects are loaded with the user when scoped', async t => {
 	t.is(await bobsProject, 'Visionary Project');
 });
 
-test('DB - User instance has a check password method that confirms correct passwords', async t => {
+test('DB - User instance has a check password method', async t => {
 	const { User } = db;
 	const hasPasswordFunction = Promise.resolve(
 		User.create(ted)
@@ -83,10 +83,15 @@ test('DB - User instance has a check password method that confirms correct passw
 	t.is(await hasPasswordFunction, true);
 });
 
-test('DB - User instance has a check password method that bucks wrong passwords', async t => {
+test('DB - Wrong passwords are rejected', async t => {
 	const { User } = db;
 	const wrongPassword = Promise.resolve(
-		User.create({firstName: 'a', lastName: 'b', email: 'a@b.com', password: 'd'})
+		User.create({
+			firstName: 'a',
+			lastName: 'b',
+			email: 'a@b.com',
+			password: 'd'
+			})
 		.then(createdA => createdA.checkPassword('c'))
 	);
 	t.is(await wrongPassword, false);

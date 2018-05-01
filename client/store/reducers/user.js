@@ -28,7 +28,11 @@ export const errorGettingUser = (error) => {
   };
 };
 
-const developmentDefaultUser = fromJS({firstName: 'Brian', lastName: 'M', id: 1});
+const developmentDefaultUser = fromJS({
+  firstName: 'Brian',
+  lastName: 'M',
+  id: 1
+  });
 const defaultUser = Map({});
 
 export const me = () =>

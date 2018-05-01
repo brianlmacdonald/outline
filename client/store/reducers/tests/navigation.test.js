@@ -71,6 +71,14 @@ test('REDUCER - navigator can add to the slug path and correctly find', t => {
     'userProjects', projectPath, 'title'
   ]), testProject.title);
   t.deepEqual(typeof testState
-    .getIn(['userProjects', secondNavigatorState.get(PROJECT_NAV), 'acts']).toArray(), 'object');
-  t.deepEqual(testState.getIn(['userProjects', projectPath, 'acts', secondNavigatorState.get(ACT_NAV), 'body']), 'disco!');
+    .getIn([
+      'userProjects',
+      secondNavigatorState.get(PROJECT_NAV), 'acts'
+      ]).toArray(), 'object');
+  t.deepEqual(testState.getIn([
+    'userProjects',
+    projectPath,
+    'acts',
+    secondNavigatorState.get(ACT_NAV), 'body'
+    ]), 'disco!');
 });

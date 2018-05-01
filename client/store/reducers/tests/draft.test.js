@@ -13,19 +13,6 @@ const defaultTest = Map({
   type: 'TEST',
 });
 
-const defaultDraft = Map({
-  id: null,
-  type: null,
-  title: null,
-  body: null,
-  index: null,
-  acts: null,
-  sequences: null,
-  scenes: null,
-  beats: null,
-  parent: null,
-});
-
 test('REDUCER - draft exists', t => {
   t.deepEqual(typeof draft, 'function');
   const testState = draft(undefined, createNewDraftCard(defaultTest));

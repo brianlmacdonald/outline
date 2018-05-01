@@ -4,7 +4,12 @@ import project from './project';
 import navigator from './navigator';
 import draft from './draft';
 
-const rootReducer = combineReducers({ user, project, navigator, draft });
+const rootReducer = combineReducers({
+  user,
+  project,
+  navigator,
+  draft,
+  });
 
 export default rootReducer;
 export * from './user';

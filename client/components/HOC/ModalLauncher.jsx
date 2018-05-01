@@ -24,7 +24,10 @@ class ModalLauncher extends Component {
       <div>
         <button
         className={styleClass}
-        onClick={this.handleToggleModal}>{action} {CLASS_NAME_OBJ[type]}</button>
+        onClick={
+          this.handleToggleModal}
+          >{action} {CLASS_NAME_OBJ[type]}
+          </button>
         {toggle && <Modal close={this.handleToggleModal}>{children}</Modal>}
       </div>
     );
