@@ -1,6 +1,21 @@
+// @flow
 'use strict';
 import { Map, fromJS, List } from 'immutable';
 import uuid from 'uuid';
+import type {
+  ProjectArray,
+  ProjectNode,
+  ProjectError,
+  ProjectPathArray,
+  ProjectPath
+} from 'APP/Types/Project';
+import type {
+  UserId
+} from 'APP/Types/User';
+import type { 
+  Dispatch,
+  Reducer
+  } from 'APP/Types/Reducer';
 
 import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
 
@@ -45,14 +60,14 @@ export const projectLoading = () => {
   };
 };
 
-export const projectLoaded = project => {
+export const projectLoaded = (project: ProjectArray) => {
   return {
     type: PROJECT_SUCCESS,
     payload: project
   };
 };
 
-export const projectLoadError = (error, project) => {
+export const projectLoadError = (error: ProjectError, project: ProjectArray) => {
   return {
     type: PROJECT_FAILURE,
     payload: {
@@ -68,14 +83,14 @@ export const allProjectsLoading = () => {
   };
 };
 
-export const allProjectsLoaded = projects => {
+export const allProjectsLoaded = (projects: ProjectArray) => {
   return {
     type: ALL_PROJECTS_SUCCESS,
     payload: projects
   };
 };
 
-export const allProjectsLoadError = error => {
+export const allProjectsLoadError = (error: ProjectError) => {
   return {
     type: ALL_PROJECTS_FAILURE,
     payload: {
@@ -84,7 +99,7 @@ export const allProjectsLoadError = error => {
   };
 };
 
-export const projectCreationError = error => {
+export const projectCreationError = (error: ProjectError) => {
   return {
     type: NEW_PROJECT_ERROR,
     payload: error
@@ -97,84 +112,84 @@ export const createNewProject = () => {
   };
 };
 
-export const newProjectCreated = project => {
+export const newProjectCreated = (project: ProjectNode) => {
   return {
     type: NEW_PROJECT_CREATED,
     payload: project
   };
 };
 
-export const createNewAct = parent => {
+export const createNewAct = (parent: ProjectPathArray) => {
   return {
     type: CREATE_NEW_ACT,
     payload: parent
   };
 };
 
-export const createNewSequence = parent => {
+export const createNewSequence = (parent: ProjectPathArray) => {
   return {
     type: CREATE_NEW_SEQUENCE,
     payload: parent
   };
 };
 
-export const createNewScene = parent => {
+export const createNewScene = (parent: ProjectPathArray) => {
   return {
     type: CREATE_NEW_SCENE,
     payload: parent
   };
 };
 
-export const createNewBeat = parent => {
+export const createNewBeat = (parent: ProjectPathArray) => {
   return {
     type: CREATE_NEW_BEAT,
     payload: parent
   };
 };
 
-export const persistingProject = project => {
+export const persistingProject = (project: ProjectNode) => {
   return {
     type: PERSIST_PROJECT_REQUEST,
     payload: project
   };
 }; 
 
-export const persistedProject = project => {
+export const persistedProject = (project: ProjectNode) => {
   return {
     type: PERSIST_PROJECT_SUCCESS,
     payload: project
   };
 };
 
-export const persistingProjectFailure = (project, error) => {
+export const persistingProjectFailure = (project: ProjectNode, error: ProjectError) => {
   return {
     type: PERSIST_PROJECT_FAILURE,
     payload: { project, error }
   };
 };
 
-export const deletingProject = project => {
+export const deletingProject = (project: ProjectNode) => {
   return {
     type: PROJECT_DELETE_REQUEST,
     payload: project
   };
 };
 
-export const projectDeleted = project => {
+export const projectDeleted = (project: ProjectNode) => {
   return {
     type: PROJECT_DELETE_SUCCESS,
     payload: project
   };
 };
 
-export const projectDeletionError = (project, error) => {
+export const projectDeletionError = (project: ProjectNode, error: ProjectError) => {
   return {
     type: PROJECT_DELETE_FAILURE,
     payload: { project, error }
   };
 };
 
-export const loadUserProjects = userId => dispatch => {
+export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
   dispatch(allProjectsLoading());
 
   return axios
@@ -189,7 +204,7 @@ export const loadUserProjects = userId => dispatch => {
     .catch(err => dispatch(allProjectsLoadError(err)));
 };
 
-export const loadSingleProject = (userId, project) => dispatch => {
+export const loadSingleProject = (userId: UserId, project: ProjectNode) => (dispatch: Dispatch) => {
   dispatch(projectLoading());
 
   return axios
@@ -198,7 +213,7 @@ export const loadSingleProject = (userId, project) => dispatch => {
     .catch(err => dispatch(projectLoadError(project, err)));
 };
 
-export const creatingNewProject = (userId) => dispatch => {
+export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   dispatch(createNewProject());
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
@@ -209,14 +224,14 @@ export const creatingNewProject = (userId) => dispatch => {
 };
 
 // const uP = fromJS(projectPayload);
-const uP = Map({});
+const uP: {} = Map({});
 
-const defaultState = Map({
+const defaultState: {} = Map({
   isFetching: false,
   userProjects: uP
 });
 
-const project = (state = defaultState, action) => {
+const project: Reducer = (state = defaultState, action) => {
   let allProjects;
   let id;
 

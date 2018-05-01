@@ -66,11 +66,13 @@
   "@babel/core": "^7.0.0-beta.42",
   "@babel/polyfill": "^7.0.0-beta.42",
   "@babel/preset-env": "^7.0.0-beta.42",
+  "@babel/preset-flow": "^7.0.0-beta.46",
   "@babel/preset-react": "^7.0.0-beta.42",
   "@babel/preset-stage-2": "^7.0.0-beta.42",
   "@babel/preset-stage-3": "^7.0.0-beta.42",
   "@babel/register": "^7.0.0-beta.42",
   "ava": "^1.0.0-beta.3",
+  "babel-cli": "^6.26.0",
   "babel-eslint": "^8.2.1",
   "babel-loader": "^8.0.0-beta.2",
   "dateformat": "^3.0.2",
@@ -78,11 +80,13 @@
   "eslint": "^4.14.0",
   "eslint-config-standard": "^11.0.0-beta.0",
   "eslint-plugin-ava": "^4.5.1",
+  "eslint-plugin-flowtype": "^2.46.3",
   "eslint-plugin-import": "^2.8.0",
   "eslint-plugin-node": "^5.2.1",
   "eslint-plugin-promise": "^3.6.0",
   "eslint-plugin-react": "^7.5.1",
   "eslint-plugin-standard": "^3.0.1",
+  "flow-bin": "^0.71.0",
   "nodemon": "^1.14.6",
   "supertest": "^3.0.0",
   "webpack-cli": "^2.0.13",
@@ -93,8 +97,14 @@
    "testOptions": {
     "babelrc": false,
     "presets": [
+     "@babel/preset-flow",
      "@babel/preset-react",
-     ["@babel/preset-stage-2", {"decoratorsLegacy": true}]
+     [
+      "@babel/preset-stage-2",
+      {
+       "decoratorsLegacy": true
+      }
+     ]
     ]
    }
   },
