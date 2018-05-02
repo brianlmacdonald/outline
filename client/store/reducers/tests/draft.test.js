@@ -4,7 +4,8 @@ import test from 'ava';
 import draft, {
   createNewDraftCard,
   draftSaved,
-  changeBody
+  updateCard,
+  CARD_TYPE_BODY
 } from '../draft';
 import { Map } from 'immutable';
 
@@ -18,5 +19,5 @@ test('REDUCER - draft exists', t => {
   const testState = draft(undefined, createNewDraftCard(defaultTest));
   t.deepEqual(testState.get('id'), 1);
   t.deepEqual(draft(testState, draftSaved()).get('id'), null);
-  t.deepEqual(draft(testState, changeBody('hi')).get('body'),'hi');
+  t.deepEqual(draft(testState, updateCard(CARD_TYPE_BODY, 'hi')).get(CARD_TYPE_BODY),'hi');
 });

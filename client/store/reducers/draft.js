@@ -3,11 +3,7 @@ import store from '../../store';
 
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
-const UPDATE_PARENT = 'UPDATE_PARENT';
-const UPDATE_TYPE = 'UPDATE_TYPE';
-const UPDATE_TITLE = 'UPDATE_TITLE';
-const UPDATE_BODY = 'UPDATE_BODY';
-const UPDATE_INDEX = 'UPDATE_INDEX';
+const UPDATE_CARD = 'UPDATE_CARD';
 const DRAFT_SAVED = 'DRAFT_SAVED';
 
 export const CARD_TYPE_ID = 'id';
@@ -44,38 +40,13 @@ export const errorCreatingDraftCard = (error) => {
   };
 };
 
-export const changeParent = parent => {
+export const updateCard = (cardType, value) => {
   return {
-    type: UPDATE_PARENT,
-    payload: parent
-  };
-};
-
-export const changeBody = body => {
-  return {
-    type: UPDATE_BODY,
-    payload: body
-  };
-};
-
-export const changeIndex = index => {
-  return {
-    type: UPDATE_INDEX,
-    payload: index
-  };
-};
-
-export const changeTitle = title => {
-  return {
-    type: UPDATE_TITLE,
-    payload: title
-  };
-};
-
-export const changeType = type => {
-  return {
-    type: UPDATE_TYPE,
-    payload: type
+    type: UPDATE_CARD,
+    payload: {
+      cardType,
+      value
+    }
   };
 };
 
@@ -85,9 +56,9 @@ export const draftSaved = () => {
   };
 };
 
-export const createNewDraftCardThunk = (cardId) => dispatch => {
+export const createNewDraftCardThunk = (projectPath) => dispatch => {
   try {
-    const card = store.getState().project.getIn(['userProjects', cardId]);
+    const card = store.getState().project.getIn(projectPath);
     dispatch(createNewDraftCard(card));
   } catch(err) {
     dispatch(errorCreatingDraftCard(err));
@@ -125,20 +96,8 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_BEATS, action.payload.get(CARD_TYPE_BEATS));
       });
     
-    case UPDATE_PARENT:
-      return state.set(CARD_TYPE_PARENT, action.payload);
-    
-    case UPDATE_INDEX:
-      return state.set(CARD_TYPE_INDEX, action.payload);
-    
-    case UPDATE_BODY:
-      return state.set(CARD_TYPE_BODY, action.payload);
-    
-    case UPDATE_TITLE:
-      return state.set(CARD_TYPE_TITLE, action.payload);
-    
-    case UPDATE_TYPE:
-      return state.set(CARD_TYPE_TYPE, action.payload);
+    case UPDATE_CARD:
+      return state.set(action.payload.cardType, action.payload.value);
 
     case CREATE_CARD_DRAFT_ERROR:
       return state.set('error', action.payload);

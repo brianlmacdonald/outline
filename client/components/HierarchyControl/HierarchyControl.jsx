@@ -196,6 +196,7 @@ const mapDispatch = dispatch => ({
 });
 
 const mapState = state => ({
+  user: state.user,
   project: state.project,
   navigator: state.navigator
 });

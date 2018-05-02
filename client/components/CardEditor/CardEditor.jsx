@@ -1,3 +1,4 @@
+//@flow
 'use strict';
 import React, { Component } from 'react';
 import { 
@@ -11,7 +12,8 @@ import {
   CARD_TYPE_INDEX,
   CARD_TYPE_BODY,
   CARD_TYPE_TITLE,
-  CARD_TYPE_TYPE
+  CARD_TYPE_TYPE,
+  updateCard
 } from '../../store';
 import { 
   creatingNewProject,
@@ -23,6 +25,7 @@ import {
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
+import type { ProjectPathArray } from 'APP/Types/Project';
 
 //add the save warnings to the modal click / nav events.
 //right now if you click away there will be no save check.
@@ -30,6 +33,7 @@ import { Map } from 'immutable';
 class CardEditor extends Component {
   constructor(props){
     super(props);
+  
   }
 
   async componentDidMount(){
@@ -47,12 +51,12 @@ class CardEditor extends Component {
 
     if (newCard && type === PROJECT_TYPE) {
         const newProjectId = await handleNewProject(user.get('id'));
-        handleNewDraft(newProjectId);
+        handleNewDraft(['userProjects', newProjectId]);
     } else if (newCard) {
       const createdCard = await createNewAct(parentPath)
       .then(id => createNewAct(parentPath));      
     } else {
-      createNewDraftCardThunk(card);
+      handleNewDraft(parentPath.concat(card.get('index')));
     }
 
     const leaveWarning = 'Are you sure you want to leave this page?';
@@ -66,12 +70,12 @@ class CardEditor extends Component {
       }
     };
 
-    window.addEventListener('beforeunload', this.exitBlocker);
+    window.addEventListener('beforeunload', this.exitWarning);
   }
 
   componentWillUnmount(){
     if (this.props.draft) discardDraft();
-    window.removeEventListener('beforeunload', this.exitBlocker);
+    window.removeEventListener('beforeunload', this.exitWarning);
   }
 
   handleDelete(){
@@ -81,16 +85,16 @@ class CardEditor extends Component {
   }
 
   render() {
-    const { draft, user, handleSave } = this.props;
+    const { draft, user, handleSave, handleChange } = this.props;
     return (
       <div
       className={'cardEditor'}>
-        <form>
-          <textarea
+        <textarea
           value={draft.get('body')}
-          >
-          </textarea>
-        </form>
+          onChange={(evt) => {
+            handleChange(CARD_TYPE_BODY)(evt.target.value);
+            }}
+        />
         <button
         onClick={(evt) => {
           evt.preventDefault();
@@ -121,8 +125,9 @@ const MapDispatch = dispatch => ({
   handleNewProject(userId){
     return dispatch(creatingNewProject(userId));
   },
-  handleNewDraft(card){
-    dispatch(createNewDraftCardThunk(card));
+  handleNewDraft(projectPath: ProjectPathArray){
+    console.log(projectPath)
+    dispatch(createNewDraftCardThunk(projectPath));
   },
   handleSave(saveObj){
     dispatch(persistProjectToDB(saveObj));
@@ -135,9 +140,13 @@ const MapDispatch = dispatch => ({
   },
   handleCancel(){
     //clear draft state.
+  },
+  handleChange(cardType){
+    return (value) => {
+      dispatch(updateCard(cardType, value))
+    };
   }
 });
 
 const ConnectedCardEditor = connect(MapState, MapDispatch)(CardEditor);
 export default ConnectedCardEditor;
-
