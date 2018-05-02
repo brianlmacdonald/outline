@@ -10,7 +10,8 @@ import store, {
   ACT_TYPE,
   SEQUENCE_TYPE,
   SCENE_TYPE,
-  BEAT_TYPE
+  BEAT_TYPE,
+  draftSaved
 } from '../index';
 
 export const persistProjectToDB = (saveObj) => dispatch => {
@@ -19,6 +20,13 @@ export const persistProjectToDB = (saveObj) => dispatch => {
   
   dispatch(persistingProject(card));
   return axios.put(`api/projects/update/${userId}/${id}`, card)
-  .then(status => dispatch(persistedProject(card)))
+  .then(updated => {
+    if (updated.status === 204) {
+      dispatch(persistedProject(card));
+      return dispatch(draftSaved());
+    } else {
+      throw new Error(`Bad Status: ${updated.status}`);
+    }
+  })
   .catch(err => dispatch(persistingProjectFailure(card, err)));
 };

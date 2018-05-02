@@ -33,6 +33,7 @@ import type { ProjectPathArray } from 'APP/Types/Project';
 class CardEditor extends Component {
   constructor(props){
     super(props);
+    this.ifNullEmptyString = this.ifNullEmptyString.bind(this);
   
   }
 
@@ -63,8 +64,6 @@ class CardEditor extends Component {
 
     this.exitWarning = (event) => {
       if (!this.props.draft.get(CARD_TYPE_ID)) {
-        // This message is ignored in most browsers, but its presence
-        // triggers the confirmation dialog
         event.returnValue = leaveWarning;
         return leaveWarning;
       }
@@ -74,23 +73,27 @@ class CardEditor extends Component {
   }
 
   componentWillUnmount(){
-    if (this.props.draft) discardDraft();
+    // const { handleDelete } = this.props;
+    // if (this.props.draft.get('id')) handleDelete();
     window.removeEventListener('beforeunload', this.exitWarning);
   }
 
-  handleDelete(){
-    if (!window.confirm('Are you sure you want to delete this card?')) {
-      return;
-    }
+  ifNullEmptyString(value) {
+    return value === null ? '' : value;
+  }
+
+  ifNullNoRender(value) {
+    //fill in for later;
   }
 
   render() {
-    const { draft, user, handleSave, handleChange } = this.props;
+    const { draft, user, handleSave, handleChange, close } = this.props;
+
     return (
       <div
       className={'cardEditor'}>
         <textarea
-          value={draft.get('body')}
+          value={this.ifNullEmptyString(draft.get('body'))}
           onChange={(evt) => {
             handleChange(CARD_TYPE_BODY)(evt.target.value);
             }}
@@ -98,10 +101,11 @@ class CardEditor extends Component {
         <button
         onClick={(evt) => {
           evt.preventDefault();
-          return handleSave({
+          handleSave({
             userId: user.get('id'),
             card: draft
           });
+          return close();
         }}
         >save</button>
         <h1>
@@ -126,7 +130,6 @@ const MapDispatch = dispatch => ({
     return dispatch(creatingNewProject(userId));
   },
   handleNewDraft(projectPath: ProjectPathArray){
-    console.log(projectPath)
     dispatch(createNewDraftCardThunk(projectPath));
   },
   handleSave(saveObj){

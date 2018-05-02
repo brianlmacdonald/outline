@@ -30,7 +30,7 @@ const Container = (props) => {
   return (
     <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
       <div className='container'>
-        <ModalLauncher type={type} styleClass={'addButton'}>
+        <ModalLauncher type={type} isEditing={true} styleClass={'addButton'}>
           <CardEditor
           type={type}
           newCard={true}

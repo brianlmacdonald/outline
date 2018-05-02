@@ -43,6 +43,7 @@ const Thumbnail = (props) => {
         <p key={id + 'p'}>{bodyPrev}</p>
         <div>
           <ModalLauncher
+          isEditing={false}
           styleClass={'openButton'}
           type={type}>
             <CardView {...props} />

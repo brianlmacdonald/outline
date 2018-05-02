@@ -6,9 +6,6 @@ import './Modal.css';
 class Modal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isEditor: false
-    };
     
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -25,7 +22,7 @@ class Modal extends Component {
   }
 
   handleKeyUp(e) {
-    const { close } = this.props;
+    const { close, isEditing } = this.props;
     const keys = {
       27: () => {
         e.preventDefault();
@@ -34,15 +31,15 @@ class Modal extends Component {
       }
     };
 
-    if (keys[e.keyCode]) {
+    if (!isEditing && keys[e.keyCode]) {
       keys[e.keyCode]();
     }
   }
 
   handleOutsideClick(e) {
-    const { close } = this.props;
+    const { close, isEditing } = this.props;
     if (!isNil(this.modal)) {
-      if (!this.modal.contains(e.target)) {
+      if (!this.modal.contains(e.target) && !isEditing) {
         close();
         document.removeEventListener('click', this.handleOutsideClick, false);
       }
@@ -50,11 +47,13 @@ class Modal extends Component {
   }
 
   render() {
-    const { close, children } = this.props;
+    const { children } = this.props;
 
     return (
       <div className='modal'>
-        <div ref={node => (this.modal = node)}>{children}</div>
+        <div
+          ref={node => (this.modal = node)}
+          >{children}</div>
       </div>
     );
   }

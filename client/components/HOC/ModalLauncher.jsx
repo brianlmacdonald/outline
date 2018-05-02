@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,  cloneElement } from 'react';
 import Modal from './Modal.jsx';
 import './ModalLauncher.css';
 import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
@@ -13,11 +13,12 @@ class ModalLauncher extends Component {
   }
 
   handleToggleModal() {
+    console.log(this);
     this.setState({ toggle: !this.state.toggle });
   }
 
   render() {
-    const { type, children, styleClass} = this.props;
+    const { type, children, styleClass, isEditing} = this.props;
     const { toggle } = this.state;
     const action = styleClass[0] === 'a' ? 'add' : 'open';
     return (
@@ -28,7 +29,13 @@ class ModalLauncher extends Component {
           this.handleToggleModal}
           >{action} {CLASS_NAME_OBJ[type]}
           </button>
-        {toggle && <Modal close={this.handleToggleModal}>{children}</Modal>}
+        {toggle &&
+        <Modal
+          isEditing={isEditing}
+          close={this.handleToggleModal}
+          >{cloneElement(children, {
+            close: this.handleToggleModal
+            })}</Modal>}
       </div>
     );
   }
