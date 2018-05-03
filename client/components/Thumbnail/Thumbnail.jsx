@@ -28,18 +28,21 @@ const Thumbnail = (props) => {
     handleEdit,
     handleView
   } = props;
-  const bodyPrev = card.get('body').slice(0, 15) + '...';
+  const body = card.get('body');
   const title = card.get('title');
+  const bodyPrev = body.length > 25 ? body.slice(0, 24) + '...' : body;
+  const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
   const location = type === PROJECT_TYPE ? id : index;
 
   return (
-      <div key={id + 'd'}
+      <div
+        className='thumbnail'
+        key={id + 'd'}
         onDoubleClick={() => handleNavigation({
           type: TYPE_TO_NAV[type],
           payload:location
-          })}
-        className='thumbnail'>
-        <h4 key={id + 'h4'}>{title}</h4>
+          })}>
+        <h4 key={id + 'h4'}>{titlePrev}</h4>
         <p key={id + 'p'}>{bodyPrev}</p>
         <div>
           <ModalLauncher

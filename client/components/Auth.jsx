@@ -3,12 +3,13 @@ import React, { component } from 'react';
 import { connect } from 'react-redux';
 import { auth } from '../store';
 import PropTypes from 'prop-types';
+import './Auth.css';
 
 export const UserAuth = props => {
   const { name, handleSubmit, displayName, error } = props;
 
   return (
-    <div>
+    <div className='auth'>
       <form onSubmit={handleSubmit} name={name}>
         {name === 'signup' && (
           <div>

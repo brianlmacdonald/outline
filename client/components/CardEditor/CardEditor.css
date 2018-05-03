@@ -1,0 +1,31 @@
+.cardEditor {
+  display: flex;
+  border: 1em;
+  width: 700px;
+  height: 500px;
+  justify-content: center;
+  align-items: center;
+}
+
+.editorFields {
+  display: flex;
+  flex-direction: column;
+  width: 680px;
+  height: 490px;
+  justify-content: flex-start;
+}
+
+.bodyField {
+  width: 400px;
+  height: 200px;
+}
+
+.titleField {
+  height: 20px;
+  width: 100px;
+}
+
+.button {
+  height: 100px;
+  width: 200px;
+}

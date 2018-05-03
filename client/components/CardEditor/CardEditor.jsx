@@ -1,4 +1,3 @@
-//@flow
 'use strict';
 import React, { Component } from 'react';
 import { 
@@ -26,7 +25,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
 import type { ProjectPathArray } from 'APP/Types/Project';
+import history from './../../history.js';
+import './CardEditor.css';
 
+const leaveWarning = 'Are you sure you want to leave this page?';
 //add the save warnings to the modal click / nav events.
 //right now if you click away there will be no save check.
 
@@ -54,13 +56,10 @@ class CardEditor extends Component {
         const newProjectId = await handleNewProject(user.get('id'));
         handleNewDraft(['userProjects', newProjectId]);
     } else if (newCard) {
-      const createdCard = await createNewAct(parentPath)
-      .then(id => createNewAct(parentPath));      
+        return;    
     } else {
       handleNewDraft(parentPath.concat(card.get('index')));
     }
-
-    const leaveWarning = 'Are you sure you want to leave this page?';
 
     this.exitWarning = (event) => {
       if (!this.props.draft.get(CARD_TYPE_ID)) {
@@ -70,6 +69,7 @@ class CardEditor extends Component {
     };
 
     window.addEventListener('beforeunload', this.exitWarning);
+
   }
 
   componentWillUnmount(){
@@ -91,29 +91,35 @@ class CardEditor extends Component {
 
     return (
       <div
-      className={'cardEditor'}>
-        <textarea
-          value={this.ifNullEmptyString(draft.get('body'))}
-          onChange={(evt) => {
-            handleChange(CARD_TYPE_BODY)(evt.target.value);
+        className={'cardEditor'}>
+        <div className={'editorFields'}>
+          <input
+            className='titleField'
+            value={this.ifNullEmptyString(draft.get('title'))}
+            type="text"
+            onChange={(evt) => {
+              handleChange(CARD_TYPE_TITLE)(evt.target.value)
             }}
-        />
-        <button
-        onClick={(evt) => {
-          evt.preventDefault();
-          handleSave({
-            userId: user.get('id'),
-            card: draft
-          });
-          return close();
-        }}
-        >save</button>
-        <h1>
-          {draft.get('type')}
-        </h1>
-        <p>
-          {draft.get('id')}
-        </p>
+            />
+          <textarea
+            className='bodyField'
+            value={this.ifNullEmptyString(draft.get('body'))}
+            onChange={(evt) => {
+              handleChange(CARD_TYPE_BODY)(evt.target.value);
+              }}
+          />
+          <button
+            className='button'
+            onClick={(evt) => {
+              evt.preventDefault();
+              handleSave({
+                userId: user.get('id'),
+                card: draft
+              });
+              return close();
+            }}
+            >save</button>
+        </div>
       </div>
     );
   }

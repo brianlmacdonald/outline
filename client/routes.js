@@ -12,7 +12,7 @@ import React from 'react';
 
 const Routes = () => (
   <Router history={browserHistory}>
-    <div>
+    <div className='routes'>
     <UserNav />
     <Switch>
       <Route exact path="/" component={Home} />
