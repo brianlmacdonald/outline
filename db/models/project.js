@@ -1,39 +1,24 @@
 const Sequelize = require('sequelize');
 const untitledProject = 'untitled_project_' + new Date;
-
-module.exports = db => db.define('project', {
-  title: {
-    type: Sequelize.STRING
-    ,unique: true
-    ,allowNull: false
-    ,defaultValue: untitledProject
-    ,validate: require('./validations.js')
-  },
-  body: {
-    type: Sequelize.TEXT,
-    defaultValue: ''
-  },
-  type: {
-    type: Sequelize.STRING,
-    defaultValue: 'PROJECT_TYPE'
-  },
-  acts: {
-    type: Sequelize.ARRAY(Sequelize.JSON),
-    defaultValue: []
-  }
-
-});
-
-module.exports.associations = function(Project, {User, Note}) {
-  Project.belongsTo(User);
-  Project.hasMany(Note);
+const modelMaker = require('./cardModelMaker');
+const options = {
+  defaultTitle: untitledProject,
+  defaultType: 'PROJECT_TYPE'
 };
 
-module.exports.scopes = function(Project, { Note }) {
-  Project.addScope('notes', {
+
+module.exports = modelMaker('project', options);
+
+module.exports.associations = function(Project, {User, Act}) {
+  Project.belongsTo(User);
+  Project.hasMany(Act);
+};
+
+module.exports.scopes = function(Project, { Act }) {
+  Project.addScope('acts', {
     include: [
       {
-        model: Note
+        model: Act
       }
     ]
   });

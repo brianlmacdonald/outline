@@ -5,8 +5,10 @@ const app = require('APP')
     , metaModels = {
       User: require('./users')
       ,Project: require('./project')
-      ,Note: require('./note')
-      ,Change: require('./change')
+      ,Act: require('./act')
+      ,Sequence: require('./sequence')
+      ,Scene: require('./scene')
+      ,Beat: require('./beat')
     }
     , {mapValues} = require('lodash');
 

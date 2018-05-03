@@ -30,35 +30,40 @@ test('DB - Projects can be created', async t => {
 	});
 });
 
-test('DB - Project\'s changes are loaded when scoped', async t => {
-	const { Project, Change, Note } = db;
+test('DB - Project\'s sequences are loaded when scoped', async t => {
+	const { Project, Sequence, Act } = db;
 	let id;
-	const projectNotesChange = Promise.resolve(
+	const projectActSequence = Promise.resolve(
 		Project.create({title: 'second test'})
 		.then(Project => Project.get('id'))
 		.then(projectId => {
 			id = projectId;
-			return Note.create({
+			return Act.create({
 				project_id: id
 				,title: 'A long time ago'
 				,body: 'in a galaxy far, far away...'
 			})
-      .then(newNote => {
-        return Change.create({
-					note_id: newNote.get('id')
+      .then(newAct => {
+        return Sequence.create({
+					act_id: newAct.get('id')
 					,title: 'Darth V: bad => good'
 				})
-        .then(createdChange => {
-          return Project.scope('notes').findOne({where: {id: id}})
+        .then(createdAct => {
+          return Project.findOne({
+						where: {id: id},
+						include: [
+							{ model: Act.scope('sequences')}
+						]
+					})
           .then(foundProject => {
             return foundProject
-                .get('notes')[0]
-                .get('changes')[0]
-								.get('title');//hooboy!
+                .get('acts')[0]
+								.get('sequences')[0]
+								.get('title');
 					});
         });
       });
 		})
 	);
-	t.is(await projectNotesChange, 'Darth V: bad => good');
+	t.is(await projectActSequence, 'Darth V: bad => good');
 });
