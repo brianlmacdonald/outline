@@ -4,22 +4,18 @@ import { Thumbnail } from 'APP/client/components/index.jsx';
 
 const ThumbsContainer = props => {
   const {
-    type,
-    handleNavigation,
     handleEdit,
     thumbs,
-    parent
   } = props;
+
   return thumbs.map((card, idx) => {
     return (
       <Thumbnail
+        {...props}
+        card={card}
         key={card.get('id') + 'tnc'}
         id={card.get('id')}
         index={idx}
-        type={type}
-        card={card}
-        parent={parent}
-        handleNavigation={handleNavigation}
         handleEdit={() => handleEdit(card)}
       />
     );

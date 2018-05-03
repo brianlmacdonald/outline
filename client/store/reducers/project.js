@@ -22,6 +22,8 @@ import { projectPayload } from './tests/superState'; //development testing delet
 
 import { REMOVE_USER } from './user';
 
+import { addNavigationPath, PROJECT_NAV } from './navigator';
+
 import axios from 'axios';
 import history from '../../history';
 
@@ -205,12 +207,15 @@ export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
     .catch(err => dispatch(allProjectsLoadError(err)));
 };
 
-export const loadSingleProject = (userId: UserId, project: ProjectNode) => (dispatch: Dispatch) => {
+export const loadSingleProject = (userId: UserId, projectId: ProjectNode) => (dispatch: Dispatch) => {
   dispatch(projectLoading());
 
   return axios
-    .get(`api/projects/${userId}/${project.id}`)
-    .then(singleProject => projectLoaded(singleProject.data))
+    .get(`api/projects/${userId}/${projectId}`)
+    .then(singleProject => {
+      dispatch(projectLoaded(singleProject.data))
+      dispatch(addNavigationPath(PROJECT_NAV, singleProject.data.id))
+    })
     .catch(err => dispatch(projectLoadError(project, err)));
 };
 

@@ -1,6 +1,5 @@
 'use strict';
 import { connect } from 'react-redux';
-import { addNavigationPath, removeNavigationPath } from '../../store';
 import {
   ProjectContainer,
   ActContainer,
@@ -10,6 +9,9 @@ import {
 } from '../index.jsx';
 import React, { Component } from 'react';
 import {
+  addNavigationPath,
+  removeNavigationPath,
+  loadSingleProject,
   PROJECT_NAV,
   ACT_NAV,
   SEQUENCE_NAV,
@@ -102,6 +104,7 @@ class HierarchyControl extends Component {
 
   render() {
     const { handleNavigation, navigator } = this.props;
+    
     return (
       <ProjectContainer
         type={PROJECT_TYPE}
@@ -156,8 +159,8 @@ class HierarchyControl extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  handleNavigation(action) {
-
+  handleNavigation(action, opts = {}) {
+  
     switch(action.type) {
       case BEAT_NAV:
       dispatch(addNavigationPath(BEAT_NAV, action.payload));
@@ -186,7 +189,7 @@ const mapDispatch = dispatch => ({
       dispatch(removeNavigationPath(SCENE_NAV));
       dispatch(removeNavigationPath(SEQUENCE_NAV));
       dispatch(removeNavigationPath(ACT_NAV));
-      dispatch(addNavigationPath(PROJECT_NAV, action.payload));
+      dispatch(loadSingleProject(opts.userId, action.payload));
       break;
       
       default:

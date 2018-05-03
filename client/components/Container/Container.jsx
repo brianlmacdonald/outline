@@ -52,7 +52,11 @@ const mapBuild = name => state => {
   };
 };
 
-const mapProject = mapBuild('project');
+const mapStateForProject = state => ({
+  navigator: state.navigator,
+  user: state.user
+});
+
 const mapAct = mapBuild('act');
 const mapSequence = mapBuild('sequence');
 const mapScene = mapBuild('scene');
@@ -70,7 +74,8 @@ const connectIt = (mapper) => {
   return connect(mapper, mapDispatch)(Container);
 };
 
-export const ProjectContainer = connectIt(mapProject);
+export const ProjectContainer = connect(
+  mapStateForProject, mapDispatch)(Container);
 export const ActContainer = connectIt(mapAct);
 export const SequenceContainer = connectIt(mapSequence);
 export const SceneContainer = connectIt(mapScene);

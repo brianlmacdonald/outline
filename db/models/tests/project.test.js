@@ -31,7 +31,7 @@ test('DB - Projects can be created', async t => {
 });
 
 test('DB - Project\'s sequences are loaded when scoped', async t => {
-	const { Project, Sequence, Act } = db;
+	const { Project, Sequence, Act, Scene } = db;
 	let id;
 	const projectActSequence = Promise.resolve(
 		Project.create({title: 'second test'})
@@ -48,22 +48,30 @@ test('DB - Project\'s sequences are loaded when scoped', async t => {
 					act_id: newAct.get('id')
 					,title: 'Darth V: bad => good'
 				})
-        .then(createdAct => {
-          return Project.findOne({
-						where: {id: id},
-						include: [
-							{ model: Act.scope('sequences')}
-						]
+				.then(newSequence => {
+					return Scene.create({
+						sequence_id: newSequence.get('id')
+						,title: 'this is a scene!'
 					})
-          .then(foundProject => {
-            return foundProject
-                .get('acts')[0]
+					.then(createdScene => {
+						return Project.findOne({
+							where: {id: id},
+						include: [
+							{ model: Act, include: [
+								{ model: Sequence.scope('scenes')}]
+								}]
+						});
+					})
+					.then(foundProject => {
+						return foundProject
+						    .get('acts')[0]
 								.get('sequences')[0]
+								.get('scenes')[0]
 								.get('title');
 					});
         });
       });
 		})
 	);
-	t.is(await projectActSequence, 'Darth V: bad => good');
+	t.is(await projectActSequence, 'this is a scene!');
 });

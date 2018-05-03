@@ -12,3 +12,13 @@ module.exports.associations = (Sequence, {Act, Scene}) => {
   Sequence.belongsTo(Act);
   Sequence.hasMany(Scene);
 };
+
+module.exports.scopes = function(Sequence, { Scene }) {
+  Sequence.addScope('scenes', {
+    include: [
+      {
+        model: Scene
+      }
+    ]
+  });
+};

@@ -1,0 +1,20 @@
+'use strict';
+const router = require('express').Router();
+const { Sequence } = require('APP/db');
+const Sequelize = require('sequelize');
+
+module.exports = router;
+
+router.post('/:actId', (req, res, next) => {
+  return Sequence.create(req.body)
+  .then(newCard => newCard.setAct(req.params.actId))
+  .then(res.json.bind(res))
+  .catch(next);
+});
+
+router.put('/:sequenceId', (req, res, next) => {
+  return Sequence.findOne({where: {id: req.params.sequenceId}})
+    .then(foundCard => foundCard.update(req.body))
+    .then(updatedCard => res.sendStatus(204))
+    .catch(next);
+});

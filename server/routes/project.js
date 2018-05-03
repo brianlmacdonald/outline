@@ -1,6 +1,6 @@
 'use strict';
 const router = require('express').Router();
-const { Project, User } = require('APP/db');
+const { Project, User, Act, Sequence, Scene } = require('APP/db');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -44,9 +44,16 @@ router.post('/:userId', (req, res, next) => {
 
 //get and load one single project.
 router.get('/:userid/:projectId', (req, res, next) => {
-  return Project.find({
+  return Project.scope('acts').find({
     where: {
-      [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]}}
+      [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]},
+    include: [
+							{ model: Act, include: [
+								{ model: Sequence, include: [
+                  { model: Scene.scope('beats') }
+                ]}]
+								}]
+    }
     )
     .then(res.json.bind(res))
     .catch(next);
