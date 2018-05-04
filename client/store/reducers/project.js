@@ -73,12 +73,12 @@ export const projectLoaded = (project: ProjectArray) => {
   };
 };
 
-export const projectLoadError = (error: ProjectError, project: ProjectArray) => {
+export const projectLoadError = (error: ProjectError, projectId: ProjectId) => {
   return {
     type: PROJECT_FAILURE,
     payload: {
       error,
-      project
+      projectId
     }
   };
 };
@@ -210,7 +210,7 @@ export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
     .catch(err => dispatch(allProjectsLoadError(err)));
 };
 
-export const loadSingleProject = (userId: UserId, projectId: ProjectNode) => (dispatch: Dispatch) => {
+export const loadSingleProject = (userId: UserId, projectId: ProjectId) => (dispatch: Dispatch) => {
   dispatch(projectLoading());
 
   return axios
@@ -219,7 +219,7 @@ export const loadSingleProject = (userId: UserId, projectId: ProjectNode) => (di
       dispatch(projectLoaded(singleProject.data))
       dispatch(addNavigationPath(PROJECT_NAV, singleProject.data.id))
     })
-    .catch(err => dispatch(projectLoadError(err, project)));
+    .catch(err => dispatch(projectLoadError(err, projectId)));
 };
 
 export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
@@ -344,7 +344,7 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state.withMutations(map => {
         map.set('isFetching', false)
         .setIn(
-          ['userProjects', action.payload.project.title, 'error'],
+          ['userProjects', action.payload, 'error'],
           action.payload.error.message
         );
       });
