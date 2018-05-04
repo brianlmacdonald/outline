@@ -32,6 +32,7 @@ export const ACT_TYPE = 'ACT_TYPE';
 export const SEQUENCE_TYPE = 'SEQUENCE_TYPE';
 export const SCENE_TYPE = 'SCENE_TYPE';
 export const BEAT_TYPE = 'BEAT_TYPE';
+export const USER_TYPE = 'USER_TYPE';
 
 export const PROJECT_REQUEST = 'PROJECT_REQUEST';
 export const PROJECT_SUCCESS = 'PROJECT_SUCCESS';

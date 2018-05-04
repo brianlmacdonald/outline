@@ -34,7 +34,7 @@ const Container = (props) => {
           <CardEditor
           type={type}
           newCard={true}
-          parentPath={parent}/>
+          parent={parent}/>
         </ModalLauncher>
         <ThumbsContainer {...props} empty={EmptyProp(type)} />
       </div>

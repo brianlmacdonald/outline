@@ -12,6 +12,7 @@ import {
   CARD_TYPE_BODY,
   CARD_TYPE_TITLE,
   CARD_TYPE_TYPE,
+  PROJECT_NAV,
   updateCard
 } from '../../store';
 import { 
@@ -42,10 +43,10 @@ class CardEditor extends Component {
   async componentDidMount(){
     const {
       handleNewProject,
-      handleNewDraft,
+      handleNewProjectDraft,
       newCard,
       type,
-      parentPath,
+      parent,
       handleEdit,
       card, 
       project,
@@ -54,11 +55,11 @@ class CardEditor extends Component {
 
     if (newCard && type === PROJECT_TYPE) {
         const newProjectId = await handleNewProject(user.get('id'));
-        handleNewDraft(['userProjects', newProjectId]);
+        handleNewProjectDraft(['userProjects', newProjectId]);
     } else if (newCard) {
-        return;    
+        handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''})) 
     } else {
-      handleNewDraft(parentPath.concat(card.get('index')));
+      handleNewDraft(parent.concat(card.get('index')));
     }
 
     this.exitWarning = (event) => {
@@ -87,7 +88,7 @@ class CardEditor extends Component {
   }
 
   render() {
-    const { draft, user, handleSave, handleChange, close } = this.props;
+    const { parent, draft, user, handleSave, handleChange, close } = this.props;
 
     return (
       <div
@@ -112,10 +113,7 @@ class CardEditor extends Component {
             className='button'
             onClick={(evt) => {
               evt.preventDefault();
-              handleSave({
-                userId: user.get('id'),
-                card: draft
-              });
+              handleSave({parent, draft, userId: user.get('id'), projectId: navigator.get(PROJECT_NAV)});
               return close();
             }}
             >save</button>
@@ -135,11 +133,14 @@ const MapDispatch = dispatch => ({
   handleNewProject(userId){
     return dispatch(creatingNewProject(userId));
   },
-  handleNewDraft(projectPath: ProjectPathArray){
+  handleNewProjectDraft(projectPath: ProjectPathArray){
     dispatch(createNewDraftCardThunk(projectPath));
   },
+  handleNewCard(newCard){
+    dispatch(createNewDraftCard(newCard))
+  },
   handleSave(saveObj){
-    dispatch(persistProjectToDB(saveObj));
+    dispatch(persistToDB(saveObj));
   },
   handleReset(){
     //reload the card from project

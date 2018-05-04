@@ -22,6 +22,7 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
+  USER_TYPE
 } from '../../store';
 import {
   GET_PROJECTS,
