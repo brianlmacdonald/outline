@@ -1,12 +1,6 @@
 'use strict';
 import { connect } from 'react-redux';
-import {
-  ProjectContainer,
-  ActContainer,
-  SequenceContainer,
-  SceneContainer,
-  BeatContainer
-} from '../index.jsx';
+import { Container } from '../index.jsx';
 import React, { Component } from 'react';
 import {
   addNavigationPath,
@@ -58,36 +52,33 @@ class HierarchyControl extends Component {
           .getIn([
             'userProjects',
             navigator.get(PROJECT_NAV),
-            'acts',
-            navigator.get(ACT_NAV),
-            'sequences'
-          ]);
+            'acts'])
+            .find((act) => act.get('id') === navigator.get(ACT_NAV))
+            .get('sequences');
 
       case GET_SCENES:
         return project
           .getIn([
             'userProjects',
             navigator.get(PROJECT_NAV),
-            'acts',
-            navigator.get(ACT_NAV),
-            'sequences',
-            navigator.get(SEQUENCE_NAV),
-            'scenes'
-          ]);
+            'acts'])
+            .find((act) => act.get('id') === navigator.get(ACT_NAV))
+            .get('sequences')
+            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_NAV))
+            .get('scenes');
 
       case GET_BEATS:
         return project
           .getIn([
             'userProjects',
             navigator.get(PROJECT_NAV),
-            'acts',
-            navigator.get(ACT_NAV),
-            'sequences',
-            navigator.get(SEQUENCE_NAV),
-            'scenes',
-            navigator.get(SCENE_NAV),
-            'beats'
-          ]);
+            'acts'])
+            .find((act) => act.get('id') === navigator.get(ACT_NAV))
+            .get('sequences')
+            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_NAV))
+            .get('scenes')
+            .find((scene) => scene.get('id') === navigator.get(SCENE_NAV))
+            .get('beats');
 
       default:
         throw new Error('Unknown type');
@@ -104,31 +95,35 @@ class HierarchyControl extends Component {
   }
 
   render() {
-    const { handleNavigation, navigator } = this.props;
+    const { handleNavigation, user, navigator } = this.props;
     
     return (
-      <ProjectContainer
+      <Container
+        {...this.props}
         type={PROJECT_TYPE}
         thumbs={this.payloadSwitch(GET_PROJECTS)}
-        parent={null}
+        parent={{id: user.get('id'), type: USER_TYPE}}
         handleNavigation={handleNavigation}
       >
         {this.ableToRender(PROJECT_NAV) && (
-          <ActContainer
+          <Container
+            {...this.props}
             type={ACT_TYPE}
             thumbs={this.payloadSwitch(GET_ACTS)}
             parent={{ id: navigator.get(PROJECT_NAV), type: PROJECT_TYPE }}
             handleNavigation={handleNavigation}
           >
             {this.ableToRender(ACT_NAV) && (
-              <SequenceContainer
+              <Container
+                {...this.props}
                 type={SEQUENCE_TYPE}
                 parent={{ id: navigator.get(ACT_NAV), type: ACT_TYPE }}
                 thumbs={this.payloadSwitch(GET_SEQUENCES)}
                 handleNavigation={handleNavigation}
               >
                 {this.ableToRender(SEQUENCE_NAV) && (
-                  <SceneContainer
+                  <Container
+                    {...this.props}
                     type={SCENE_TYPE}
                     parent={{
                       id: navigator.get(SEQUENCE_NAV),
@@ -138,7 +133,8 @@ class HierarchyControl extends Component {
                     handleNavigation={handleNavigation}
                   >
                     {this.ableToRender(SCENE_NAV) && (
-                      <BeatContainer
+                      <Container
+                        {...this.props}
                         type={BEAT_TYPE}
                         parent={{
                           id: navigator.get(SCENE_NAV),
@@ -148,13 +144,13 @@ class HierarchyControl extends Component {
                         handleNavigation={handleNavigation}
                       />
                     )}
-                  </SceneContainer>
+                  </Container>
                 )}
-              </SequenceContainer>
+              </Container>
             )}
-          </ActContainer>
+          </Container>
         )}
-      </ProjectContainer>
+      </Container>
     );
   }
 }
@@ -202,7 +198,8 @@ const mapDispatch = dispatch => ({
 const mapState = state => ({
   user: state.user,
   project: state.project,
-  navigator: state.navigator
+  navigator: state.navigator,
+  draft: state.draft
 });
 
 import LoaderHOC from '../HOC/LoaderHOC.jsx';

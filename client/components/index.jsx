@@ -14,10 +14,4 @@ export {
 export { 
   default as HierarchyControl 
 } from './HierarchyControl/HierarchyControl.jsx';
-export { 
-  ProjectContainer,
-  ActContainer,
-  SequenceContainer,
-  SceneContainer,
-  BeatContainer
-} from './Container/Container.jsx';
+export { default as Container } from './Container/Container.jsx';

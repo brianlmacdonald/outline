@@ -9,7 +9,7 @@ module.exports = router;
 router.post('/:sceneId/', (req, res, next) => {
   return Beat.create(req.body)
   .then(newCard => newCard.setScene(req.params.sceneId))
-  .then(res.json.bind(res))
+  .then(updatedCard => res.sendStatus(200))
   .catch(next);
 });
 

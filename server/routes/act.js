@@ -5,10 +5,10 @@ const Sequelize = require('sequelize');
 
 module.exports = router;
 
-router.post('/:projectId/', (req, res, next) => {
+router.post('/:projectId', (req, res, next) => {
   return Act.create(req.body)
   .then(newCard => newCard.setProject(req.params.projectId))
-  .then(res.json.bind(res))
+  .then(updatedCard => res.sendStatus(200))
   .catch(next);
 });
 

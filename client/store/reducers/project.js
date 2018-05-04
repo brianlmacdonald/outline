@@ -7,7 +7,8 @@ import type {
   ProjectNode,
   ProjectError,
   ProjectPathArray,
-  ProjectPath
+  ProjectPath,
+  ProjectId
 } from 'APP/Types/Project';
 import type {
   UserId
@@ -21,6 +22,7 @@ import type {
 import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
 
 import { REMOVE_USER } from './user';
+import { createNewDraftCardThunk } from './draft';
 
 import { addNavigationPath, PROJECT_NAV } from './navigator';
 
@@ -151,10 +153,10 @@ export const createNewBeat = (parent: ProjectPathArray) => {
   };
 };
 
-export const persistingProject = (project: ProjectNode) => {
+export const persistingProject = (projectId: ProjectId) => {
   return {
     type: PERSIST_PROJECT_REQUEST,
-    payload: project
+    payload: projectId
   };
 }; 
 
@@ -165,7 +167,7 @@ export const persistedProject = (project: ProjectNode) => {
   };
 };
 
-export const persistingProjectFailure = (project: ProjectNode, error: ProjectError) => {
+export const persistingProjectFailure = (error: ProjectError, project: ProjectNode, ) => {
   return {
     type: PERSIST_PROJECT_FAILURE,
     payload: { project, error }
@@ -186,7 +188,7 @@ export const projectDeleted = (project: ProjectNode) => {
   };
 };
 
-export const projectDeletionError = (project: ProjectNode, error: ProjectError) => {
+export const projectDeletionError = (error: ProjectError, project: ProjectNode, ) => {
   return {
     type: PROJECT_DELETE_FAILURE,
     payload: { project, error }
@@ -217,7 +219,7 @@ export const loadSingleProject = (userId: UserId, projectId: ProjectNode) => (di
       dispatch(projectLoaded(singleProject.data))
       dispatch(addNavigationPath(PROJECT_NAV, singleProject.data.id))
     })
-    .catch(err => dispatch(projectLoadError(project, err)));
+    .catch(err => dispatch(projectLoadError(err, project)));
 };
 
 export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
@@ -225,7 +227,7 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
     dispatch(newProjectCreated(createdProject.data));
-    return createdProject.data.id;
+    dispatch(createNewDraftCardThunk(['userProjects', createdProject.data.id]))
   })
   .catch(err => dispatch(projectCreationError(err)));
 };
@@ -348,8 +350,7 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       });
 
     case PERSIST_PROJECT_REQUEST:
-      id = action.payload.get('id');
-      return state.setIn(['userProjects', id, 'isSaving'], true);
+      return state.setIn(['userProjects', action.payload, 'isSaving'], true);
 
     case PERSIST_PROJECT_SUCCESS:
       id = action.payload.get('id');

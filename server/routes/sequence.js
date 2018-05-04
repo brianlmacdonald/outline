@@ -8,7 +8,7 @@ module.exports = router;
 router.post('/:actId', (req, res, next) => {
   return Sequence.create(req.body)
   .then(newCard => newCard.setAct(req.params.actId))
-  .then(res.json.bind(res))
+  .then(updatedCard => res.sendStatus(200))
   .catch(next);
 });
 

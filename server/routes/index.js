@@ -7,8 +7,8 @@ const beat = require('./beat');
 
 router.use('/projects', project);
 router.use('/acts', act);
-router.use('/sequence', sequence);
-router.use('/scene', scene);
-router.use('/beat', beat);
+router.use('/sequences', sequence);
+router.use('/scenes', scene);
+router.use('/beats', beat);
 
 module.exports = router;

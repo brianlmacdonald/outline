@@ -32,6 +32,7 @@ const Container = (props) => {
       <div className='container'>
         <ModalLauncher type={type} isEditing={true} styleClass={'addButton'}>
           <CardEditor
+          {...props}
           type={type}
           newCard={true}
           parent={parent}/>
@@ -45,38 +46,4 @@ const Container = (props) => {
   );
 };
 
-const mapBuild = name => state => {
-  return {
-    name,
-    navigator: state.navigator
-  };
-};
-
-const mapStateForProject = state => ({
-  navigator: state.navigator,
-  user: state.user
-});
-
-const mapAct = mapBuild('act');
-const mapSequence = mapBuild('sequence');
-const mapScene = mapBuild('scene');
-const mapBeat = mapBuild('beat');
-
-const mapDispatch = (dispatch) => {
-  return {
-    handleEdit(project) {
-      dispatch(createDraft(project));
-    },
-  };
-};
-
-const connectIt = (mapper) => {
-  return connect(mapper, mapDispatch)(Container);
-};
-
-export const ProjectContainer = connect(
-  mapStateForProject, mapDispatch)(Container);
-export const ActContainer = connectIt(mapAct);
-export const SequenceContainer = connectIt(mapSequence);
-export const SceneContainer = connectIt(mapScene);
-export const BeatContainer = connectIt(mapBeat);
+export default Container;

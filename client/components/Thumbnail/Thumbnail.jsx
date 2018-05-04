@@ -33,8 +33,8 @@ const Thumbnail = (props) => {
   const title = card.get('title');
   const bodyPrev = body.length > 25 ? body.slice(0, 24) + '...' : body;
   const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
-  const location = type === PROJECT_TYPE ? id : index;
-  const userId = type === PROJECT_TYPE ? user.get('id') : null;
+  const location = card.get('id');
+  const userId = user.get('id');
 
   return (
       <div

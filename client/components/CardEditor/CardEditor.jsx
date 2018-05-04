@@ -20,7 +20,8 @@ import {
   discardDraft,
   createNewAct,
   createNewDraftCardThunk,
-  persistProjectToDB 
+  createNewDraftCard,
+  persistToDB 
 } from '../../store/index';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -40,10 +41,10 @@ class CardEditor extends Component {
   
   }
 
-  async componentDidMount(){
+  componentDidMount(){
     const {
       handleNewProject,
-      handleNewProjectDraft,
+      handleNewCard,
       newCard,
       type,
       parent,
@@ -54,8 +55,7 @@ class CardEditor extends Component {
     } = this.props;
 
     if (newCard && type === PROJECT_TYPE) {
-        const newProjectId = await handleNewProject(user.get('id'));
-        handleNewProjectDraft(['userProjects', newProjectId]);
+        handleNewProject(user.get('id'));
     } else if (newCard) {
         handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''})) 
     } else {
@@ -88,7 +88,7 @@ class CardEditor extends Component {
   }
 
   render() {
-    const { parent, draft, user, handleSave, handleChange, close } = this.props;
+    const { parent, draft, navigator, user, handleSave, handleChange, close } = this.props;
 
     return (
       <div
@@ -113,7 +113,11 @@ class CardEditor extends Component {
             className='button'
             onClick={(evt) => {
               evt.preventDefault();
-              handleSave({parent, draft, userId: user.get('id'), projectId: navigator.get(PROJECT_NAV)});
+              handleSave({
+                parent,
+                draft,
+                userId: user.get('id'),
+                projectId: navigator.get(PROJECT_NAV)});
               return close();
             }}
             >save</button>
@@ -126,15 +130,13 @@ class CardEditor extends Component {
 const MapState = state => ({
   project: state.project,
   draft: state.draft,
-  user: state.user
+  user: state.user,
+  navigator: state.navigator
 });
 
 const MapDispatch = dispatch => ({
   handleNewProject(userId){
     return dispatch(creatingNewProject(userId));
-  },
-  handleNewProjectDraft(projectPath: ProjectPathArray){
-    dispatch(createNewDraftCardThunk(projectPath));
   },
   handleNewCard(newCard){
     dispatch(createNewDraftCard(newCard))

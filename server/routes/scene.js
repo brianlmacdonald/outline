@@ -8,7 +8,7 @@ module.exports = router;
 router.post('/:sequenceId', (req, res, next) => {
   return Scene.create(req.body)
   .then(newCard => newCard.setSequence(req.params.sequenceId))
-  .then(res.json.bind(res))
+  .then(updatedCard => res.sendStatus(200))
   .catch(next);
 });
 

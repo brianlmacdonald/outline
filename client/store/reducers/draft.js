@@ -55,7 +55,7 @@ export const draftSaved = () => {
     type: DRAFT_SAVED
   };
 };
-
+//find
 export const createNewDraftCardThunk = (projectPath) => dispatch => {
   try {
     const card = store.getState().project.getIn(projectPath);
@@ -93,6 +93,7 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_ACTS, action.payload.get(CARD_TYPE_ACTS))
         .set(CARD_TYPE_SEQUENCES, action.payload.get(CARD_TYPE_SEQUENCES))
         .set(CARD_TYPE_SCENES, action.payload.get(CARD_TYPE_SCENES))
+        .set(CARD_TYPE_PARENT, action.payload.get(CARD_TYPE_PARENT))
         .set(CARD_TYPE_BEATS, action.payload.get(CARD_TYPE_BEATS));
       });
     
