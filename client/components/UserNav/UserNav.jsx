@@ -2,10 +2,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logout } from '../../store';
 
-const UserNav = connect( ({user}) => ({user}))(({ user }) => {
+const mapDispatch = dispatch => ({
+  handleLogout(){
+    dispatch(logout());
+  }
+});
+
+const UserNav = connect(({user}) => ({user}),
+  mapDispatch)(({ user, handleLogout }) => {
   const userName = user.get('firstName');
-  
+
   return (
     <div>
       <nav>
@@ -20,7 +28,9 @@ const UserNav = connect( ({user}) => ({user}))(({ user }) => {
         </div> :
         <div>
         <p>Hello, {userName}!</p>
-        <button>log out</button>
+        <button
+        onClick={handleLogout}
+        >log out</button>
         </div>
       }
       </nav>

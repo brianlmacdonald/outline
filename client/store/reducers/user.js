@@ -28,11 +28,6 @@ export const errorGettingUser = (error) => {
   };
 };
 
-const developmentDefaultUser = fromJS({
-  firstName: 'Brian',
-  lastName: 'M',
-  id: 1
-  });
 const defaultUser = Map({});
 
 export const me = () =>
@@ -61,7 +56,6 @@ export const logout = () =>
     axios.post('/auth/logout')
       .then(() => {
         dispatch(removeUser());
-        history.push('/');
       })
       .catch(error => errorGettingUser(error));
 
@@ -75,7 +69,7 @@ export default function (state = defaultUser, action) {
       return state.set('error', action.payload);
 
     case REMOVE_USER:
-      return state.clear();
+      return state.clear().set(defaultUser);
 
     default:
       return state;

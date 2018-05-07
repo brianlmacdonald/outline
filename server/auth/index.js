@@ -4,7 +4,6 @@ const { User, Project } = require('APP/db/');
 module.exports = router;
 
 const mustHavePassword = (req, res, next) => {
-  console.log('INSIDE GATEKEEPER', req.body);
   if (!req.body.password) {
     return next(Error('Unauthorized'));
   } else {

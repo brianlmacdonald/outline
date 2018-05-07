@@ -385,7 +385,7 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state.setIn(['userProjects', 'error'], action.payload);
 
     case REMOVE_USER:
-      return state.clear();
+      return state.clear().set(defaultState);
 
     default:
       return state;

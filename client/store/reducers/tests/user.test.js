@@ -3,6 +3,8 @@ import test from 'ava';
 import user, { getUser, removeUser} from '../user';
 import { Map } from 'immutable';
 
+const defaultUser = 
+
 test('REDUCER - "user" reducer exists', t => {
   const state = user(undefined, {});
   t.deepEqual(state, Map({}));
@@ -26,5 +28,5 @@ test('REDUCER - can remove a user', t => {
   };
   const state = user(undefined, getUser(testUser));
   const nextState = user(state, removeUser());
-  t.deepEqual(nextState, Map({}));
+  t.deepEqual(nextState, state.clear().set(Map({})));
 });
