@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import { REMOVE_USER } from './user';
 
 const ADD_PATH = 'ADD_PATH';
 const DELETE_PATH = 'DELETE_PATH';
@@ -36,6 +37,9 @@ const navigator = (state = defaultState, action) => {
 
     case DELETE_PATH:
       return state.set(action.payload, null);
+
+    case REMOVE_USER:
+      return state.clear().set(defaultState);
 
     default:
       return state;

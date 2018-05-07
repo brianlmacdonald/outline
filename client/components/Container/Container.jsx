@@ -20,8 +20,6 @@ const EmptyProp = (type) => () => {
 const Container = (props) => {
   const { 
     type,
-    handleNavigation,
-    handleEdit,
     thumbs,
     children,
     parent 

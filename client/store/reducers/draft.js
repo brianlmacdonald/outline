@@ -1,5 +1,8 @@
-import {Map, List, fromJS} from 'immutable';
+import { Map, List, fromJS } from 'immutable';
+import { REMOVE_USER } from './user';
+
 import store from '../../store';
+
 
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
@@ -115,6 +118,9 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_SCENES, null)
         .set(CARD_TYPE_BEATS, null);
       });
+    
+    case REMOVE_USER:
+      return state.clear().set(defaultDraft);
     
     default:
       return state;
