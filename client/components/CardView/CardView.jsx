@@ -1,6 +1,5 @@
 import React from 'react';
 import { ModalLauncher, CardEditor } from '../index.jsx';
-import { TYPE_TO_NAV } from '../HierarchyControl/CardTypes.js'
 
 const CardView = (props) => {
   const { card, close, type, navigator } = props;

@@ -8,6 +8,7 @@ const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
 const UPDATE_CARD = 'UPDATE_CARD';
 const DRAFT_SAVED = 'DRAFT_SAVED';
 
+//the key names in the card immutable maps.
 export const CARD_TYPE_ID = 'id';
 export const CARD_TYPE_TYPE = 'type';
 export const CARD_TYPE_TITLE = 'title';

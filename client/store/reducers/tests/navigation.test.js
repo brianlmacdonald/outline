@@ -1,15 +1,17 @@
 'use strict';
 import test from 'ava';
 import { Map, List, Seq } from 'immutable';
-import project, { projectLoaded } from '../project';
+import project, {
+  projectLoaded,
+  PROJECT_TYPE,
+  ACT_TYPE,
+  SEQUENCE_TYPE,
+  SCENE_TYPE,
+  BEAT_TYPE
+  } from '../project';
 import navigator, {
   addNavigationPath,
   removeNavigationPath,
-  PROJECT_NAV,
-  ACT_NAV,
-  SEQUENCE_NAV,
-  SCENE_NAV,
-  BEAT_NAV
 } from '../navigator';
 
 const testProject = {
@@ -55,17 +57,17 @@ const testState = project(undefined, projectLoaded(testProject));
 
 test('REDUCER - navigator can add to the slug path and correctly find', t => {
   const firstNavigatorState = navigator(
-    undefined, addNavigationPath(PROJECT_NAV, testProject.id)
+    undefined, addNavigationPath(PROJECT_TYPE, testProject.id)
   );
   const secondNavigatorState = navigator(
     firstNavigatorState,
     addNavigationPath(
-      ACT_NAV,
+      ACT_TYPE,
       0
     )
   );
-  const projectPath = secondNavigatorState.get(PROJECT_NAV);
-  const actPath = secondNavigatorState.get(ACT_NAV);
+  const projectPath = secondNavigatorState.get(PROJECT_TYPE);
+  const actPath = secondNavigatorState.get(ACT_TYPE);
   
   t.deepEqual(testState.getIn([
     'userProjects', projectPath, 'title'
@@ -73,12 +75,12 @@ test('REDUCER - navigator can add to the slug path and correctly find', t => {
   t.deepEqual(typeof testState
     .getIn([
       'userProjects',
-      secondNavigatorState.get(PROJECT_NAV), 'acts'
+      secondNavigatorState.get(PROJECT_TYPE), 'acts'
       ]).toArray(), 'object');
   t.deepEqual(testState.getIn([
     'userProjects',
     projectPath,
     'acts',
-    secondNavigatorState.get(ACT_NAV), 'body'
+    secondNavigatorState.get(ACT_TYPE), 'body'
     ]), 'disco!');
 });

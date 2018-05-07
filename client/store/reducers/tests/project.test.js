@@ -10,21 +10,10 @@ import project, {
   allProjectsLoading, 
   allProjectsLoadError,
   newProjectCreated,
-  createNewAct
+  createNewAct,
   } from '../project';
-  import navigator,{
-    addNavigationPath,
-    GET_PROJECTS,
-    PROJECT_TYPE,
-    PROJECT_NAV,
-    ACT_TYPE,
-    ACT_NAV,
-    SEQUENCE_TYPE,
-    SEQUENCE_NAV,
-    SCENE_TYPE,
-    SCENE_NAV,
-    BEAT_TYPE,
-    BEAT_NAV
+  import navigator, {
+    addNavigationPath
   } from '../navigator';
 
   import { projectPayload } from './superState';
@@ -145,51 +134,3 @@ import project, {
       ]).toArray().length, 2);
 
   });
-
-//function to be tested
-  const getOrSetPayloadSwitch = (method) => (state, cardRequest, opts = {}) => {
-    const { project, navigator } = state;
-    const { sourcePath = undefined, payload = undefined } = opts;
-
-    switch (cardRequest) {
-      case GET_PROJECTS:
-        return project.get('userProjects');
-  
-      case ACT_TYPE:
-        return project[method](sourcePath.concat('acts'), payload);
-  
-      case SEQUENCE_TYPE:
-        return project[method](
-          sourcePath.concat(
-            'acts',
-            navigator.get(ACT_NAV),
-            'sequences'),
-            payload);
-  
-      case SCENE_TYPE:
-        return project[method](
-          sourcePath.concat('acts',
-          navigator.get(ACT_NAV),
-          'sequences',
-          navigator.get(SEQUENCE_NAV),
-          'scenes'
-        ), payload);
-
-      case BEAT_TYPE:
-        return project[method](
-          sourcePath.concat('acts',
-          navigator.get(ACT_NAV),
-          'sequences',
-          navigator.get(SEQUENCE_NAV),
-          'scenes',
-          navigator.get(SCENE_NAV),
-          'beats'
-        ), payload);
-      
-      case PROJECT_TYPE:
-        return payload;
-  
-      default:
-        throw new Error('Unknown type');
-    }
-  };

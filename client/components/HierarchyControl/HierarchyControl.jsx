@@ -3,20 +3,17 @@ import { connect } from 'react-redux';
 import { Container } from '../index.jsx';
 import React, { Component } from 'react';
 import {
-  addNavigationPath,
-  removeNavigationPath,
-  loadSingleProject,
-  PROJECT_NAV,
-  ACT_NAV,
-  SEQUENCE_NAV,
-  SCENE_NAV,
-  BEAT_NAV,
   PROJECT_TYPE,
   ACT_TYPE,
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-  USER_TYPE
+  USER_TYPE,
+  projectNavigation,
+  actNavigation,
+  sequenceNavigation,
+  sceneNavigation,
+  beatNavigation
 } from '../../store';
 import {
   GET_PROJECTS,
@@ -25,7 +22,7 @@ import {
   GET_SCENES,
   GET_BEATS
 } from './CardTypes';
-
+import LoaderHOC from '../HOC/LoaderHOC.jsx';
 
 
 class HierarchyControl extends Component {
@@ -45,39 +42,39 @@ class HierarchyControl extends Component {
 
       case GET_ACTS:
         return project
-          .getIn(['userProjects', navigator.get(PROJECT_NAV), 'acts']);
+          .getIn(['userProjects', navigator.get(PROJECT_TYPE), 'acts']);
 
       case GET_SEQUENCES:
         return project
           .getIn([
             'userProjects',
-            navigator.get(PROJECT_NAV),
+            navigator.get(PROJECT_TYPE),
             'acts'])
-            .find((act) => act.get('id') === navigator.get(ACT_NAV))
+            .find((act) => act.get('id') === navigator.get(ACT_TYPE))
             .get('sequences');
 
       case GET_SCENES:
         return project
           .getIn([
             'userProjects',
-            navigator.get(PROJECT_NAV),
+            navigator.get(PROJECT_TYPE),
             'acts'])
-            .find((act) => act.get('id') === navigator.get(ACT_NAV))
+            .find((act) => act.get('id') === navigator.get(ACT_TYPE))
             .get('sequences')
-            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_NAV))
+            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
             .get('scenes');
 
       case GET_BEATS:
         return project
           .getIn([
             'userProjects',
-            navigator.get(PROJECT_NAV),
+            navigator.get(PROJECT_TYPE),
             'acts'])
-            .find((act) => act.get('id') === navigator.get(ACT_NAV))
+            .find((act) => act.get('id') === navigator.get(ACT_TYPE))
             .get('sequences')
-            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_NAV))
+            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
             .get('scenes')
-            .find((scene) => scene.get('id') === navigator.get(SCENE_NAV))
+            .find((scene) => scene.get('id') === navigator.get(SCENE_TYPE))
             .get('beats');
 
       default:
@@ -103,45 +100,45 @@ class HierarchyControl extends Component {
         type={PROJECT_TYPE}
         thumbs={this.payloadSwitch(GET_PROJECTS)}
         parent={{id: user.get('id'), type: USER_TYPE}}
-        handleNavigation={handleNavigation}
+        handleNavigation={handleNavigation(projectNavigation)}
       >
-        {this.ableToRender(PROJECT_NAV) && (
+        {this.ableToRender(PROJECT_TYPE) && (
           <Container
             {...this.props}
             type={ACT_TYPE}
             thumbs={this.payloadSwitch(GET_ACTS)}
-            parent={{ id: navigator.get(PROJECT_NAV), type: PROJECT_TYPE }}
-            handleNavigation={handleNavigation}
+            parent={{ id: navigator.get(PROJECT_TYPE), type: PROJECT_TYPE }}
+            handleNavigation={handleNavigation(actNavigation)}
           >
-            {this.ableToRender(ACT_NAV) && (
+            {this.ableToRender(ACT_TYPE) && (
               <Container
                 {...this.props}
                 type={SEQUENCE_TYPE}
-                parent={{ id: navigator.get(ACT_NAV), type: ACT_TYPE }}
+                parent={{ id: navigator.get(ACT_TYPE), type: ACT_TYPE }}
                 thumbs={this.payloadSwitch(GET_SEQUENCES)}
-                handleNavigation={handleNavigation}
+                handleNavigation={handleNavigation(sequenceNavigation)}
               >
-                {this.ableToRender(SEQUENCE_NAV) && (
+                {this.ableToRender(SEQUENCE_TYPE) && (
                   <Container
                     {...this.props}
                     type={SCENE_TYPE}
                     parent={{
-                      id: navigator.get(SEQUENCE_NAV),
+                      id: navigator.get(SEQUENCE_TYPE),
                       type: SEQUENCE_TYPE
                       }}
                     thumbs={this.payloadSwitch(GET_SCENES)}
-                    handleNavigation={handleNavigation}
+                    handleNavigation={handleNavigation(sceneNavigation)}
                   >
-                    {this.ableToRender(SCENE_NAV) && (
+                    {this.ableToRender(SCENE_TYPE) && (
                       <Container
                         {...this.props}
                         type={BEAT_TYPE}
                         parent={{
-                          id: navigator.get(SCENE_NAV),
+                          id: navigator.get(SCENE_TYPE),
                           type: SCENE_TYPE
                           }}
                         thumbs={this.payloadSwitch(GET_BEATS)}
-                        handleNavigation={handleNavigation}
+                        handleNavigation={handleNavigation(beatNavigation)}
                       />
                     )}
                   </Container>
@@ -156,42 +153,10 @@ class HierarchyControl extends Component {
 }
 
 const mapDispatch = dispatch => ({
-  handleNavigation(action, opts = {}) {
-  
-    switch(action.type) {
-      case BEAT_NAV:
-      dispatch(addNavigationPath(BEAT_NAV, action.payload));
-      break;
-  
-      case SCENE_NAV:
-      dispatch(removeNavigationPath(BEAT_NAV));
-      dispatch(addNavigationPath(SCENE_NAV, action.payload));
-      break;
-  
-      case SEQUENCE_NAV:
-      dispatch(removeNavigationPath(BEAT_NAV));
-      dispatch(removeNavigationPath(SCENE_NAV));
-      dispatch(addNavigationPath(SEQUENCE_NAV, action.payload));
-      break;
-  
-      case ACT_NAV:
-      dispatch(removeNavigationPath(BEAT_NAV));
-      dispatch(removeNavigationPath(SCENE_NAV));
-      dispatch(removeNavigationPath(SEQUENCE_NAV));
-      dispatch(addNavigationPath(ACT_NAV, action.payload));
-      break;
-  
-      case PROJECT_NAV:
-      dispatch(removeNavigationPath(BEAT_NAV));
-      dispatch(removeNavigationPath(SCENE_NAV));
-      dispatch(removeNavigationPath(SEQUENCE_NAV));
-      dispatch(removeNavigationPath(ACT_NAV));
-      dispatch(loadSingleProject(opts.userId, action.payload));
-      break;
-      
-      default:
-      throw new Error('bad type');
-    }
+  handleNavigation(navigationThunk) {
+    return function(payload){
+      dispatch(navigationThunk(payload));
+    };
   },
 });
 
@@ -202,7 +167,6 @@ const mapState = state => ({
   draft: state.draft
 });
 
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
 const WrappedHC = LoaderHOC('project')(HierarchyControl);
 const ConnectedHC = connect(mapState, mapDispatch)(WrappedHC);
 

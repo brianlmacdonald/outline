@@ -12,7 +12,6 @@ import {
   CARD_TYPE_BODY,
   CARD_TYPE_TITLE,
   CARD_TYPE_TYPE,
-  PROJECT_NAV,
   updateCard
 } from '../../store';
 import { 
@@ -23,7 +22,6 @@ import {
   createNewDraftCard,
   persistToDB 
 } from '../../store/index';
-import { TYPE_TO_NAV } from '../HierarchyControl/CardTypes.js'
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
@@ -59,15 +57,9 @@ class CardEditor extends Component {
       handleNewProject(user.get('id'));
     } else if (newCard) {
       handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''}))
-      handleNavigation({
-        type: TYPE_TO_NAV[parent.type],
-        payload: parent.id
-      }, {userId: user.get('id')});
+      handleNavigation({ id: parent.id, userId: user.get('id')});
     } else {
-      handleNavigation({
-        type: TYPE_TO_NAV[type],
-        payload: card.get('id')
-      }, {userId: user.get('id')});
+      handleNavigation({ id: card.get('id'), userId: user.get('id')});
       handleNewCard(card);
     }
 
@@ -135,7 +127,7 @@ class CardEditor extends Component {
                 parent,
                 draft,
                 userId: user.get('id'),
-                projectId: navigator.get(PROJECT_NAV)});
+                projectId: navigator.get(PROJECT_TYPE)});
               return close();
             }}
             >save</button>

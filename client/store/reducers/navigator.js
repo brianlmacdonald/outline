@@ -4,11 +4,14 @@ import { REMOVE_USER } from './user';
 const ADD_PATH = 'ADD_PATH';
 const DELETE_PATH = 'DELETE_PATH';
 
-export const PROJECT_NAV = 'PROJECT_NAV';
-export const ACT_NAV = 'ACT_NAV';
-export const SEQUENCE_NAV = 'SEQUENCE_NAV';
-export const SCENE_NAV = 'SCENE_NAV';
-export const BEAT_NAV = 'BEAT_NAV';
+import {
+  PROJECT_TYPE,
+  ACT_TYPE,
+  SEQUENCE_TYPE,
+  SCENE_TYPE,
+  BEAT_TYPE,
+  loadSingleProject
+} from './project.js';
 
 
 export const addNavigationPath = (type, id) => ({
@@ -21,12 +24,44 @@ export const removeNavigationPath = type => ({
   payload: type
 });
 
+export const projectNavigation = payload => dispatch => {
+  dispatch(removeNavigationPath(BEAT_TYPE));
+  dispatch(removeNavigationPath(SCENE_TYPE));
+  dispatch(removeNavigationPath(SEQUENCE_TYPE));
+  dispatch(removeNavigationPath(ACT_TYPE));
+  dispatch(loadSingleProject(payload.userId, payload.id));
+};
+
+export const actNavigation = payload => dispatch => {
+  dispatch(removeNavigationPath(BEAT_TYPE));
+  dispatch(removeNavigationPath(SCENE_TYPE));
+  dispatch(removeNavigationPath(SEQUENCE_TYPE));
+  dispatch(addNavigationPath(ACT_TYPE, payload.id));
+};
+
+export const sequenceNavigation = payload => dispatch => {
+  dispatch(removeNavigationPath(BEAT_TYPE));
+  dispatch(removeNavigationPath(SCENE_TYPE));
+  dispatch(addNavigationPath(SEQUENCE_TYPE, payload.id));
+};
+
+export const sceneNavigation = payload => dispatch => {
+  dispatch(removeNavigationPath(BEAT_TYPE));
+  dispatch(addNavigationPath(SCENE_TYPE, payload.id));
+};
+
+export const beatNavigation = payload => dispatch => {
+  dispatch(addNavigationPath(BEAT_TYPE, payload.id));
+};
+
+
+
 const defaultState = Map({
-  PROJECT_NAV: null,
-  ACT_NAV: null,
-  SEQUENCE_NAV: null,
-  SCENE_NAV: null,
-  BEAT_NAV: null
+  PROJECT_TYPE: null,
+  ACT_TYPE: null,
+  SEQUENCE_TYPE: null,
+  SCENE_TYPE: null,
+  BEAT_TYPE: null
 });
 
 const navigator = (state = defaultState, action) => {

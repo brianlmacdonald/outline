@@ -3,19 +3,6 @@ import { Link } from 'react-router-dom';
 import { CardView, ModalLauncher } from '../index.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import './Thumbnail.css';
-import {
-  PROJECT_NAV,
-  ACT_NAV,
-  SEQUENCE_NAV,
-  SCENE_NAV,
-  BEAT_NAV,
-  PROJECT_TYPE,
-  ACT_TYPE,
-  SEQUENCE_TYPE,
-  SCENE_TYPE,
-  BEAT_TYPE,
-} from '../../store';
-import { TYPE_TO_NAV } from '../HierarchyControl/CardTypes';
 
 const Thumbnail = (props) => {
   const {
@@ -41,9 +28,9 @@ const Thumbnail = (props) => {
         key={id + 'd'}
         onDoubleClick={() =>{ 
           handleNavigation({
-            type: TYPE_TO_NAV[type],
-            payload: location
-            }, {userId});
+            id: location,
+            userId
+          });
           }}>
         <h4 key={id + 'h4'}>{titlePrev}</h4>
         <p key={id + 'p'}>{bodyPrev}</p>

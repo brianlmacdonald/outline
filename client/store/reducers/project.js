@@ -27,11 +27,6 @@ import { createNewDraftCardThunk } from './draft';
 import { 
   addNavigationPath,
   removeNavigationPath,
-  PROJECT_NAV,
-  ACT_NAV,
-  SEQUENCE_NAV,
-  SCENE_NAV,
-  BEAT_NAV
   } from './navigator';
 
 import axios from 'axios';
@@ -55,10 +50,6 @@ export const ALL_PROJECTS_FAILURE = 'ALL_PROJECTS_FAILURE';
 export const CREATE_NEW_PROJECT = 'CREATE_NEW_PROJECT';
 export const NEW_PROJECT_CREATED = 'NEW_PROJECT_CREATED'
 export const NEW_PROJECT_ERROR = 'NEW_PROJECT_ERROR';
-export const CREATE_NEW_ACT = 'CREATE_NEW_ACT';
-export const CREATE_NEW_SEQUENCE = 'CREATE_NEW_SEQUENCE';
-export const CREATE_NEW_SCENE = 'CREATE_NEW_SCENE';
-export const CREATE_NEW_BEAT = 'CREATE_NEW_BEAT';
 
 export const PERSIST_PROJECT_REQUEST = 'PERSIST_PROJECT_REQUEST';
 export const PERSIST_PROJECT_SUCCESS = 'PERSIST_PROJECT_SUCCESS';
@@ -133,34 +124,6 @@ export const newProjectCreated = (project: ProjectNode) => {
   };
 };
 
-export const createNewAct = (parent: ProjectPathArray) => {
-  return {
-    type: CREATE_NEW_ACT,
-    payload: parent
-  };
-};
-
-export const createNewSequence = (parent: ProjectPathArray) => {
-  return {
-    type: CREATE_NEW_SEQUENCE,
-    payload: parent
-  };
-};
-
-export const createNewScene = (parent: ProjectPathArray) => {
-  return {
-    type: CREATE_NEW_SCENE,
-    payload: parent
-  };
-};
-
-export const createNewBeat = (parent: ProjectPathArray) => {
-  return {
-    type: CREATE_NEW_BEAT,
-    payload: parent
-  };
-};
-
 export const persistingProject = (projectId: ProjectId) => {
   return {
     type: PERSIST_PROJECT_REQUEST,
@@ -220,12 +183,13 @@ export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
 
 export const loadSingleProject = (userId: UserId, projectId: ProjectId) => (dispatch: Dispatch) => {
   dispatch(projectLoading());
-
+  console.log(userId);
+  console.log(projectId);
   return axios
     .get(`api/projects/${userId}/${projectId}`)
     .then(singleProject => {
       dispatch(projectLoaded(singleProject.data))
-      dispatch(addNavigationPath(PROJECT_NAV, singleProject.data.id))
+      dispatch(addNavigationPath(PROJECT_TYPE, singleProject.data.id))
     })
     .catch(err => dispatch(projectLoadError(err, projectId)));
 };
@@ -235,17 +199,15 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
     dispatch(newProjectCreated(createdProject.data));
-    dispatch(removeNavigationPath(BEAT_NAV));
-    dispatch(removeNavigationPath(SCENE_NAV));
-    dispatch(removeNavigationPath(SEQUENCE_NAV));
-    dispatch(removeNavigationPath(ACT_NAV));
-    dispatch(addNavigationPath(PROJECT_NAV, createdProject.data.id))
+    dispatch(removeNavigationPath(BEAT_TYPE));
+    dispatch(removeNavigationPath(SCENE_TYPE));
+    dispatch(removeNavigationPath(SEQUENCE_TYPE));
+    dispatch(removeNavigationPath(ACT_TYPE));
+    dispatch(addNavigationPath(PROJECT_TYPE, createdProject.data.id))
     dispatch(createNewDraftCardThunk(['userProjects', createdProject.data.id]))
   })
   .catch(err => dispatch(projectCreationError(err)));
 };
-
-// const uP = fromJS(projectPayload);
 
 const defaultState: State = Map({
   'isFetching': false,
@@ -257,60 +219,7 @@ const projectReducer: Reducer = (state = defaultState, action) => {
   let id;
 
   switch (action.type) {
-    case CREATE_NEW_BEAT:
-      id = uuid();
-      return state.setIn(action.payload, Map({})).withMutations(map => {
-        map.setIn(action.payload.concat('type'), BEAT_TYPE)
-        .setIn(action.payload.concat('id'), id)
-        .setIn(action.payload.concat('body'), '')
-        .setIn(action.payload.concat('title'), 'untitled beat')
-        .setIn(
-          action.payload.concat('index'),
-          action.payload[action.payload.length - 1]
-        );
-      });
-
-    case CREATE_NEW_SCENE:
-      id = uuid();
-      return state.setIn(action.payload, Map({})).withMutations(map => {
-        map.setIn(action.payload.concat('beats'), List())
-        .setIn(action.payload.concat('type'), SCENE_TYPE)
-        .setIn(action.payload.concat('id'), id)
-        .setIn(action.payload.concat('body'), '')
-        .setIn(action.payload.concat('title'), 'untitled scene')
-        .setIn(
-          action.payload.concat('index'),
-          action.payload[action.payload.length - 1]
-        );
-      });
-
-    case CREATE_NEW_SEQUENCE:
-      id = uuid();
-      return state.setIn(action.payload, Map({})).withMutations(map => {
-        map.setIn(action.payload.concat('scenes'), List())
-        .setIn(action.payload.concat('type'), SEQUENCE_TYPE)
-        .setIn(action.payload.concat('id'), id)
-        .setIn(action.payload.concat('body'), '')
-        .setIn(action.payload.concat('title'), 'untitled sequence')
-        .setIn(
-          action.payload.concat('index'),
-          action.payload[action.payload.length - 1]
-        );
-      });
-
-    case CREATE_NEW_ACT:
-      id = uuid();
-      return state.setIn(action.payload, Map({})).withMutations(map => {
-        map.setIn(action.payload.concat('sequences'), List())
-        .setIn(action.payload.concat('type'), ACT_TYPE)
-        .setIn(action.payload.concat('id'), id)
-        .setIn(action.payload.concat('body'), '')
-        .setIn(action.payload.concat('title'), 'untitled act')
-        .setIn(
-          action.payload.concat('index'),
-          action.payload[action.payload.length - 1]
-        );
-      });
+    
     case CREATE_NEW_PROJECT:
       return state.set('isFetching', true);
 
