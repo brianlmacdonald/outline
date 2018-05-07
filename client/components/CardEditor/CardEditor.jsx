@@ -127,13 +127,6 @@ class CardEditor extends Component {
   }
 }
 
-const MapState = state => ({
-  project: state.project,
-  draft: state.draft,
-  user: state.user,
-  navigator: state.navigator
-});
-
 const MapDispatch = dispatch => ({
   handleNewProject(userId){
     return dispatch(creatingNewProject(userId));
@@ -160,5 +153,5 @@ const MapDispatch = dispatch => ({
   }
 });
 
-const ConnectedCardEditor = connect(MapState, MapDispatch)(CardEditor);
+const ConnectedCardEditor = connect(null, MapDispatch)(CardEditor);
 export default ConnectedCardEditor;

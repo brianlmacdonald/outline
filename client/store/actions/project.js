@@ -20,6 +20,7 @@ import store, {
 export const persistToDB = (saveObj) => dispatch => {
   const { parent, draft, projectId, userId } = saveObj;
   const id = draft.get('id');
+  console.log(projectId, 'projectId');
 
   switch(parent.type) {
     //parent is a user, save the project. No need to reload.

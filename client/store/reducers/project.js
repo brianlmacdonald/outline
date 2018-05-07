@@ -227,6 +227,7 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
     dispatch(newProjectCreated(createdProject.data));
+    dispatch(addNavigationPath(PROJECT_NAV, createdProject.data.id))
     dispatch(createNewDraftCardThunk(['userProjects', createdProject.data.id]))
   })
   .catch(err => dispatch(projectCreationError(err)));
