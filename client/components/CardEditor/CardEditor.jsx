@@ -23,6 +23,7 @@ import {
   createNewDraftCard,
   persistToDB 
 } from '../../store/index';
+import { TYPE_TO_NAV } from '../HierarchyControl/CardTypes.js'
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
@@ -45,21 +46,29 @@ class CardEditor extends Component {
     const {
       handleNewProject,
       handleNewCard,
+      handleNavigation,
       newCard,
       type,
       parent,
-      handleEdit,
       card, 
       project,
       user
     } = this.props;
-
+    console.log(type);
     if (newCard && type === PROJECT_TYPE) {
-        handleNewProject(user.get('id'));
+      handleNewProject(user.get('id'));
     } else if (newCard) {
-        handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''})) 
+      handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''}))
+      handleNavigation({
+        type: TYPE_TO_NAV[parent.type],
+        payload: parent.id
+      }, {userId: user.get('id')});
     } else {
-      handleNewDraft(parent.concat(card.get('index')));
+      handleNavigation({
+        type: TYPE_TO_NAV[type],
+        payload: card.get('id')
+      }, {userId: user.get('id')});
+      handleNewCard(card);
     }
 
     this.exitWarning = (event) => {
@@ -88,8 +97,16 @@ class CardEditor extends Component {
   }
 
   render() {
-    const { parent, draft, navigator, user, handleSave, handleChange, close } = this.props;
-
+    const {
+      parent,
+      draft,
+      navigator,
+      user,
+      handleSave,
+      handleChange,
+      newCard,
+      close } = this.props;
+    console.log(parent, 'parent in render');
     return (
       <div
         className={'cardEditor'}>
@@ -114,6 +131,7 @@ class CardEditor extends Component {
             onClick={(evt) => {
               evt.preventDefault();
               handleSave({
+                newCard,
                 parent,
                 draft,
                 userId: user.get('id'),

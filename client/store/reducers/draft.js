@@ -3,7 +3,6 @@ import { REMOVE_USER } from './user';
 
 import store from '../../store';
 
-
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
 const UPDATE_CARD = 'UPDATE_CARD';
@@ -120,7 +119,10 @@ const draftReducer = (state = defaultDraft, action) => {
       });
     
     case REMOVE_USER:
-      return state.clear().set(defaultDraft);
+      return state.withMutations(map => {
+        map.clear();
+        map.set(defaultDraft);
+      });
     
     default:
       return state;

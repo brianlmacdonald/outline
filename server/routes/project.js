@@ -59,10 +59,8 @@ router.get('/:userid/:projectId', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/update/:userId/:projectId', (req, res, next) => {
-  return Project.find({where: {
-    [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]
-  }})
+router.put('/:projectId', (req, res, next) => {
+  return Project.find({where: {id: req.params.projectId}})
   .then(foundProject => foundProject.update(req.body))
   .then(updatedProject => res.sendStatus(204))
   .catch(next);

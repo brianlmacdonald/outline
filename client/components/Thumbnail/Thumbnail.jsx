@@ -26,7 +26,6 @@ const Thumbnail = (props) => {
     type,
     card,
     handleNavigation,
-    handleEdit,
     handleView
   } = props;
   const body = card.get('body');

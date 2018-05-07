@@ -24,7 +24,15 @@ import { projectPayload } from './tests/superState'; //development testing delet
 import { REMOVE_USER } from './user';
 import { createNewDraftCardThunk } from './draft';
 
-import { addNavigationPath, PROJECT_NAV } from './navigator';
+import { 
+  addNavigationPath,
+  removeNavigationPath,
+  PROJECT_NAV,
+  ACT_NAV,
+  SEQUENCE_NAV,
+  SCENE_NAV,
+  BEAT_NAV
+  } from './navigator';
 
 import axios from 'axios';
 import history from '../../history';
@@ -227,6 +235,10 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
     dispatch(newProjectCreated(createdProject.data));
+    dispatch(removeNavigationPath(BEAT_NAV));
+    dispatch(removeNavigationPath(SCENE_NAV));
+    dispatch(removeNavigationPath(SEQUENCE_NAV));
+    dispatch(removeNavigationPath(ACT_NAV));
     dispatch(addNavigationPath(PROJECT_NAV, createdProject.data.id))
     dispatch(createNewDraftCardThunk(['userProjects', createdProject.data.id]))
   })
@@ -385,7 +397,10 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state.setIn(['userProjects', 'error'], action.payload);
 
     case REMOVE_USER:
-      return state.clear().set(defaultState);
+      return state.withMutations(map => {
+        map.clear();
+        map.set(defaultState);
+      })
 
     default:
       return state;

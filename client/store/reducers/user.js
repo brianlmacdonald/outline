@@ -70,7 +70,10 @@ export default function (state = defaultUser, action) {
       return state.set('error', action.payload);
 
     case REMOVE_USER:
-      return state.clear().set(defaultUser);
+      return state.withMutations(map => {
+        map.clear();
+        map.set(defaultUser);
+      });
 
     default:
       return state;

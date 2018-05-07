@@ -4,7 +4,6 @@ import { Thumbnail } from 'APP/client/components/index.jsx';
 
 const ThumbsContainer = props => {
   const {
-    handleEdit,
     thumbs,
   } = props;
 
@@ -16,7 +15,6 @@ const ThumbsContainer = props => {
         key={card.get('id') + 'tnc'}
         id={card.get('id')}
         index={idx}
-        handleEdit={() => handleEdit(card)}
       />
     );
   });

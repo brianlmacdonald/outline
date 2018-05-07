@@ -39,7 +39,10 @@ const navigator = (state = defaultState, action) => {
       return state.set(action.payload, null);
 
     case REMOVE_USER:
-      return state.clear().set(defaultState);
+      return state.withMutations(map => {
+        map.clear();
+        map.set(defaultState);
+      });
 
     default:
       return state;

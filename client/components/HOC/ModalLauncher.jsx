@@ -13,14 +13,13 @@ class ModalLauncher extends Component {
   }
 
   handleToggleModal() {
-    console.log(this);
     this.setState({ toggle: !this.state.toggle });
   }
 
   render() {
-    const { type, children, styleClass, isEditing} = this.props;
+    const { type, children, styleClass, isEditing } = this.props;
     const { toggle } = this.state;
-    const action = styleClass[0] === 'a' ? 'add' : 'open';
+    const action = styleClass.slice(0, -6);
     return (
       <div>
         <button
