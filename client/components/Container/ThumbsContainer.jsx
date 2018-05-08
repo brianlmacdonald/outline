@@ -6,7 +6,7 @@ const ThumbsContainer = props => {
   const {
     thumbs,
   } = props;
-
+  console.log(thumbs);
   return thumbs.map((card, idx) => {
     return (
       <Thumbnail

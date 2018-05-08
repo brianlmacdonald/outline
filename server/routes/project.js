@@ -43,7 +43,7 @@ router.post('/:userId', (req, res, next) => {
 });
 
 //get and load one single project.
-router.get('/:userid/:projectId', (req, res, next) => {
+router.get('/:userId/:projectId', (req, res, next) => {
   return Project.scope('acts').find({
     where: {
       [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]},
@@ -63,5 +63,14 @@ router.put('/:projectId', (req, res, next) => {
   return Project.find({where: {id: req.params.projectId}})
   .then(foundProject => foundProject.update(req.body))
   .then(updatedProject => res.sendStatus(204))
+  .catch(next);
+});
+
+router.delete('/:userId/:projectId', (req, res, next) => {
+  return Project.destroy({
+    where: {
+      [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]},
+  })
+  .then(destroyedProject => res.sendStatus(204))
   .catch(next);
 });

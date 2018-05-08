@@ -17,7 +17,7 @@ class ModalLauncher extends Component {
   }
 
   render() {
-    const { type, children, styleClass, isEditing } = this.props;
+    const { type, children, styleClass, isEditing, message } = this.props;
     const { toggle } = this.state;
     const action = styleClass.slice(0, -6);
     return (
@@ -26,7 +26,7 @@ class ModalLauncher extends Component {
         className={styleClass}
         onClick={
           this.handleToggleModal}
-          >{action} {CLASS_NAME_OBJ[type]}
+          >{message} {CLASS_NAME_OBJ[type]}
           </button>
         {toggle &&
         <Modal

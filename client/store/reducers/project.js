@@ -145,35 +145,34 @@ export const persistingProjectFailure = (error: ProjectError, project: ProjectNo
   };
 };
 
-export const deletingProject = (project: ProjectNode) => {
+export const deletingProject = (projectId: ProjectId) => {
   return {
     type: PROJECT_DELETE_REQUEST,
-    payload: project
+    payload: projectId
   };
 };
 
-export const projectDeleted = (project: ProjectNode) => {
+export const projectDeleted = (projectId: ProjectId) => {
   return {
     type: PROJECT_DELETE_SUCCESS,
-    payload: project
+    payload: projectId
   };
 };
 
-export const projectDeletionError = (error: ProjectError, project: ProjectNode, ) => {
+export const projectDeletionError = (error: ProjectError, projectId: ProjectId, ) => {
   return {
     type: PROJECT_DELETE_FAILURE,
-    payload: { project, error }
+    payload: { id: projectId, error }
   };
 };
 
 export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
   dispatch(allProjectsLoading());
-
   return axios
     .get(`api/projects/${userId}`)
     .then(foundProjects => {
       if (foundProjects.data.length === 0) {
-        return;
+        dispatch(allProjectsLoaded([]))
       } else {
         dispatch(allProjectsLoaded(foundProjects.data));
       }
@@ -183,8 +182,6 @@ export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
 
 export const loadSingleProject = (userId: UserId, projectId: ProjectId) => (dispatch: Dispatch) => {
   dispatch(projectLoading());
-  console.log(userId);
-  console.log(projectId);
   return axios
     .get(`api/projects/${userId}/${projectId}`)
     .then(singleProject => {
@@ -289,10 +286,13 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       });
 
     case PROJECT_DELETE_REQUEST:
-      return state.setIn(['userProjects', action.payload.id, 'isSaving'], true);
+      return state.setIn(['userProjects', action.payload, 'isSaving'], true);
 
     case PROJECT_DELETE_SUCCESS:
-      return state.deleteIn(['userProjects', action.payload.id]);
+      return state.withMutations(map => {
+        map.setIn(['deleted', action.payload]);
+        map.deleteIn(['userProjects', action.payload])
+      });
 
     case PROJECT_DELETE_FAILURE:
       return state.withMutations(map => {

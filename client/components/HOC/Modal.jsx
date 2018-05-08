@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ModalLauncherHOC from './ModalLauncher.jsx';
 import { isNil } from 'lodash';
 import './Modal.css';
 

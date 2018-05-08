@@ -36,6 +36,7 @@ const Thumbnail = (props) => {
         <p key={id + 'p'}>{bodyPrev}</p>
         <div>
           <ModalLauncher
+          message={'open '}
           isEditing={false}
           styleClass={'openButton'}
           type={type}>

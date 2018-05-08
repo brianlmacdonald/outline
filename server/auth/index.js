@@ -42,6 +42,22 @@ router.post('/signup', mustHavePassword, (req, res, next) => {
     });
 });
 
+router.post('/verify', (req, res, next) => {
+  console.log(req.body);
+  return User.findOne({
+    where: {email: req.body.email}
+  })
+  .then(user => {
+    if (!user) {
+        return res.status(401).send('User not found');
+      } else if (!user.checkPassword(req.body.password)) {
+        return res.status(401).send('Incorrect password');
+      } else {
+        return res.sendStatus(204);
+      }
+  });
+});
+
 router.post('/logout', (req, res) => {
   req.logout();
   res.redirect('/');

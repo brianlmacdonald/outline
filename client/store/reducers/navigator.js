@@ -3,6 +3,7 @@ import { REMOVE_USER } from './user';
 
 const ADD_PATH = 'ADD_PATH';
 const DELETE_PATH = 'DELETE_PATH';
+const CLEAR_PATHS = 'CLEAR_PATHS';
 
 import {
   PROJECT_TYPE,
@@ -13,6 +14,9 @@ import {
   loadSingleProject
 } from './project.js';
 
+export const clearNavigation = () => ({
+  type: CLEAR_PATHS
+});
 
 export const addNavigationPath = (type, id) => ({
   type: ADD_PATH,
@@ -56,7 +60,7 @@ export const beatNavigation = payload => dispatch => {
 
 
 
-const defaultState = Map({
+const defaultNav = Map({
   PROJECT_TYPE: null,
   ACT_TYPE: null,
   SEQUENCE_TYPE: null,
@@ -64,7 +68,7 @@ const defaultState = Map({
   BEAT_TYPE: null
 });
 
-const navigator = (state = defaultState, action) => {
+const navigator = (state = defaultNav, action) => {
 
   switch (action.type) {
     case ADD_PATH:
@@ -73,10 +77,19 @@ const navigator = (state = defaultState, action) => {
     case DELETE_PATH:
       return state.set(action.payload, null);
 
+    case CLEAR_PATHS:
+      return state.withMutations(map => {
+        map.set(PROJECT_TYPE, null);
+        map.set(ACT_TYPE, null);
+        map.set(SEQUENCE_TYPE, null);
+        map.set(SCENE_TYPE, null);
+        map.set(BEAT_TYPE, null);
+      });
+
     case REMOVE_USER:
       return state.withMutations(map => {
         map.clear();
-        map.set(defaultState);
+        map.set(defaultNav);
       });
 
     default:

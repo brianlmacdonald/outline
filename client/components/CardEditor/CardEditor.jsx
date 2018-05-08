@@ -20,7 +20,8 @@ import {
   createNewAct,
   createNewDraftCardThunk,
   createNewDraftCard,
-  persistToDB 
+  persistToDB,
+  deleteFromDB
 } from '../../store/index';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -28,6 +29,8 @@ import { Map } from 'immutable';
 import type { ProjectPathArray } from 'APP/Types/Project';
 import history from './../../history.js';
 import './CardEditor.css';
+import { ModalLauncher } from '../index.jsx';
+import DeleteDialog from './DeleteDialog.jsx';
 
 const leaveWarning = 'Are you sure you want to leave this page?';
 //add the save warnings to the modal click / nav events.
@@ -37,6 +40,7 @@ class CardEditor extends Component {
   constructor(props){
     super(props);
     this.ifNullEmptyString = this.ifNullEmptyString.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   
   }
 
@@ -52,12 +56,12 @@ class CardEditor extends Component {
       project,
       user
     } = this.props;
-    console.log(type);
+
     if (newCard && type === PROJECT_TYPE) {
       handleNewProject(user.get('id'));
     } else if (newCard) {
       handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''}))
-      handleNavigation({ id: parent.id, userId: user.get('id')});
+      // handleNavigation({ id: parent.id, userId: user.get('id')});
     } else {
       handleNavigation({ id: card.get('id'), userId: user.get('id')});
       handleNewCard(card);
@@ -88,17 +92,36 @@ class CardEditor extends Component {
     //fill in for later;
   }
 
+  handleSubmit(password){
+    const { handleDelete, user, card, type, draft, navigator, close } = this.props;
+    const userObj = {
+      id: user.get('id'),
+      email: user.get('email'),
+      password,
+    };
+    const cardObj = {
+      type,
+      id: draft.get('id')
+    }
+    const projectId = navigator.get(PROJECT_TYPE);
+    const deleteObj = { user: userObj, card: cardObj, projectId }
+    handleDelete(deleteObj);
+    return close();
+
+  }
+
   render() {
     const {
       parent,
       draft,
       navigator,
       user,
+      type,
       handleSave,
       handleChange,
       newCard,
       close } = this.props;
-    console.log(parent, 'parent in render');
+
     return (
       <div
         className={'cardEditor'}>
@@ -120,8 +143,7 @@ class CardEditor extends Component {
           />
           <button
             className='button'
-            onClick={(evt) => {
-              evt.preventDefault();
+            onClick={() => {
               handleSave({
                 newCard,
                 parent,
@@ -131,6 +153,13 @@ class CardEditor extends Component {
               return close();
             }}
             >save</button>
+          <ModalLauncher
+            isEditing={false}
+            styleClass={'editButton'}
+            type={type}
+            message={'delete '}
+          ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
+          </ModalLauncher>
         </div>
       </div>
     );
@@ -150,8 +179,8 @@ const MapDispatch = dispatch => ({
   handleReset(){
     //reload the card from project
   },
-  handleDelete(){
-    //delete the card
+  handleDelete(deleteObj){
+    dispatch(deleteFromDB(deleteObj))
   },
   handleCancel(){
     //clear draft state.
