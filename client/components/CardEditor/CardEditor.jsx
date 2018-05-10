@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import history from '../../history.js';
 import { withRouter } from 'react-router';
 import { 
   PROJECT_TYPE,
@@ -51,7 +52,6 @@ class CardEditor extends Component {
       card, 
       project,
       user,
-      history,
     } = this.props;
 
     if (newCard && type === PROJECT_TYPE) {
@@ -83,7 +83,6 @@ class CardEditor extends Component {
   }
 
   componentWillUnmount(){
-    this.props.close();
     this.props.handleDiscard();
     window.removeEventListener('beforeunload', this.exitBlocker);
     this.unblock();
@@ -111,7 +110,7 @@ class CardEditor extends Component {
     const projectId = navigator.get(PROJECT_TYPE);
     const deleteObj = { user: userObj, card: cardObj, projectId }
     handleDelete(deleteObj);
-    return close();
+    close();
 
   }
 
@@ -197,5 +196,5 @@ const MapDispatch = dispatch => ({
   }
 });
 
-const ConnectedCardEditor = connect(null, MapDispatch)(withRouter(CardEditor));
+const ConnectedCardEditor = connect(null, MapDispatch)(CardEditor);
 export default ConnectedCardEditor;

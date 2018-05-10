@@ -13,7 +13,7 @@ import {
   projectDeleted,
   projectDeletionError,
   loadUserProjects,
-  projectNavigation,
+  removeNavigationPath,
   clearNavigation
 } from '../index.js';
 
@@ -38,7 +38,7 @@ const deleteCardError = (err, cardId) => ({
 
 export const deleteFromDB = (deleteObj) => dispatch => {
   const { card, user, projectId } = deleteObj;
-  console.log(deleteObj);
+
   switch (card.type) {
     case PROJECT_TYPE:
     dispatch(deletingProject(projectId));
@@ -60,26 +60,26 @@ export const deleteFromDB = (deleteObj) => dispatch => {
     .catch(err => dispatch(projectDeletionError(err, projectId)));
 
     case ACT_TYPE:
-    return makeDeleteRequest(dispatch)('acts', card.id, projectId, user.id);
+    return makeDeleteRequest(dispatch)('acts', card.id, projectId, user.id, card.type);
 
     case SEQUENCE_TYPE:
-    return makeDeleteRequest(dispatch)('sequences', card.id, projectId, user.id);
+    return makeDeleteRequest(dispatch)('sequences', card.id, projectId, user.id, card.type);
 
     case SCENE_TYPE:
-    return makeDeleteRequest(dispatch)('scenes', card.id, projectId, user.id);
+    return makeDeleteRequest(dispatch)('scenes', card.id, projectId, user.id, card.type);
 
     case BEAT_TYPE:
-    return makeDeleteRequest(dispatch)('beats', card.id, projectId, user.id);
+    return makeDeleteRequest(dispatch)('beats', card.id, projectId, user.id, card.type);
   }
 };
 
 function makeDeleteRequest(dispatch) {
-  return function(route, cardId, projectId, userId){
+  return function(route, cardId, projectId, userId, type){
   dispatch(deletingCard());
       return axios.delete(`/api/${route}/${cardId}/`)
       .then(deleteResponse => {
         if (deleteResponse.status === 204) {
-          dispatch(projectNavigation({userId, id: projectId}));
+          dispatch(removeNavigationPath(type));
           dispatch(deletedCard(cardId));
         } else {
           throw new Error(`Bad Status: ${deleteResponse.status}`);
