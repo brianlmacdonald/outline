@@ -19,3 +19,9 @@ router.put('/:beatId', (req, res, next) => {
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });
+
+router.delete('/:beatId/', (req, res, next) => {
+  return Beat.destroy({where: {id: req.params.beatId}})
+  .then(destroyedBeat => res.sendStatus(204))
+  .catch(next);
+});

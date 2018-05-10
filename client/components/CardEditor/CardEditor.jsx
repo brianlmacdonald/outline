@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import { 
   PROJECT_TYPE,
   CARD_TYPE_ID,
@@ -27,14 +28,9 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
 import type { ProjectPathArray } from 'APP/Types/Project';
-import history from './../../history.js';
 import './CardEditor.css';
 import { ModalLauncher } from '../index.jsx';
 import DeleteDialog from './DeleteDialog.jsx';
-
-const leaveWarning = 'Are you sure you want to leave this page?';
-//add the save warnings to the modal click / nav events.
-//right now if you click away there will be no save check.
 
 class CardEditor extends Component {
   constructor(props){
@@ -54,7 +50,8 @@ class CardEditor extends Component {
       parent,
       card, 
       project,
-      user
+      user,
+      history,
     } = this.props;
 
     if (newCard && type === PROJECT_TYPE) {
@@ -67,21 +64,29 @@ class CardEditor extends Component {
       handleNewCard(card);
     }
 
-    this.exitWarning = (event) => {
-      if (!this.props.draft.get(CARD_TYPE_ID)) {
-        event.returnValue = leaveWarning;
-        return leaveWarning;
+    const leaveMessage = 'You haven\'t saved. Discard changes?';
+
+    this.exitBlocker = (event) => {
+      if (this.props.draft.get('type')) {
+        event.returnValue = leaveMessage;
+        return leaveMessage;
       }
     };
 
-    window.addEventListener('beforeunload', this.exitWarning);
+    window.addEventListener('beforeunload', this.exitBlocker);
 
+    this.unblock = history.block((location, action) => {
+      const isEditing = this.props.draft.get('type') !== null;
+      if (isEditing) return 'You haven\'t saved. Discard changes?';
+      else return;
+    });
   }
 
   componentWillUnmount(){
-    // const { handleDelete } = this.props;
-    // if (this.props.draft.get('id')) handleDelete();
-    window.removeEventListener('beforeunload', this.exitWarning);
+    this.props.close();
+    this.props.handleDiscard();
+    window.removeEventListener('beforeunload', this.exitBlocker);
+    this.unblock();
   }
 
   ifNullEmptyString(value) {
@@ -154,7 +159,7 @@ class CardEditor extends Component {
             }}
             >save</button>
           <ModalLauncher
-            isEditing={false}
+            isEditing={draft.get('type')}
             styleClass={'editButton'}
             type={type}
             message={'delete '}
@@ -182,8 +187,8 @@ const MapDispatch = dispatch => ({
   handleDelete(deleteObj){
     dispatch(deleteFromDB(deleteObj))
   },
-  handleCancel(){
-    //clear draft state.
+  handleDiscard(){
+    dispatch(discardDraft());
   },
   handleChange(cardType){
     return (value) => {
@@ -192,5 +197,5 @@ const MapDispatch = dispatch => ({
   }
 });
 
-const ConnectedCardEditor = connect(null, MapDispatch)(CardEditor);
+const ConnectedCardEditor = connect(null, MapDispatch)(withRouter(CardEditor));
 export default ConnectedCardEditor;

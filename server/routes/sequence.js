@@ -18,3 +18,9 @@ router.put('/:sequenceId', (req, res, next) => {
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });
+
+router.delete('/:sequenceId/', (req, res, next) => {
+  return Sequence.destroy({where: {id: req.params.sequenceId}})
+  .then(destroyedSequence => res.sendStatus(204))
+  .catch(next);
+});

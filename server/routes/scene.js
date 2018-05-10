@@ -18,3 +18,9 @@ router.put('/:sceneId', (req, res, next) => {
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });
+
+router.delete('/:sceneId/', (req, res, next) => {
+  return Scene.destroy({where: {id: req.params.sceneId}})
+  .then(destroyedScene => res.sendStatus(204))
+  .catch(next);
+});

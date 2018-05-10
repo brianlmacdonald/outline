@@ -6,6 +6,7 @@ import './Thumbnail.css';
 
 const Thumbnail = (props) => {
   const {
+    draft,
     user, 
     id,
     index,
@@ -37,7 +38,7 @@ const Thumbnail = (props) => {
         <div>
           <ModalLauncher
           message={'open '}
-          isEditing={false}
+          isEditing={draft.get('type')}
           styleClass={'openButton'}
           type={type}>
             <CardView {...props} />

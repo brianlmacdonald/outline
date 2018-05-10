@@ -171,11 +171,7 @@ export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
   return axios
     .get(`api/projects/${userId}`)
     .then(foundProjects => {
-      if (foundProjects.data.length === 0) {
-        dispatch(allProjectsLoaded([]))
-      } else {
         dispatch(allProjectsLoaded(foundProjects.data));
-      }
     })
     .catch(err => dispatch(allProjectsLoadError(err)));
 };
@@ -208,7 +204,8 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
 
 const defaultState: State = Map({
   'isFetching': false,
-  'userProjects': Map({})
+  'userProjects': Map({}),
+  'trash': Map({})
   });
 
 const projectReducer: Reducer = (state = defaultState, action) => {
@@ -289,8 +286,9 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state.setIn(['userProjects', action.payload, 'isSaving'], true);
 
     case PROJECT_DELETE_SUCCESS:
+      id = state.getIn(['userProjects', action.payload])
       return state.withMutations(map => {
-        map.setIn(['deleted', action.payload]);
+        map.setIn(['trash', action.payload], id);
         map.deleteIn(['userProjects', action.payload])
       });
 

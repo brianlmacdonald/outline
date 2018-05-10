@@ -3,10 +3,8 @@ import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import { Thumbnail } from 'APP/client/components/index.jsx';
 
 const ThumbsContainer = props => {
-  const {
-    thumbs,
-  } = props;
-  console.log(thumbs);
+  const { thumbs } = props;
+
   return thumbs.map((card, idx) => {
     return (
       <Thumbnail

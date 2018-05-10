@@ -6,7 +6,7 @@ import store from '../../store';
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
 const UPDATE_CARD = 'UPDATE_CARD';
-const DRAFT_SAVED = 'DRAFT_SAVED';
+const DRAFT_CLEARED = 'DRAFT_CLEARED';
 
 //the key names in the card immutable maps.
 export const CARD_TYPE_ID = 'id';
@@ -53,9 +53,15 @@ export const updateCard = (cardType, value) => {
   };
 };
 
+export const discardDraft = () => {
+  return {
+    type: DRAFT_CLEARED
+  };
+};
+
 export const draftSaved = () => {
   return {
-    type: DRAFT_SAVED
+    type: DRAFT_CLEARED
   };
 };
 //find
@@ -106,7 +112,7 @@ const draftReducer = (state = defaultDraft, action) => {
     case CREATE_CARD_DRAFT_ERROR:
       return state.set('error', action.payload);
 
-    case DRAFT_SAVED:
+    case DRAFT_CLEARED:
       return state.withMutations(map => {
         map.set(CARD_TYPE_ID, null)
         .set(CARD_TYPE_TYPE, null)

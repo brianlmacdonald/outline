@@ -13,6 +13,7 @@ import {
   projectDeleted,
   projectDeletionError,
   loadUserProjects,
+  projectNavigation,
   clearNavigation
 } from '../index.js';
 
@@ -76,15 +77,12 @@ function makeDeleteRequest(dispatch) {
   return function(route, cardId, projectId, userId){
   dispatch(deletingCard());
       return axios.delete(`/api/${route}/${cardId}/`)
-      .then(deletedCard => {
-        if (deletedCard.status === 204) {
-          return axios.get(`/api/projects/${userId}/${projectId}`)
-          .then(reloadedProject => {
-            return dispatch(deletedCard(fromJS(reloadedProject.data)));
-          })
-          .catch(err => dispatch(projectLoadError(err, projectId)));
+      .then(deleteResponse => {
+        if (deleteResponse.status === 204) {
+          dispatch(projectNavigation({userId, id: projectId}));
+          dispatch(deletedCard(cardId));
         } else {
-          throw new Error(`Bad Status: ${deletedCard.status}`);
+          throw new Error(`Bad Status: ${deleteResponse.status}`);
         }
       })
       .catch(err => dispatch(deleteCardError(err, cardId)));

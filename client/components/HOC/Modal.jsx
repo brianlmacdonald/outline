@@ -22,6 +22,7 @@ class Modal extends Component {
 
   handleKeyUp(e) {
     const { close, isEditing } = this.props;
+
     const keys = {
       27: () => {
         e.preventDefault();
@@ -47,7 +48,7 @@ class Modal extends Component {
 
   render() {
     const { children } = this.props;
-
+    
     return (
       <div className='modal'>
         <div

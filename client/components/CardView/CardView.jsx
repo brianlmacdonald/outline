@@ -2,7 +2,7 @@ import React from 'react';
 import { ModalLauncher, CardEditor } from '../index.jsx';
 
 const CardView = (props) => {
-  const { card, close, type, navigator, handleDelete } = props;
+  const { card, close, type, navigator, handleDelete, draft } = props;
   const id = card.get('id');
   const self = {id, type};
   //cardview edit, parent is self for the card.
@@ -18,7 +18,7 @@ const CardView = (props) => {
       <ModalLauncher
         message={`edit `}
         type={type}
-        isEditing={true}
+        isEditing={draft.get('type')}
         styleClass={'editButton'}
       >
         <CardEditor
