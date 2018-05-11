@@ -122,6 +122,7 @@ class CardEditor extends Component {
       user,
       type,
       handleSave,
+      handleCancel,
       handleChange,
       newCard,
       close } = this.props;
@@ -164,6 +165,9 @@ class CardEditor extends Component {
             message={'delete '}
           ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
           </ModalLauncher>}
+          <button onClick={() => handleCancel(close)}>
+            cancel
+          </button>
         </div>
       </div>
     );
@@ -179,6 +183,10 @@ const MapDispatch = dispatch => ({
   },
   handleSave(saveObj, closeFn){
     dispatch(persistToDB(saveObj));
+    closeFn();
+  },
+  handleCancel(closeFn){
+    dispatch(discardDraft());
     closeFn();
   },
   handleReset(){
