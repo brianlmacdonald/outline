@@ -12,7 +12,7 @@ import {
   deletingProject,
   projectDeleted,
   projectDeletionError,
-  loadUserProjects,
+  loadSingleProject,
   removeNavigationPath,
   clearNavigation
 } from '../index.js';
@@ -81,6 +81,7 @@ function makeDeleteRequest(dispatch) {
         if (deleteResponse.status === 204) {
           dispatch(removeNavigationPath(type));
           dispatch(deletedCard(cardId));
+          dispatch(loadSingleProject(userId, projectId));
         } else {
           throw new Error(`Bad Status: ${deleteResponse.status}`);
         }

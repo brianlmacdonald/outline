@@ -28,7 +28,7 @@ import {
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
-import type { ProjectPathArray } from 'APP/Types/Project';
+import type { ProjectPathArray } from 'APP/Types/Project';// eslint-disable-line
 import './CardEditor.css';
 import { ModalLauncher } from '../index.jsx';
 import DeleteDialog from './DeleteDialog.jsx';
@@ -98,7 +98,7 @@ class CardEditor extends Component {
 
   handleSubmit(password){
     const { handleDelete, user, card, type, draft, navigator, close } = this.props;
-    const userObj = {
+    const userObject = {
       id: user.get('id'),
       email: user.get('email'),
       password,
@@ -106,10 +106,10 @@ class CardEditor extends Component {
     const cardObj = {
       type,
       id: draft.get('id')
-    }
+    };
     const projectId = navigator.get(PROJECT_TYPE);
-    const deleteObj = { user: userObj, card: cardObj, projectId }
-    handleDelete(deleteObj);
+    const deleteObject = { user: userObject, card: cardObj, projectId };
+    handleDelete(deleteObject);
     close();
 
   }
@@ -125,10 +125,17 @@ class CardEditor extends Component {
       handleChange,
       newCard,
       close } = this.props;
+    const saveObject = { 
+      newCard,
+      parent,
+      draft,
+      userId: user.get('id'),
+      projectId: navigator.get(PROJECT_TYPE)
+      };
+    const isEditing = draft.get('type') !== null;
 
     return (
-      <div
-        className={'cardEditor'}>
+      <div className={'cardEditor'}>
         <div className={'editorFields'}>
           <input
             className='titleField'
@@ -137,7 +144,7 @@ class CardEditor extends Component {
             onChange={(evt) => {
               handleChange(CARD_TYPE_TITLE)(evt.target.value)
             }}
-            />
+          />
           <textarea
             className='bodyField'
             value={this.ifNullEmptyString(draft.get('body'))}
@@ -147,23 +154,16 @@ class CardEditor extends Component {
           />
           <button
             className='button'
-            onClick={() => {
-              handleSave({
-                newCard,
-                parent,
-                draft,
-                userId: user.get('id'),
-                projectId: navigator.get(PROJECT_TYPE)});
-              return close();
-            }}
-            >save</button>
-          <ModalLauncher
-            isEditing={draft.get('type')}
+            onClick={() => handleSave(saveObject, close)}>
+            save
+          </button>
+          {!newCard && <ModalLauncher
+            isEditing={isEditing}
             styleClass={'editButton'}
             type={type}
             message={'delete '}
           ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
-          </ModalLauncher>
+          </ModalLauncher>}
         </div>
       </div>
     );
@@ -177,8 +177,9 @@ const MapDispatch = dispatch => ({
   handleNewCard(newCard){
     dispatch(createNewDraftCard(newCard))
   },
-  handleSave(saveObj){
+  handleSave(saveObj, closeFn){
     dispatch(persistToDB(saveObj));
+    closeFn();
   },
   handleReset(){
     //reload the card from project
