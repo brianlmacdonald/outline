@@ -26,7 +26,7 @@ class ModalLauncher extends Component {
       draft
     } = this.props;
     const { toggle } = this.state;
-    const action = styleClass.slice(0, -6);
+    
     return (
       <div>
         <button

@@ -39,7 +39,7 @@ const Thumbnail = (props) => {
           <ModalLauncher
           message={'open '}
           isEditing={draft.get('type')}
-          styleClass={'openButton'}
+          styleClass={'button'}
           type={type}>
             <CardView {...props} />
           </ModalLauncher>

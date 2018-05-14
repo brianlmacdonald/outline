@@ -38,7 +38,7 @@ const Container = (props) => {
         </ModalLauncher>
         <ThumbsContainer {...props} empty={EmptyProp(type)} />
       </div>
-      <div>
+      <div className='thumbsContainer'>
         {children}
       </div>
     </div>

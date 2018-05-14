@@ -136,7 +136,7 @@ class CardEditor extends Component {
     const isEditing = draft.get('type') !== null;
 
     return (
-      <div className={'cardEditor'}>
+      <div className={'cardView editor'}>
         <div className={'editorFields'}>
           <input
             className='titleField'
@@ -153,21 +153,23 @@ class CardEditor extends Component {
               handleChange(CARD_TYPE_BODY)(evt.target.value);
               }}
           />
-          <button
-            className='button'
-            onClick={() => handleSave(saveObject, close)}>
-            save
-          </button>
-          {!newCard && <ModalLauncher
-            isEditing={isEditing}
-            styleClass={'editButton'}
-            type={type}
-            message={'delete '}
-          ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
-          </ModalLauncher>}
-          <button onClick={() => handleCancel(close)}>
-            cancel
-          </button>
+          <div className='buttonGroup'>
+            <button
+              className='button'
+              onClick={() => handleSave(saveObject, close)}>
+              save
+            </button>
+            {!newCard && <ModalLauncher
+              isEditing={isEditing}
+              styleClass={'button'}
+              type={type}
+              message={'delete '}
+            ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
+            </ModalLauncher>}
+            <button className={'button'} onClick={() => handleCancel(close)}>
+              cancel
+            </button>
+          </div>
         </div>
       </div>
     );

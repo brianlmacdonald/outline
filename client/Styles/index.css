@@ -1,0 +1,38 @@
+.buttonGroup {
+  position: absolute;
+  bottom: 3%;
+  right: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  justify-self: flex-end;
+}
+
+.button {
+  margin: 1em;
+  height: 2em;
+  width: 12em;
+}
+
+.cardView {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 1em;
+  height: 40em;
+  width: 80em;
+  margin: 1em;
+}
+
+.dialog {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  width: 20em;
+  height: 3em;
+  border: black 1em solid;
+  padding: 1em;
+  background-color: red;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModalLauncher, CardEditor } from '../index.jsx';
+import './CardView.css';
 
 const CardView = (props) => {
   const { card, close, type, navigator, handleDelete, draft } = props;
@@ -8,18 +9,19 @@ const CardView = (props) => {
   //cardview edit, parent is self for the card.
   return (
     <div
-    className={'cardView'}>
+    className={'cardView view'}>
       <h1>
         {card.get('title')}
       </h1>
       <p>
         {card.get('body')}
       </p>
+      <div className={'buttonGroup'} >
       <ModalLauncher
-        message={`edit `}
+        message={'edit '}
         type={type}
         isEditing={draft.get('type')}
-        styleClass={'editButton'}
+        styleClass={'button'}
       >
         <CardEditor
           {...props}
@@ -27,6 +29,7 @@ const CardView = (props) => {
           newCard={false}
           parent={self}/>
       </ModalLauncher>
+      </div>
     </div>
   );
 };

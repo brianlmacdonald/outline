@@ -1,6 +1,7 @@
 .container {
   display: flex;
   border: 2px #9899A6 solid;
+  overflow: scroll;
 }
 
 .project {
