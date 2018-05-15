@@ -12,7 +12,7 @@
   "start-dev": "cross-env NODE_ENV=development npm run build-client-watch & npm run start-server",
   "start-watch": "nodemon server/start.js --watch server --watch db --watch index.js --watch package.json",
   "start-server": "cross-env NODE_ENV=development nodemon server",
-  "start": "NODE_ENV=production node server/index.js",
+  "start": "NODE_ENV=production npm run webpack & npm run node server/index.js",
   "lint": "eslint . --ignore-path .gitignore --ext '.js,.jsx'",
   "validate": "check-node-version --node '>= 7.0.0'",
   "setup": "./bin/mkapplink.js",
