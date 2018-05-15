@@ -1,5 +1,6 @@
 'use strict';
 import axios from 'axios';
+import { actions as notifActions } from 'redux-notifications';
 import { fromJS } from 'immutable';
 import { projectLoadError } from '../reducers/project';
 import {
@@ -16,6 +17,8 @@ import {
   removeNavigationPath,
   clearNavigation
 } from '../index.js';
+
+const { notifSend } = notifActions;
 
 export const CARD_DELETE_REQUEST = 'CARD_DELETE_REQUEST';
 export const CARD_DELETE_SUCCESS = 'CARD_DELETE_SUCCESS';
@@ -44,20 +47,25 @@ export const deleteFromDB = (deleteObj) => dispatch => {
     dispatch(deletingProject(projectId));
     return axios.post('/auth/verify', user)
     .then(foundUser => {
-      if (foundUser.status === 204) {
         return axios.delete(`/api/projects/${user.id}/${projectId}`)
         .then(deletedProject => {
-          if (deletedProject.status === 204) {
+            dispatch(notifSend({
+              message: 'delete successful',
+              kind: 'info',
+              dismissAfter: 2000
+            }));
             dispatch(clearNavigation());
             return dispatch(projectDeleted(projectId));
-          } else {
-            throw new Error(`Bad Status: ${deletedProject.status}`);
-      }});
-      } else {
-        throw new Error(`Bad Status: ${foundUser.status}`)
-      }
+      });
     })
-    .catch(err => dispatch(projectDeletionError(err, projectId)));
+    .catch(err => {
+      dispatch(notifSend({
+        message: 'password or email incorrect',
+        kind: 'warning',
+        dismissAfter: 3500
+      }));
+      dispatch(projectDeletionError(err, projectId));
+    });
 
     case ACT_TYPE:
     return makeDeleteRequest(dispatch)('acts', card.id, projectId, user.id, card.type);
@@ -79,6 +87,11 @@ function makeDeleteRequest(dispatch) {
       return axios.delete(`/api/${route}/${cardId}/`)
       .then(deleteResponse => {
         if (deleteResponse.status === 204) {
+          dispatch(notifSend({
+            message: `${route} deleted`,
+            kind: 'info',
+            dismissAfter: 2000
+          }));
           dispatch(removeNavigationPath(type));
           dispatch(deletedCard(cardId));
           dispatch(loadSingleProject(userId, projectId));
@@ -86,6 +99,13 @@ function makeDeleteRequest(dispatch) {
           throw new Error(`Bad Status: ${deleteResponse.status}`);
         }
       })
-      .catch(err => dispatch(deleteCardError(err, cardId)));
+      .catch(err => {
+        dispatch(notifSend({
+          message: `${route} deletion error`,
+          kind: 'error',
+          dismissAfter: 3500
+        }));
+        return dispatch(deleteCardError(err, cardId));
+      });
   };
 }

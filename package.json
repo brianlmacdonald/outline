@@ -57,6 +57,7 @@
   "redux-devtools-extension": "^2.13.2",
   "redux-logger": "^3.0.6",
   "redux-mock-store": "^1.5.1",
+  "redux-notifications": "^4.0.1",
   "redux-thunk": "^2.2.0",
   "sequelize": "^4.28.6",
   "style-loader": "^0.19.1",

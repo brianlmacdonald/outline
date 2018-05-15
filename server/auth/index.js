@@ -43,7 +43,6 @@ router.post('/signup', mustHavePassword, (req, res, next) => {
 });
 
 router.post('/verify', (req, res, next) => {
-  console.log(req.body);
   return User.findOne({
     where: {email: req.body.email}
   })
@@ -55,7 +54,8 @@ router.post('/verify', (req, res, next) => {
       } else {
         return res.sendStatus(204);
       }
-  });
+  })
+  .catch(next);
 });
 
 router.post('/logout', (req, res) => {

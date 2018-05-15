@@ -3,8 +3,10 @@ import user from './user';
 import project from './project';
 import navigator from './navigator';
 import draft from './draft';
+import { reducer as notifReducer } from 'redux-notifications';
 
 const rootReducer = combineReducers({
+  notifs: notifReducer,
   user,
   project,
   navigator,

@@ -1,5 +1,6 @@
 'use strict';
 import { fromJS } from 'immutable';
+import { actions as notifActions } from 'redux-notifications';
 import axios from 'axios';
 import {
   reloadProject,
@@ -15,6 +16,7 @@ import {
   BEAT_TYPE,
   draftSaved
 } from '../index';
+const { notifSend } = notifActions;
 
 const makePostRequest = makeRequest('post', 200);
 const makePutRequest = makeRequest('put', 204);
@@ -30,14 +32,22 @@ export const persistToDB = (saveObj) => dispatch => {
       dispatch(persistingProject(projectId));
         return axios.put(`/api/projects/${id}`, draft)
         .then(updated => {
-          if (updated.status === 204) {
+            dispatch(notifSend({
+              message: 'project created',
+              kind: 'info',
+              dismissAfter: 2000
+            }));
             dispatch(persistedProject(draft));
             return dispatch(draftSaved());
-          } else {
-            throw new Error(`Bad Status: ${updated.status}`);
-          }
         })
-        .catch(err => dispatch(persistingProjectFailure(draft, err)));
+        .catch(err => {
+          dispatch(notifSend({
+            message: 'project not updated',
+            kind: 'error',
+            dismissAfter: 3500
+          }));
+          return dispatch(persistingProjectFailure(draft, err));
+        });
       
       //parent is a project, save the act, reload the project with the act.
       case PROJECT_TYPE:
@@ -65,14 +75,22 @@ export const persistToDB = (saveObj) => dispatch => {
       dispatch(persistingProject(projectId));
         return axios.put(`/api/projects/${parent.id}/`, draft)
         .then(updated => {
-          if (updated.status === 204) {
-            dispatch(persistedProject(draft));
-            return dispatch(draftSaved());
-          } else {
-            throw new Error(`Bad Status: ${updated.status}`);
-          }
+          dispatch({
+            message: 'project saved',
+            kind: 'info',
+            dismissAfter: 2000
+          });
+          dispatch(persistedProject(draft));
+          return dispatch(draftSaved());
         })
-        .catch(err => dispatch(persistingProjectFailure(draft, err)));
+        .catch(err => {
+          dispatch(persistingProjectFailure(draft, err));
+          return dispatch(notifSend({
+            message: 'project not saved',
+            kind: 'error',
+            dismissAfter: 3500
+          }));
+        });
       
       case ACT_TYPE:
       makePutRequest(dispatch)('acts', userId, projectId, parent, draft);
@@ -98,23 +116,43 @@ export const persistToDB = (saveObj) => dispatch => {
 };
 
 function makeRequest(putOrPost, status) {
+  const statusObject = {200: 'created', 204: 'updated'};
   return function(dispatch) {
     return function(route, userId, projectId, parent, draft){
-  dispatch(persistingProject(projectId));
+      dispatch(persistingProject(projectId));
       return axios[putOrPost](`/api/${route}/${parent.id}/`, draft)
       .then(savedCard => {
         if (savedCard.status === status) {
           return axios.get(`/api/projects/${userId}/${projectId}`)
           .then(reloadedProject => {
+            dispatch(notifSend({
+              message: `${route} ${statusObject[status]}`,
+              kind: 'info',
+              dismissAfter: 2000
+            }));
             dispatch(persistedProject(fromJS(reloadedProject.data)));
             return dispatch(draftSaved());
           })
-          .catch(err => dispatch(projectLoadError(err, draft)));
+          .catch(err => {
+            dispatch(notifSend({
+              message: `${route} not loaded`,
+              kind: 'error',
+              dismissAfter: 3500
+            }));
+             return dispatch(projectLoadError(err, draft));
+            });
         } else {
           throw new Error(`Bad Status: ${savedCard.status}`);
         }
       })
-      .catch(err => dispatch(persistingProjectFailure(err, draft)));
+      .catch(err => {
+        dispatch(notifSend({
+          message: `${route} not ${statusObject[status]}`,
+          kind: 'error',
+          dismissAfter: 3500
+        }));
+        return dispatch(persistingProjectFailure(err, draft))
+      });
   };
   };
 }
