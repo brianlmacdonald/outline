@@ -1,9 +1,10 @@
 
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const isDev = process.env.NODE_ENV === 'development';
+const mode = isDev ? 'development' : 'production';
 
 module.exports = {
-  mode: 'development'
+  mode
   ,entry: ['@babel/polyfill','./client/main.js']
   ,output: {
     path: __dirname
