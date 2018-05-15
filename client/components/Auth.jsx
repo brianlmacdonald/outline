@@ -37,7 +37,7 @@ export const UserAuth = props => {
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
-        <a href="/auth/google">{displayName} with Google</a>
+        <a hidden={true} href="/auth/google">{displayName} with Google</a>
       </form>
     </div>
   );

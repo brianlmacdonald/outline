@@ -2,6 +2,7 @@
 'use strict';
 import { Map, fromJS, List } from 'immutable';
 import uuid from 'uuid';
+import { actions as notifActions } from 'redux-notifications'; 
 import type {
   ProjectArray,
   ProjectNode,
@@ -31,6 +32,8 @@ import {
 
 import axios from 'axios';
 import history from '../../history';
+
+const { notifSend } = notifActions;
 
 export const PROJECT_TYPE = 'PROJECT_TYPE';
 export const ACT_TYPE = 'ACT_TYPE';
@@ -191,6 +194,11 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   dispatch(createNewProject());
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
+    dispatch(notifSend({
+      message: 'project created',
+      kind: 'info',
+      dismissAfter: 2000
+    }))
     dispatch(newProjectCreated(createdProject.data));
     dispatch(removeNavigationPath(BEAT_TYPE));
     dispatch(removeNavigationPath(SCENE_TYPE));

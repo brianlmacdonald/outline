@@ -159,6 +159,9 @@ class CardEditor extends Component {
               onClick={() => handleSave(saveObject, close)}>
               save
             </button>
+            <button className={'button'} onClick={() => handleCancel(close)}>
+              cancel
+            </button>
             {!newCard && <ModalLauncher
               isEditing={isEditing}
               styleClass={'button'}
@@ -166,9 +169,6 @@ class CardEditor extends Component {
               message={'delete '}
             ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
             </ModalLauncher>}
-            <button className={'button'} onClick={() => handleCancel(close)}>
-              cancel
-            </button>
           </div>
         </div>
       </div>

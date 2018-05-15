@@ -27,13 +27,12 @@ export const persistToDB = (saveObj) => dispatch => {
 
   if (saveObj.newCard === true) {
     switch(parent.type) {
-      //parent is a user, save the project. No need to reload.
       case USER_TYPE:
       dispatch(persistingProject(projectId));
         return axios.put(`/api/projects/${id}`, draft)
         .then(updated => {
             dispatch(notifSend({
-              message: 'project created',
+              message: 'project updated',
               kind: 'info',
               dismissAfter: 2000
             }));
@@ -49,7 +48,6 @@ export const persistToDB = (saveObj) => dispatch => {
           return dispatch(persistingProjectFailure(draft, err));
         });
       
-      //parent is a project, save the act, reload the project with the act.
       case PROJECT_TYPE:
       makePostRequest(dispatch)('acts', userId, projectId, parent, draft);
       break;
@@ -153,6 +151,6 @@ function makeRequest(putOrPost, status) {
         }));
         return dispatch(persistingProjectFailure(err, draft))
       });
-  };
+    };
   };
 }
