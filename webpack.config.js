@@ -5,10 +5,11 @@ const mode = isDev ? 'development' : 'production';
 
 module.exports = {
   mode
-  ,entry: ['@babel/polyfill','./client/main.js']
+  ,entry: ['./client/main.js']
   ,output: {
     path: __dirname
-    ,filename: './public/bundle.js'
+    ,filename: 'bundle.js'
+    ,publicPath: '/public/'
   }
   ,devtool: 'source-map'
   ,module: {
