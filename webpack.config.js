@@ -5,7 +5,7 @@ const mode = isDev ? 'development' : 'production';
 
 module.exports = {
   mode
-  ,entry: ['./client/main.js']
+  ,entry: './client/main.js'
   ,output: {
     path: __dirname
     ,filename: 'bundle.js'
