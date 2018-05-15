@@ -1,15 +1,12 @@
 
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const isDev = process.env.NODE_ENV === 'development';
-const mode = isDev ? 'development' : 'production';
 
 module.exports = {
-  mode
-  ,entry: './client/main.js'
+  entry: './client/main.js'
   ,output: {
     path: __dirname
-    ,filename: 'bundle.js'
-    ,publicPath: '/public/'
+    ,filename: './public/bundle.js'
   }
   ,devtool: 'source-map'
   ,module: {
