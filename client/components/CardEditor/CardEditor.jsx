@@ -20,7 +20,6 @@ import {
   creatingNewProject,
   discardDraft,
   createNewAct,
-  createNewDraftCardThunk,
   createNewDraftCard,
   persistToDB,
   deleteFromDB

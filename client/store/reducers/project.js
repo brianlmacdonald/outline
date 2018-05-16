@@ -205,7 +205,7 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
     dispatch(removeNavigationPath(SEQUENCE_TYPE));
     dispatch(removeNavigationPath(ACT_TYPE));
     dispatch(addNavigationPath(PROJECT_TYPE, createdProject.data.id))
-    dispatch(createNewDraftCardThunk(['userProjects', createdProject.data.id]))
+    dispatch(createNewDraftCardThunk(fromJS(createdProject.data)))
   })
   .catch(err => dispatch(projectCreationError(err)));
 };

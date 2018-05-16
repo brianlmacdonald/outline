@@ -10,17 +10,15 @@ import project, {
   allProjectsLoading, 
   allProjectsLoadError,
   newProjectCreated,
-  createNewAct,
   } from '../project';
   import navigator, {
     addNavigationPath
   } from '../navigator';
-
-  import { projectPayload } from './superState';
  
   const defaultState = Map({
     isFetching: false,
-    userProjects: Map({})}
+    userProjects: Map({}),
+    trash: Map({})}
   );
 
   const testProjects = [
@@ -100,37 +98,5 @@ import project, {
     t.deepEqual(typeof preState.getIn(['userProjects', 4]), 'object');
     const firstPayload = ['userProjects', 4, 'acts', 0];
     t.deepEqual(firstPayload[firstPayload.length - 1], 0);
-    const nextState = project(preState, createNewAct(firstPayload));
-    const secondPayload = ['userProjects', 4, 'acts', 1];
-    t.deepEqual(nextState.getIn([
-      'userProjects',
-      4,
-      'acts',
-      0,
-      'type'
-      ]), 'ACT_TYPE');
-    t.deepEqual(nextState.getIn([
-      'userProjects',
-      4,
-      'acts'
-      ]).toArray().length, 1);
-    t.deepEqual(nextState.getIn([
-      'userProjects',
-      4,
-      'type'
-      ]), 'PROJECT_TYPE');
-    const finalState = project(nextState, createNewAct(secondPayload));
-    t.deepEqual(finalState.getIn([
-      'userProjects',
-      4,
-      'acts',
-      1,
-      'type'
-      ]), 'ACT_TYPE');
-    t.deepEqual(finalState.getIn([
-      'userProjects',
-      4,
-      'acts'
-      ]).toArray().length, 2);
 
   });
