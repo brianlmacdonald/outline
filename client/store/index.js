@@ -5,7 +5,7 @@ import {createLogger} from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import reducerRegistry from './reducers/ReducerRegistry';
 
-const initialState = sessionStorage.getItem('outline') || {};
+const initialState = window.__OUTLINE_STATE__ || {};
 
 const combine = (reducers) => {
   const reducerNames = Object.keys(reducers);

@@ -16,13 +16,14 @@ class Routes extends Component {
     super(props);
   }
 
-  getDerivedStateFromProps(nextProps, prevState){
+  static getDerivedStateFromProps(nextProps, prevState){
     const {user, project, draft, navigator} = nextProps;
-    sessionStorage.setItem('outline', {user, project, draft, navigator});
+    console.log('hello');
+    window.__OUTLINE_STATE__  = {user, project, draft, navigator};
   }
 
   componentWillUnMount(){
-    sessionStorage.clear();
+    delete window.__OUTLINE_STATE__;
   }
   
   render() {
@@ -50,4 +51,4 @@ const mapState = state => ({
 
 const connectedRoutes = connect(mapState)(Routes);
 
-export default Routes;
+export default connectedRoutes;
