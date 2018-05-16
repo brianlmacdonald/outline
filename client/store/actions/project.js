@@ -3,7 +3,6 @@ import { fromJS } from 'immutable';
 import { actions as notifActions } from 'redux-notifications';
 import axios from 'axios';
 import {
-  reloadProject,
   persistingProjectFailure,
   persistingProject,
   persistedProject,
@@ -14,8 +13,8 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-  draftSaved
-} from '../index';
+} from '../reducers/project';
+import { draftSaved } from '../reducers/draft';
 const { notifSend } = notifActions;
 
 const makePostRequest = makeRequest('post', 200);

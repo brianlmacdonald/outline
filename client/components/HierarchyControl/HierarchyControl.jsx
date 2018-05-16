@@ -8,13 +8,14 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-  USER_TYPE,
+  USER_TYPE } from '../../store/reducers/project';
+import {
   projectNavigation,
   actNavigation,
   sequenceNavigation,
   sceneNavigation,
   beatNavigation
-} from '../../store';
+} from '../../store/reducers/navigator';
 import {
   GET_PROJECTS,
   GET_ACTS,

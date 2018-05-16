@@ -4,7 +4,7 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE
-} from '../../store';
+} from '../../store/reducers/project';
 
 export const GET_PROJECTS = 'GET_PROJECTS';
 export const GET_ACTS = 'GET_ACTS';

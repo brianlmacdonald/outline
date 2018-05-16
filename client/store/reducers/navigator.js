@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 import { REMOVE_USER } from './user';
+import reducerRegistry from './ReducerRegistry';
 
 const ADD_PATH = 'ADD_PATH';
 const DELETE_PATH = 'DELETE_PATH';
@@ -68,7 +69,9 @@ const defaultNav = Map({
   BEAT_TYPE: null
 });
 
-const navigator = (state = defaultNav, action) => {
+const reducerName = 'navigator';
+
+const navigatorReducer = (state = defaultNav, action) => {
 
   switch (action.type) {
     case ADD_PATH:
@@ -97,4 +100,6 @@ const navigator = (state = defaultNav, action) => {
   }
 };
 
-export default navigator;
+reducerRegistry.register(reducerName, navigatorReducer);
+
+export default navigatorReducer;

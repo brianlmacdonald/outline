@@ -1,9 +1,23 @@
-import {createStore, applyMiddleware} from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { reducer as notifReducer } from 'redux-notifications';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import reducerRegistry from './reducers/ReducerRegistry';
 
-import rootReducer from './reducers';
+const initialState = sessionStorage.getItem('outline') || {};
+
+const combine = (reducers) => {
+  const reducerNames = Object.keys(reducers);
+  Object.keys(initialState).forEach(item => {
+    if (reducerNames.indexOf(item) === -1) {
+      reducers[item] = (state = null) => state;
+    }
+  });
+  return combineReducers({notifs: notifReducer, ...reducers});
+};
+
+const reducer = combine(reducerRegistry.getReducers());
 
 const middleWare = composeWithDevTools(
   applyMiddleware(
@@ -12,8 +26,10 @@ const middleWare = composeWithDevTools(
   )
 );
 
-const store = createStore(rootReducer, middleWare);
+const store = createStore(reducer, initialState, middleWare);
+
+reducerRegistry.setChangeListener(reducers => {
+  store.replaceReducer(combine(reducers));
+});
 
 export default store;
-export * from './reducers';
-export * from './actions';

@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../../store';
+import { logout } from '../../store/reducers/user';
 
 const mapDispatch = dispatch => ({
   handleLogout(){

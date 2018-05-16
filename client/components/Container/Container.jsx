@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createDraft } from 'APP/client/store';
 import {
   ThumbsContainer,
   Thumbnail,

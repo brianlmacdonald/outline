@@ -2,8 +2,10 @@
 import React, { Component } from 'react';
 import history from '../../history.js';
 import { withRouter } from 'react-router';
-import { 
-  PROJECT_TYPE,
+import { PROJECT_TYPE, creatingNewProject } from '../../store/reducers/project';
+import { persistToDB } from '../../store/actions/project';
+import { deleteFromDB } from '../../store/actions/deleteAction';
+import {
   CARD_TYPE_ID,
   CARD_TYPE_PARENT,
   CARD_TYPE_ACTS,
@@ -14,16 +16,10 @@ import {
   CARD_TYPE_BODY,
   CARD_TYPE_TITLE,
   CARD_TYPE_TYPE,
-  updateCard
-} from '../../store';
-import { 
-  creatingNewProject,
+  updateCard,
   discardDraft,
-  createNewAct,
   createNewDraftCard,
-  persistToDB,
-  deleteFromDB
-} from '../../store/index';
+} from '../../store/reducers/draft';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';

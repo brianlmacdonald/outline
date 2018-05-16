@@ -9,14 +9,12 @@ import {
   ACT_TYPE,
   SEQUENCE_TYPE,
   SCENE_TYPE,
-  BEAT_TYPE,
+  BEAT_TYPE, 
   deletingProject,
   projectDeleted,
   projectDeletionError,
-  loadSingleProject,
-  removeNavigationPath,
-  clearNavigation
-} from '../index.js';
+  loadSingleProject } from '../reducers/project';
+import { removeNavigationPath, clearNavigation} from '../reducers/navigator';
 
 const { notifSend } = notifActions;
 

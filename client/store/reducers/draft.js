@@ -1,7 +1,6 @@
 import { Map, List, fromJS } from 'immutable';
 import { REMOVE_USER } from './user';
-
-// import store from '../../store';
+import reducerRegistry from './ReducerRegistry';
 
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
@@ -87,6 +86,8 @@ const defaultDraft = Map({
   parent: null,
 });
 
+const reducerName = 'draft';
+
 const draftReducer = (state = defaultDraft, action) => {
 
   switch(action.type) {
@@ -135,5 +136,7 @@ const draftReducer = (state = defaultDraft, action) => {
       return state;
   }
 };
+
+reducerRegistry.register(reducerName, draftReducer);
 
 export default draftReducer;

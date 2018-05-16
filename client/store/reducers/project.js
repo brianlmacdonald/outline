@@ -1,8 +1,8 @@
 // @flow
 'use strict';
 import { Map, fromJS, List } from 'immutable';
-import uuid from 'uuid';
-import { actions as notifActions } from 'redux-notifications'; 
+import { actions as notifActions } from 'redux-notifications';
+import reducerRegistry from './ReducerRegistry';
 import type {
   ProjectArray,
   ProjectNode,
@@ -19,8 +19,6 @@ import type {
   Reducer,
   State
   } from 'APP/Types/Reducer';
-
-import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
 
 import { REMOVE_USER } from './user';
 import { createNewDraftCardThunk } from './draft';
@@ -216,6 +214,8 @@ const defaultState: State = Map({
   'trash': Map({})
   });
 
+const reducerName: string = 'project';
+
 const projectReducer: Reducer = (state = defaultState, action) => {
   let allProjects;
   let id;
@@ -321,5 +321,7 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state;
   }
 };
+
+reducerRegistry.register(reducerName, projectReducer);
 
 export default projectReducer;
