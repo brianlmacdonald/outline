@@ -1,9 +1,9 @@
 'use strict';
 import React, { Component } from 'react'; 
 import Loadable from 'react-loadable';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
+import '../HOC/addLoader.css';
 
-const Loading = LoaderHOC('empty', <div />);
+const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
   loader: () => {

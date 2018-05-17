@@ -1,13 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Display,
-  LoaderHOC,
-  HierarchyControl
-} from '../index.jsx';
+import LoaderHOC from '../HOC/LoaderHOC.jsx';
+import HierarchyControl from '../HierarchyControl/HierarchyControlLoader.jsx';
 import { loadUserProjects } from '../../store/reducers/project';
-import reducerRegistry from '../../store/reducers/ReducerRegistry.js'
+import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
 import project from '../../store/reducers/project';
 import navigator from '../../store/reducers/navigator';
 import draft from '../../store/reducers/draft';
