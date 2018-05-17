@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CardView, ModalLauncher } from '../index.jsx';
+import CardView from '../CardView/CardView.jsx';
+import ModalLauncher from '../HOC/ModalLauncher.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import './Thumbnail.css';
 
@@ -25,6 +26,7 @@ const Thumbnail = (props) => {
 
   return (
       <div
+        title={body}
         className='thumbnail'
         key={id + 'd'}
         onDoubleClick={() =>{ 
@@ -34,8 +36,8 @@ const Thumbnail = (props) => {
           });
           }}>
         <h4 key={id + 'h4'}>{titlePrev}</h4>
-        <p key={id + 'p'}>{bodyPrev}</p>
-        <div>
+        <p key={id + 'p'}>{bodyPrev || ''}</p>
+        <div className='modalDiv'>
           <ModalLauncher
           message={'open '}
           isEditing={draft.get('type')}

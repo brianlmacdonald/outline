@@ -6,7 +6,7 @@ import '../HOC/addLoader.css';
 const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
-  loader: () => import('./HierarchyControl.jsx'),
+  loader: () => import(/* webpackChunkName: "Hierarchy Control" */'./HierarchyControl.jsx'),
   loading: Loading,
 })
 

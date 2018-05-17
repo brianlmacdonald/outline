@@ -7,7 +7,7 @@ const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
   loader: () => {
-    return import('./ProjectOverview.jsx')},
+    return import(/* webpackChunkName: "ProjectOverview" */ './ProjectOverview.jsx')},
   loading: Loading,
 })
 

@@ -1,6 +1,7 @@
 const path = require('path');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -32,6 +33,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       template: './client/index.html'
-    })
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin()
   ]
 };

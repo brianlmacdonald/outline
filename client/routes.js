@@ -1,9 +1,10 @@
 'use strict';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import browserHistory, { memoryHistory } from './history';
 import UserNav from './components/UserNav/UserNav.jsx';
-import { Home, Login, Signup } from './components/Auth.jsx';
+import Home from './components/Home.jsx';
+import { Login, Signup } from './components/Auth.jsx';
 import ProjectOverview from './components/ProjectOverview/ProjectOverviewLoader.jsx';
 import React, { Component }  from 'react';
 
@@ -29,6 +30,8 @@ class Routes extends Component {
   }
   
   render() {
+    const { user } = this.props;
+    const isLoggedIn = user.get('id') !== undefined;
     return(
       <Router history={browserHistory}>
         <div className='routes'>
@@ -37,7 +40,10 @@ class Routes extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path='/projects' component={ProjectOverview} />
+            <Route path='/projects' render={() => (
+              isLoggedIn ? (<ProjectOverview />) : (
+              <Redirect to='/login'/>
+            ))} />
           </Switch>
         </div>
     </Router>);

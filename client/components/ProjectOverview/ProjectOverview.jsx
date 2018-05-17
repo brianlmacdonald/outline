@@ -8,6 +8,8 @@ import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
 import project from '../../store/reducers/project';
 import navigator from '../../store/reducers/navigator';
 import draft from '../../store/reducers/draft';
+import { Notifs } from 'redux-notifications';
+import 'redux-notifications/lib/styles.css';
 
 //this will eventually be a visualization component for the entire story.
 //hierachy view is more of an organization for editing. 
@@ -32,7 +34,10 @@ class ProjectOverview extends Component {
     const { user } = this.props;
 
     return(
-      <HierarchyControl />
+      <div>
+        <Notifs />
+        <HierarchyControl />
+      </div>
     );
   }
 }
