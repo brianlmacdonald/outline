@@ -10,6 +10,12 @@ import React, { Component }  from 'react';
 class Routes extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      user: null,
+      project: null,
+      draft: null,
+      navigator: null
+    };
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
