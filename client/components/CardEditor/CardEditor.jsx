@@ -128,7 +128,6 @@ class CardEditor extends Component {
       userId: user.get('id'),
       projectId: navigator.get(PROJECT_TYPE)
       };
-    const isEditing = draft.get('type') !== null;
 
     return (
       <div className={'cardView editor'}>
@@ -158,7 +157,7 @@ class CardEditor extends Component {
               cancel
             </button>
             {!newCard && <ModalLauncher
-              isEditing={isEditing}
+              draft={draft}
               styleClass={'button'}
               type={type}
               message={'delete '}

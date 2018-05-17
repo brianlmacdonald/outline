@@ -28,7 +28,7 @@ const Container = (props) => {
   return (
     <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
       <div className='container'>
-        <ModalLauncher type={type} message={'add '} isEditing={draft.get('type')} styleClass={'addButton'}>
+        <ModalLauncher type={type} message={'add '} draft={draft} styleClass={'addButton'}>
           <CardEditor
           {...props}
           type={type}

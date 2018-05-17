@@ -21,7 +21,8 @@ class Modal extends Component {
   }
 
   handleKeyUp(e) {
-    const { close, isEditing } = this.props;
+    const { close, draft } = this.props;
+    const isEditing = draft.get('type') !== null;
 
     const keys = {
       27: () => {
@@ -37,7 +38,9 @@ class Modal extends Component {
   }
 
   handleOutsideClick(e) {
-    const { close, isEditing } = this.props;
+    const { close, draft } = this.props;
+    const isEditing = draft.get('type') !== null;
+    
     if (!isNil(this.modal)) {
       if (!this.modal.contains(e.target) && !isEditing) {
         close();

@@ -15,11 +15,13 @@
   font-size: 14pt;
   resize: none;
   overflow: scroll;
+  background: lightgrey;
 }
 
 .titleField {
   font-size: 16pt;
   width: 40em;
+  background: lightgrey;
 }
 
 .titleField, .bodyField {
@@ -27,6 +29,6 @@
   margin: 1.5em;
 }
 
-/* .titleField:focus, .bodyField:focus {
-  outline: none;
-} */
+.titleField:focus, .bodyField:focus {
+  background: white;
+}

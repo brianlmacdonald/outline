@@ -22,7 +22,7 @@ const CardView = (props) => {
       <ModalLauncher
         message={'edit '}
         type={type}
-        isEditing={draft.get('type')}
+        draft={draft}
         styleClass={'button'}
       >
         <CardEditor

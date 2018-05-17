@@ -21,23 +21,24 @@ class ModalLauncher extends Component {
       type,
       children,
       styleClass,
-      isEditing,
-      message,
-      draft
+      draft,
+      message
     } = this.props;
     const { toggle } = this.state;
+    const isEditing = draft.get('type') !== null;
+    const isDelete = message === 'delete ';
     
     return (
       <div>
         <button
+        disabled={isEditing && !isDelete}
         className={styleClass}
-        onClick={
-          this.handleToggleModal}
+        onClick={this.handleToggleModal}
           >{message} {CLASS_NAME_OBJ[type]}
           </button>
         {toggle &&
         <Modal
-          isEditing={isEditing}
+          draft={draft}
           close={this.handleToggleModal}
           >{cloneElement(children, {
             close: this.handleToggleModal

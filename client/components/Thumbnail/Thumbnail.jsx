@@ -30,24 +30,24 @@ const Thumbnail = (props) => {
   const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
   const location = card.get('id');
   const userId = user.get('id');
+  const freezeNavigation = draft.get('type') !== null;
 
   return (
       <div
         title={body}
         className={selectedStyler(location, navigator.get(type))}
         key={id + 'd'}
-        onDoubleClick={() =>{ 
-          handleNavigation({
-            id: location,
-            userId
-          });
-          }}>
+        onDoubleClick={() =>{
+          if (!freezeNavigation) {
+            handleNavigation({id: location, userId});
+          } 
+        }}>
         <h4 key={id + 'h4'}>{titlePrev}</h4>
         <p key={id + 'p'}>{bodyPrev || ''}</p>
         <div className='modalDiv'>
           <ModalLauncher
           message={'open '}
-          isEditing={draft.get('type')}
+          draft={draft}
           styleClass={'button'}
           type={type}>
             <CardView {...props} />
