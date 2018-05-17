@@ -7,6 +7,18 @@
   background-color: linen;
   height: 145px;
   width: 145px;
-  border: 2px black solid;
   padding: .5em;
+}
+
+.thumbnail:active {
+  border: 2px blueviolet solid;
+  background-color: aqua;
+}
+
+.selected {
+  border: 3px red solid;
+}
+
+.unSelected {
+  border: 2px black solid;
 }

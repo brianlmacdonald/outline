@@ -5,6 +5,11 @@ import ModalLauncher from '../HOC/ModalLauncher.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import './Thumbnail.css';
 
+const selectedStyler = (id, activeId) => {
+  if (id === activeId) return 'thumbnail selected';
+  else return 'thumbnail unSelected';
+};
+
 const Thumbnail = (props) => {
   const {
     draft,
@@ -15,7 +20,9 @@ const Thumbnail = (props) => {
     type,
     card,
     handleNavigation,
-    handleView
+    handleView,
+    avtiveStyle,
+    navigator
   } = props;
   const body = card.get('body');
   const title = card.get('title');
@@ -27,7 +34,7 @@ const Thumbnail = (props) => {
   return (
       <div
         title={body}
-        className='thumbnail'
+        className={selectedStyler(location, navigator.get(type))}
         key={id + 'd'}
         onDoubleClick={() =>{ 
           handleNavigation({
