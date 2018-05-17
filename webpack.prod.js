@@ -1,6 +1,7 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './client/main.js',
@@ -29,10 +30,11 @@ module.exports = {
       }
     ]
   }, plugins: [ 
-    new UglifyJsPlugin({sourceMap: true}), 
+    new UglifyJsPlugin({sourceMap: true}),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       template: './client/index.html'
-    }) 
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin()
   ]
 };
