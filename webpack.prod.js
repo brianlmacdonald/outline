@@ -1,14 +1,16 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './client/main.js'
-  ,output: {
-    path: path.resolve(__dirname, 'public')
-    ,filename: '[name].bundle.js'
-    ,chunkFilename: '[name].bundle.js'
-  }
-  ,module: {
+  entry: './client/main.js',
+  output: {
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'public'),
+    publicPath: ''
+  },
+  module: {
     rules: [
       {
         test: /\.jsx?$/
@@ -26,5 +28,11 @@ module.exports = {
 
       }
     ]
-  }, plugins: [ new UglifyJsPlugin({sourceMap: true}) ]
+  }, plugins: [ 
+    new UglifyJsPlugin({sourceMap: true}), 
+    new HtmlWebpackPlugin({
+      chunksSortMode: 'none',
+      template: './client/index.html'
+    }) 
+  ]
 };
