@@ -41,10 +41,10 @@ export const persistToDB = (saveObj) => dispatch => {
         .catch(err => {
           dispatch(notifSend({
             message: 'project not updated',
-            kind: 'error',
+            kind: 'danger',
             dismissAfter: 3500
           }));
-          return dispatch(persistingProjectFailure(draft, err));
+          return dispatch(persistingProjectFailure(err, draft));
         });
       
       case PROJECT_TYPE:
@@ -72,19 +72,19 @@ export const persistToDB = (saveObj) => dispatch => {
       dispatch(persistingProject(projectId));
         return axios.put(`/api/projects/${parent.id}/`, draft)
         .then(updated => {
-          dispatch({
+          dispatch(notifSend({
             message: 'project saved',
             kind: 'info',
             dismissAfter: 2000
-          });
+          }));
           dispatch(persistedProject(draft));
           return dispatch(draftSaved());
         })
         .catch(err => {
-          dispatch(persistingProjectFailure(draft, err));
+          dispatch(persistingProjectFailure(err, draft));
           return dispatch(notifSend({
             message: 'project not saved',
-            kind: 'error',
+            kind: 'danger',
             dismissAfter: 3500
           }));
         });

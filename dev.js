@@ -1,13 +1,8 @@
-/**
- * Concurrently run our various dev tasks.
- *
- * Usage: node dev
- **/
-
 const app = require('.')
   , chalk = require('chalk'), { bold } = chalk
   , { red, green, blue, cyan, yellow } = bold
   , dev = module.exports = () => run({
+    webpack: task(app.package.scripts['build-client-watch'], {color: yellow}),
     server: task(app.package.scripts['start-server'], { color: blue })
   });
 

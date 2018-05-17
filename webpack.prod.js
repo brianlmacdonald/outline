@@ -1,14 +1,13 @@
-
-const LiveReloadPlugin = require('webpack-livereload-plugin');
-const isDev = process.env.NODE_ENV === 'development';
+const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './client/main.js'
   ,output: {
-    path: __dirname
-    ,filename: './public/bundle.js'
+    path: path.resolve(__dirname, 'public')
+    ,filename: '[name].bundle.js'
+    ,chunkFilename: '[name].bundle.js'
   }
-  ,devtool: 'source-map'
   ,module: {
     rules: [
       {
@@ -27,5 +26,5 @@ module.exports = {
 
       }
     ]
-  }, plugins: isDev ? [new LiveReloadPlugin({ appendScriptTag: true })] : []
+  }, plugins: [ new UglifyJsPlugin({sourceMap: true}) ]
 };

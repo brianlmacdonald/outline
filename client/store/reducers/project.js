@@ -2,7 +2,6 @@
 'use strict';
 import { Map, fromJS, List } from 'immutable';
 import { actions as notifActions } from 'redux-notifications';
-import reducerRegistry from './ReducerRegistry';
 import type {
   ProjectArray,
   ProjectNode,
@@ -321,7 +320,5 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state;
   }
 };
-
-reducerRegistry.register(reducerName, projectReducer);
 
 export default projectReducer;

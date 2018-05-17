@@ -7,8 +7,8 @@
   "test": "cross-env NODE_ENV=test ava -v --match='!*DB*'",
   "dev": "node dev",
   "test-db": "cross-env NODE_ENV=test ava -v -s --match='DB*'",
-  "build-client-watch": "webpack -w",
-  "build-client-production": "webpack -p",
+  "build-client-watch": "webpack -w --config webpack.dev.js",
+  "build-client-production": "webpack -p --config webpack.prod.js",
   "test-watch": "npm run test -- --watch --reporter=min",
   "start-dev": "cross-env NODE_ENV=development npm run build-client-watch & npm run start-server",
   "start-watch": "nodemon server/start.js --watch server --watch db --watch index.js --watch package.json",
@@ -24,6 +24,7 @@
  "license": "ISC",
  "dependencies": {
   "axios": "^0.18.0",
+  "babel-plugin-syntax-dynamic-import": "^6.18.0",
   "body-parser": "^1.18.2",
   "chalk": "^2.3.0",
   "check-node-version": "^3.1.1",
@@ -39,6 +40,7 @@
   "finalhandler": "^1.1.0",
   "history": "^4.7.2",
   "homedir": "^0.6.0",
+  "html-webpack-plugin": "^3.2.0",
   "immutable": "4.0.0-rc.9",
   "lodash": "^4.17.5",
   "morgan": "^1.9.0",
@@ -50,7 +52,7 @@
   "ramda": "^0.25.0",
   "react": "^16.3.2",
   "react-dom": "^16.3.2",
-  "react-loadable": "^5.3.1",
+  "react-loadable": "^5.4.0",
   "react-redux": "^5.0.6",
   "react-router": "^4.2.0",
   "react-router-dom": "^4.2.2",
@@ -63,7 +65,7 @@
   "redux-thunk": "^2.2.0",
   "sequelize": "^4.28.6",
   "style-loader": "^0.19.1",
-  "webpack": "^4.2.0"
+  "webpack": "^4.8.3"
  },
  "devDependencies": {
   "@babel/core": "^7.0.0-beta.42",

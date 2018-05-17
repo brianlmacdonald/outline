@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Map, fromJS } from 'immutable';
 import reducerRegistry from './ReducerRegistry';
-import { loadUserProjects } from './project';
 import history from '../../history';
 
 export const GET_USER = 'GET_USER';
@@ -44,7 +43,6 @@ export const auth = (email, password, method, firstName, lastName) =>
     axios.post(`/auth/${method}`, { email, password, firstName, lastName })
       .then(res => {
         dispatch(getUser(res.data));
-        dispatch(loadUserProjects(res.data.id));
         history.replace('/projects');
       }, authError => {
         dispatch(getUser({ error: authError }));

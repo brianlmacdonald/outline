@@ -2,13 +2,9 @@
 import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import browserHistory, { memoryHistory } from './history';
-import { 
-  UserNav,
-  Home,
-  Login,
-  Signup,
-  ProjectOverview,
-} from './components/index.jsx';
+import UserNav from './components/UserNav/UserNav.jsx';
+import { Home, Login, Signup } from './components/Auth.jsx';
+import ProjectOverview from './components/ProjectOverview/ProjectOverviewLoader.jsx';
 import React, { Component }  from 'react';
 
 class Routes extends Component {
@@ -18,8 +14,8 @@ class Routes extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState){
     const {user, project, draft, navigator} = nextProps;
-    console.log('hello');
-    window.__OUTLINE_STATE__  = {user, project, draft, navigator};
+    window.__OUTLINE_STATE__ = {user, project, draft, navigator};
+    return null;
   }
 
   componentWillUnMount(){

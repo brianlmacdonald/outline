@@ -4,5 +4,8 @@
     "@babel/preset-flow",
     ["@babel/preset-env", {"targets": {"node": "current"}}],
     ["@babel/preset-stage-2", {"decoratorsLegacy": true}]
+  ],
+  "plugins": [
+    "syntax-dynamic-import"
   ]
 }
