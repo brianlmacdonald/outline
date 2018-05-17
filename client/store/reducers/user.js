@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Map, fromJS } from 'immutable';
-//import directly from the file otherwise it breaks AVA
-import { loadUserProjects } from './project';
+import reducerRegistry from './ReducerRegistry';
 import history from '../../history';
 
 export const GET_USER = 'GET_USER';
@@ -44,7 +43,6 @@ export const auth = (email, password, method, firstName, lastName) =>
     axios.post(`/auth/${method}`, { email, password, firstName, lastName })
       .then(res => {
         dispatch(getUser(res.data));
-        dispatch(loadUserProjects(res.data.id));
         history.replace('/projects');
       }, authError => {
         dispatch(getUser({ error: authError }));
@@ -60,7 +58,9 @@ export const logout = () =>
       })
       .catch(error => errorGettingUser(error));
 
-export default function (state = defaultUser, action) {
+const reducerName = 'user';
+
+function userReducer(state = defaultUser, action) {
   switch (action.type) {
     
     case GET_USER:
@@ -79,3 +79,7 @@ export default function (state = defaultUser, action) {
       return state;
   }
 }
+
+reducerRegistry.register(reducerName, userReducer);
+
+export default userReducer;

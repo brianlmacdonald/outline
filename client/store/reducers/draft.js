@@ -1,8 +1,6 @@
 import { Map, List, fromJS } from 'immutable';
 import { REMOVE_USER } from './user';
 
-import store from '../../store';
-
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';
 const UPDATE_CARD = 'UPDATE_CARD';
@@ -29,7 +27,7 @@ const DO_NOT_UPDATE_BEATS = 'DO_NOT_UPDATE_BEATS';
 //NEVER NEVER NEVER DO THIS!
 const DO_NOT_UPDATE_ID = 'DO_NOT_UPDATE_ID';
 
-export const createNewDraftCard = (card) => {
+export const createNewDraftCard = card => {
   return {
     type: NEW_DRAFT_CARD,
     payload: card
@@ -65,9 +63,8 @@ export const draftSaved = () => {
   };
 };
 //find
-export const createNewDraftCardThunk = (projectPath) => dispatch => {
+export const createNewDraftCardThunk = (card) => dispatch => {
   try {
-    const card = store.getState().project.getIn(projectPath);
     dispatch(createNewDraftCard(card));
   } catch(err) {
     dispatch(errorCreatingDraftCard(err));
@@ -88,11 +85,14 @@ const defaultDraft = Map({
   parent: null,
 });
 
+const reducerName = 'draft';
+
 const draftReducer = (state = defaultDraft, action) => {
 
   switch(action.type) {
 
     case NEW_DRAFT_CARD:
+      console.log(action.payload);
       return state.withMutations(map => {
         map.set(CARD_TYPE_ID, action.payload.get(CARD_TYPE_ID))
         .set(CARD_TYPE_TYPE, action.payload.get(CARD_TYPE_TYPE))

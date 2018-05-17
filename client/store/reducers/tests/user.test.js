@@ -28,5 +28,5 @@ test('REDUCER - can remove a user', t => {
   };
   const state = user(undefined, getUser(testUser));
   const nextState = user(state, removeUser());
-  t.deepEqual(nextState, state.clear().set(Map({})));
+  t.deepEqual(nextState.get('firstName'), undefined);
 });

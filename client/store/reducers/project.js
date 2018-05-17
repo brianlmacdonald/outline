@@ -1,8 +1,7 @@
 // @flow
 'use strict';
 import { Map, fromJS, List } from 'immutable';
-import uuid from 'uuid';
-import { actions as notifActions } from 'redux-notifications'; 
+import { actions as notifActions } from 'redux-notifications';
 import type {
   ProjectArray,
   ProjectNode,
@@ -19,8 +18,6 @@ import type {
   Reducer,
   State
   } from 'APP/Types/Reducer';
-
-import { projectPayload } from './tests/superState'; //development testing delete for production or once seeded db.
 
 import { REMOVE_USER } from './user';
 import { createNewDraftCardThunk } from './draft';
@@ -205,7 +202,7 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
     dispatch(removeNavigationPath(SEQUENCE_TYPE));
     dispatch(removeNavigationPath(ACT_TYPE));
     dispatch(addNavigationPath(PROJECT_TYPE, createdProject.data.id))
-    dispatch(createNewDraftCardThunk(['userProjects', createdProject.data.id]))
+    dispatch(createNewDraftCardThunk(fromJS(createdProject.data)))
   })
   .catch(err => dispatch(projectCreationError(err)));
 };
@@ -215,6 +212,8 @@ const defaultState: State = Map({
   'userProjects': Map({}),
   'trash': Map({})
   });
+
+const reducerName: string = 'project';
 
 const projectReducer: Reducer = (state = defaultState, action) => {
   let allProjects;

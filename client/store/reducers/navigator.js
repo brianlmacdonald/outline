@@ -68,7 +68,9 @@ const defaultNav = Map({
   BEAT_TYPE: null
 });
 
-const navigator = (state = defaultNav, action) => {
+const reducerName = 'navigator';
+
+const navigatorReducer = (state = defaultNav, action) => {
 
   switch (action.type) {
     case ADD_PATH:
@@ -97,4 +99,4 @@ const navigator = (state = defaultNav, action) => {
   }
 };
 
-export default navigator;
+export default navigatorReducer;

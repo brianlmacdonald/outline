@@ -3,6 +3,5 @@ node_modules/*
 secrets.js
 yarn.lock
 yarn-error.log
-public/bundle.js
-public/bundle.js.map
+public/*
 todo.md

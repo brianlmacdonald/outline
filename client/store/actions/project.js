@@ -3,7 +3,6 @@ import { fromJS } from 'immutable';
 import { actions as notifActions } from 'redux-notifications';
 import axios from 'axios';
 import {
-  reloadProject,
   persistingProjectFailure,
   persistingProject,
   persistedProject,
@@ -14,8 +13,8 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-  draftSaved
-} from '../index';
+} from '../reducers/project';
+import { draftSaved } from '../reducers/draft';
 const { notifSend } = notifActions;
 
 const makePostRequest = makeRequest('post', 200);
@@ -42,10 +41,10 @@ export const persistToDB = (saveObj) => dispatch => {
         .catch(err => {
           dispatch(notifSend({
             message: 'project not updated',
-            kind: 'error',
+            kind: 'danger',
             dismissAfter: 3500
           }));
-          return dispatch(persistingProjectFailure(draft, err));
+          return dispatch(persistingProjectFailure(err, draft));
         });
       
       case PROJECT_TYPE:
@@ -73,19 +72,19 @@ export const persistToDB = (saveObj) => dispatch => {
       dispatch(persistingProject(projectId));
         return axios.put(`/api/projects/${parent.id}/`, draft)
         .then(updated => {
-          dispatch({
+          dispatch(notifSend({
             message: 'project saved',
             kind: 'info',
             dismissAfter: 2000
-          });
+          }));
           dispatch(persistedProject(draft));
           return dispatch(draftSaved());
         })
         .catch(err => {
-          dispatch(persistingProjectFailure(draft, err));
+          dispatch(persistingProjectFailure(err, draft));
           return dispatch(notifSend({
             message: 'project not saved',
-            kind: 'error',
+            kind: 'danger',
             dismissAfter: 3500
           }));
         });
