@@ -7,7 +7,7 @@ const Op = Sequelize.Op;
 module.exports = router;
 
 router.param('userId', (req, res, next, id) => {
-  User.findById(id)
+  User.findOne({where: {id: {[Op.eq]: id}}})
     .then(user => {
       if (!user) {
         const err = Error('User not found');
@@ -27,7 +27,7 @@ router.param('userId', (req, res, next, id) => {
 //we make a later call to create a new project.
 //for now loading everything, development only
 router.get('/:userId', (req, res, next) => {
-  return Project.findAll({where: {user_id: req.user.id}})
+  return Project.findAll({where: {user_id:{[Op.eq]: req.user.id}}})
   .then(res.json.bind(res))
   .catch(next);
 });
@@ -46,7 +46,7 @@ router.post('/:userId', (req, res, next) => {
 router.get('/:userId/:projectId', (req, res, next) => {
   return Project.scope('acts').find({
     where: {
-      [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]},
+      [Op.and]: [{user_id: {[Op.eq]: req.user.id}}, {id: {[Op.eq]: req.params.projectId}}]},
     include: [
 							{ model: Act, include: [
 								{ model: Sequence, include: [
@@ -60,7 +60,7 @@ router.get('/:userId/:projectId', (req, res, next) => {
 });
 
 router.put('/:projectId', (req, res, next) => {
-  return Project.find({where: {id: req.params.projectId}})
+  return Project.find({where: {id: {[Op.eq]: req.params.projectId}}})
   .then(foundProject => foundProject.update(req.body))
   .then(updatedProject => res.sendStatus(204))
   .catch(next);
@@ -69,7 +69,7 @@ router.put('/:projectId', (req, res, next) => {
 router.delete('/:userId/:projectId', (req, res, next) => {
   return Project.destroy({
     where: {
-      [Op.and]: [{user_id: req.user.id}, {id: req.params.projectId}]},
+      [Op.and]: [{user_id: {[Op.eq]: req.user.id}}, {id: {[Op.eq]: req.params.projectId}}]},
   })
   .then(destroyedProject => res.sendStatus(204))
   .catch(next);

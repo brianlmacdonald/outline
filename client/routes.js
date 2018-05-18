@@ -12,16 +12,27 @@ class Routes extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user: null,
-      project: null,
-      draft: null,
-      navigator: null
+      user: '',
     };
   }
-
-  static getDerivedStateFromProps(nextProps, prevState){
+  //I don't like this here. Find a better way to spy on state.
+  static getDerivedStateFromProps(nextProps, state){
     const {user, project, draft, navigator} = nextProps;
-    window.__OUTLINE_STATE__ = {user, project, draft, navigator};
+    const forStorage = { user, project, draft, navigator}
+    if (state.user !== nextProps.user.get('id')) {
+      if (nextProps.user.get('id') === undefined) {
+        delete window.__OUTLINE_STATE__;
+        return {
+          user: ''
+        };
+      } else {
+        window.__OUTLINE_STATE__ = forStorage;
+        return {
+          user: nextProps.user.get('id')
+        };
+      }
+    }
+    window.__OUTLINE_STATE__ = forStorage;
     return null;
   }
 

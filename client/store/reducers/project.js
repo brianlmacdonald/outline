@@ -209,8 +209,9 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
 
 const defaultState: State = Map({
   'isFetching': false,
-  'userProjects': Map({}),
-  'trash': Map({})
+  'isSaving': false,
+  'userProjects': List([]),
+  'trash': List([])
   });
 
 const reducerName: string = 'project';
@@ -218,6 +219,7 @@ const reducerName: string = 'project';
 const projectReducer: Reducer = (state = defaultState, action) => {
   let allProjects;
   let id;
+  let loadedList;
 
   switch (action.type) {
     
@@ -225,17 +227,9 @@ const projectReducer: Reducer = (state = defaultState, action) => {
       return state.set('isFetching', true);
 
     case NEW_PROJECT_CREATED:
-      id = action.payload.id;
-      return state.set('isFetching', false)
-      .setIn(['userProjects', id], Map({})).withMutations(map => {
-        map.setIn(['userProjects', id, 'acts'], List(action.payload.acts))
-        .setIn(['userProjects', id, 'type'], action.payload.type)
-        .setIn(['userProjects', id, 'id'], id)
-        .setIn(['userProjects', id, 'body'], action.payload.body)
-        .setIn(
-          ['userProjects', id, 'title'],
-          action.payload.title
-        );
+      loadedList = state.get('userProjects').unshift(fromJS(action.payload));
+      return state.set('isFetching', false).withMutations(map => {
+        map.set('userProjects', loadedList);
       });
 
     case ALL_PROJECTS_REQUEST:
@@ -247,74 +241,70 @@ const projectReducer: Reducer = (state = defaultState, action) => {
     case ALL_PROJECTS_SUCCESS:
       allProjects = action.payload;
       return state.set('isFetching', false).withMutations(map => {
-        allProjects.forEach(project =>
-          map.setIn(['userProjects', project.id], fromJS(project))
-        );
+        allProjects.forEach(proj => {          
+          map.set('userProjects', map.get('userProjects').unshift(fromJS(proj)))
+        });
       });
 
     case PROJECT_SUCCESS:
+      loadedList = state.get('userProjects')
+      .filter(proj => proj.get('id') !== action.payload.id)
+      .unshift(fromJS(action.payload));
       return state.set('isFetching', false).withMutations(map => {
-        map.setIn(['userProjects', action.payload.id], fromJS(action.payload));
+        map.set('userProjects', loadedList);
       });
 
     case ALL_PROJECTS_FAILURE:
       return state.withMutations(map => {
         map.set('isFetching', false)
-        .setIn(['userProjects', 'error'], action.payload.error.message);
+        .set('error', action.payload.error.message);
       });
 
     case PROJECT_FAILURE:
       return state.withMutations(map => {
         map.set('isFetching', false)
-        .setIn(
-          ['userProjects', action.payload, 'error'],
-          action.payload.error.message
-        );
+        .set('error', action.payload.error.message);
       });
 
     case PERSIST_PROJECT_REQUEST:
-      return state.setIn(['userProjects', action.payload, 'isSaving'], true);
+      return state.set('isSaving', true);
 
     case PERSIST_PROJECT_SUCCESS:
       id = action.payload.get('id');
+      loadedList = state.get('userProjects')
+      .filter(proj => proj.get('id') !== id)
+      .unshift(action.payload)
       return state.withMutations(map => {
-        map.setIn(['userProjects', id, 'isSaving'], false)
-        .setIn(['userProjects', id], action.payload);
+        map.set('isSaving', false)
+        map.set('userProjects', loadedList);
       });
 
     case PERSIST_PROJECT_FAILURE:
-      id = action.payload.project.id;
       return state.withMutations(map => {
-        map.setIn(['userProjects', id, 'isSaving'], false)
-        .setIn(['userProjects', id, 'error'], action.payload.error);
+        map.set('isSaving', false)
+        map.set('error', action.payload.error);
       });
 
     case PROJECT_DELETE_REQUEST:
-      return state.setIn(['userProjects', action.payload, 'isSaving'], true);
+      return state.set('isSaving', true);
 
     case PROJECT_DELETE_SUCCESS:
-      id = state.getIn(['userProjects', action.payload])
+      loadedList = state.get('userProjects')
+      .filter(proj => proj.get('id') !== action.payload);
+      id = state.get('userProjects')
+      .find(proj => proj.get('id') === action.payload);
       return state.withMutations(map => {
-        map.setIn(['trash', action.payload], id);
-        map.deleteIn(['userProjects', action.payload])
+        map.set('trash', map.get('trash').unshift(id));
+        map.set('userProjects', loadedList);
       });
 
     case PROJECT_DELETE_FAILURE:
       return state.withMutations(map => {
-        map.setIn(['userProjects', action.payload.id, 'isSaving'], false)
-        .setIn(
-          ['userProjects', action.payload.id, 'error'],
-          action.payload.error
-        );
+        map.set('isSaving', false)
+        map.set('error', action.payload.error);
       });
     case NEW_PROJECT_ERROR:
-      return state.setIn(['userProjects', 'error'], action.payload);
-
-    case REMOVE_USER:
-      return state.withMutations(map => {
-        map.clear();
-        map.set(defaultState);
-      })
+      return state.set('error', action.payload);
 
     default:
       return state;

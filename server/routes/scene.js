@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const { Scene } = require('APP/db');
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 module.exports = router;
 
@@ -13,14 +14,14 @@ router.post('/:sequenceId', (req, res, next) => {
 });
 
 router.put('/:sceneId', (req, res, next) => {
-  return Scene.findOne({where: {id: req.params.sceneId}})
+  return Scene.findOne({where: {id: {[Op.eq]: req.params.sceneId}}})
     .then(foundCard => foundCard.update(req.body))
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });
 
 router.delete('/:sceneId/', (req, res, next) => {
-  return Scene.destroy({where: {id: req.params.sceneId}})
+  return Scene.destroy({where: {id: {[Op.eq]: req.params.sceneId}}})
   .then(destroyedScene => res.sendStatus(204))
   .catch(next);
 });

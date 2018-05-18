@@ -27,7 +27,7 @@ const deletingCard = payload => ({
   payload
 });
 
-const deletedCard = payload => ({
+export const deletedCard = payload => ({
   type: CARD_DELETE_SUCCESS,
   payload
 });

@@ -14,14 +14,14 @@ router.post('/:sceneId/', (req, res, next) => {
 });
 
 router.put('/:beatId', (req, res, next) => {
-  return Beat.findOne({where: {id: req.params.beatId}})
+  return Beat.findOne({where: {id: {[Op.eq]: req.params.beatId}}})
     .then(foundCard => foundCard.update(req.body))
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });
 
 router.delete('/:beatId/', (req, res, next) => {
-  return Beat.destroy({where: {id: req.params.beatId}})
+  return Beat.destroy({where: {id: {[Op.eq]: req.params.beatId}}})
   .then(destroyedBeat => res.sendStatus(204))
   .catch(next);
 });

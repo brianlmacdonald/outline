@@ -39,44 +39,43 @@ class HierarchyControl extends Component {
 
     switch (cardRequest) {
       case GET_PROJECTS:
-        return project.get('userProjects');
+        return project.get('userProjects').sortBy(a => a.get('updated_at')).reverse();
 
       case GET_ACTS:
         return project
-          .getIn(['userProjects', navigator.get(PROJECT_TYPE), 'acts']);
+          .get('userProjects')
+          .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
+          .get('acts');
 
       case GET_SEQUENCES:
         return project
-          .getIn([
-            'userProjects',
-            navigator.get(PROJECT_TYPE),
-            'acts'])
-            .find((act) => act.get('id') === navigator.get(ACT_TYPE))
-            .get('sequences');
+          .get('userProjects')
+          .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
+          .get('acts')
+          .find((act) => act.get('id') === navigator.get(ACT_TYPE))
+          .get('sequences');
 
       case GET_SCENES:
         return project
-          .getIn([
-            'userProjects',
-            navigator.get(PROJECT_TYPE),
-            'acts'])
-            .find((act) => act.get('id') === navigator.get(ACT_TYPE))
-            .get('sequences')
-            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
-            .get('scenes');
+          .get('userProjects')
+          .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
+          .get('acts')
+          .find((act) => act.get('id') === navigator.get(ACT_TYPE))
+          .get('sequences')
+          .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
+          .get('scenes');
 
       case GET_BEATS:
         return project
-          .getIn([
-            'userProjects',
-            navigator.get(PROJECT_TYPE),
-            'acts'])
-            .find((act) => act.get('id') === navigator.get(ACT_TYPE))
-            .get('sequences')
-            .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
-            .get('scenes')
-            .find((scene) => scene.get('id') === navigator.get(SCENE_TYPE))
-            .get('beats');
+          .get('userProjects')
+          .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
+          .get('acts')
+          .find((act) => act.get('id') === navigator.get(ACT_TYPE))
+          .get('sequences')
+          .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
+          .get('scenes')
+          .find((scene) => scene.get('id') === navigator.get(SCENE_TYPE))
+          .get('beats');
 
       default:
         throw new Error('Unknown type');

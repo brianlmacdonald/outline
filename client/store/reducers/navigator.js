@@ -88,12 +88,6 @@ const navigatorReducer = (state = defaultNav, action) => {
         map.set(BEAT_TYPE, null);
       });
 
-    case REMOVE_USER:
-      return state.withMutations(map => {
-        map.clear();
-        map.set(defaultNav);
-      });
-
     default:
       return state;
   }

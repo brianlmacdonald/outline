@@ -12,7 +12,7 @@ const ThumbsContainer = props => {
         {...props}
         activeStyle={card.get('id') === navigator.get(type)}
         card={card}
-        key={card.get('id') + 'tnc'}
+        key={card.get('id') + 'tnc' + type}
         id={card.get('id')}
         index={idx}
       />

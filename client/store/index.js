@@ -14,7 +14,13 @@ const combine = (reducers) => {
       reducers[item] = (state = null) => state;
     }
   });
-  return combineReducers({notifs: notifReducer, ...reducers});
+  const appReducer = combineReducers({notifs: notifReducer, ...reducers});
+  return (state, action) => {
+    if (action.type === 'REMOVE_USER') {
+      state = undefined;
+    }
+    return appReducer(state, action);
+  };
 };
 
 const reducer = combine(reducerRegistry.getReducers());
@@ -27,6 +33,7 @@ const middleWare = composeWithDevTools(
 );
 
 const store = createStore(reducer, initialState, middleWare);
+
 
 reducerRegistry.setChangeListener(reducers => {
   store.replaceReducer(combine(reducers));

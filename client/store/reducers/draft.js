@@ -17,6 +17,7 @@ export const CARD_TYPE_SEQUENCES = 'sequences';
 export const CARD_TYPE_SCENES = 'scenes';
 export const CARD_TYPE_BEATS = 'beats';
 export const CARD_TYPE_PARENT = 'parent';
+const CARD_TYPE_UPDATED_AT = 'updated_at';
 
 //this is a reminder. Don't do these! Do it from child to parent with type!
 const DO_NOT_UPDATE_ACTS = 'DO_NOT_UPDATE_ACTS';
@@ -83,6 +84,7 @@ const defaultDraft = Map({
   scenes: null,
   beats: null,
   parent: null,
+  updated_at: null,
 });
 
 const reducerName = 'draft';
@@ -95,6 +97,7 @@ const draftReducer = (state = defaultDraft, action) => {
       console.log(action.payload);
       return state.withMutations(map => {
         map.set(CARD_TYPE_ID, action.payload.get(CARD_TYPE_ID))
+        .set(CARD_TYPE_UPDATED_AT, action.payload.get(CARD_TYPE_UPDATED_AT))
         .set(CARD_TYPE_TYPE, action.payload.get(CARD_TYPE_TYPE))
         .set(CARD_TYPE_TITLE, action.payload.get(CARD_TYPE_TITLE))
         .set(CARD_TYPE_BODY, action.payload.get(CARD_TYPE_BODY))
@@ -104,6 +107,7 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_SCENES, action.payload.get(CARD_TYPE_SCENES))
         .set(CARD_TYPE_PARENT, action.payload.get(CARD_TYPE_PARENT))
         .set(CARD_TYPE_BEATS, action.payload.get(CARD_TYPE_BEATS));
+
       });
     
     case UPDATE_CARD:
@@ -115,6 +119,7 @@ const draftReducer = (state = defaultDraft, action) => {
     case DRAFT_CLEARED:
       return state.withMutations(map => {
         map.set(CARD_TYPE_ID, null)
+        .set(CARD_TYPE_UPDATED_AT, null)
         .set(CARD_TYPE_TYPE, null)
         .set(CARD_TYPE_TITLE, null)
         .set(CARD_TYPE_BODY, null)
@@ -123,12 +128,6 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_SEQUENCES, null)
         .set(CARD_TYPE_SCENES, null)
         .set(CARD_TYPE_BEATS, null);
-      });
-    
-    case REMOVE_USER:
-      return state.withMutations(map => {
-        map.clear();
-        map.set(defaultDraft);
       });
     
     default:

@@ -18,15 +18,30 @@ import 'redux-notifications/lib/styles.css';
 class ProjectOverview extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      loaded: false,
+      user: '',
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, state){
+    if (state.user !== nextProps.user.get('id')) {
+      const id = nextProps.user.get('id') || '';
+      if (id !== '') nextProps.handleLoadProjects(nextProps.user.get('id'));
+      return {
+        user: id
+      };
+    }
+    return null;
   }
 
   componentDidMount(){
     const { user, projects, handleLoadProjects } = this.props;
-    if (projects === undefined) {
+    if (!this.state.loaded) {
       reducerRegistry.register('project', project);
       reducerRegistry.register('navigator', navigator);
       reducerRegistry.register('draft', draft);
-      handleLoadProjects(user.get('id'));
+      this.setState({loaded: true});
     }
   }
 
