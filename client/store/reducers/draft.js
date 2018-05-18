@@ -130,12 +130,6 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_BEATS, null);
       });
     
-    case REMOVE_USER:
-      return state.withMutations(map => {
-        map.clear();
-        map.set(defaultDraft);
-      });
-    
     default:
       return state;
   }

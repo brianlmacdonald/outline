@@ -69,12 +69,6 @@ function userReducer(state = defaultUser, action) {
     case GET_USER_ERROR:
       return state.set('error', action.payload);
 
-    case REMOVE_USER:
-      return state.withMutations(map => {
-        map.clear();
-        map.set(defaultUser);
-      });
-
     default:
       return state;
   }

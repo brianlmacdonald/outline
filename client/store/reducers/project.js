@@ -306,12 +306,6 @@ const projectReducer: Reducer = (state = defaultState, action) => {
     case NEW_PROJECT_ERROR:
       return state.set('error', action.payload);
 
-    case REMOVE_USER:
-      return state.withMutations(map => {
-        map.clear();
-        map.set(defaultState);
-      })
-
     default:
       return state;
   }

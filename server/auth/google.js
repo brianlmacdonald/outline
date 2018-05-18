@@ -23,7 +23,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     const email = profile.emails[0].value;
     /* eslint-disable */
 
-    User.find({where: {googleId}})
+    User.find({where: {googleId: {[Op.eq]: googleId}}})
       .then(foundUser => (foundUser
         ? done(null, foundUser)
         : User.create({name, email, googleId})
