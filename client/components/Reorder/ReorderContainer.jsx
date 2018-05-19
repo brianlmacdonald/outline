@@ -40,10 +40,8 @@ class Container extends Component {
 	componentDidMount(){
 		console.log('cdm');
 		const { thumbs } = this.props;
-		const forState = []
-		thumbs.forEach(thumb => forState.push(thumb));
 		this.setState({
-			cards: forState
+			cards: thumbs
 		})
 	}
 
@@ -51,13 +49,9 @@ class Container extends Component {
 		const { card, index } = this.findCard(id)
 		const indexObj = {index, atIndex, card};
 		
-		this.setState(
-			update(this.state, {
-				cards: {
-					$splice: [[index, 1], [atIndex, 0, card]],
-				},
-			}),
-		);
+		this.setState({
+			cards: this.state.cards.delete(index).insert(atIndex, card)
+		});
 	}
 
 	findCard(id) {
