@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Card from './ReorderCard.jsx'
+import update from 'immutability-helper';
 import ItemTypes from './ItemTypes'
 import flow from 'lodash/flow';
 import { List } from 'immutable';
@@ -15,6 +16,10 @@ import {
 const cardTarget = {
 	drop() {},
 }
+
+update.extend('list', (idxObj, original) => {
+	return original.delete(idxObj.index).insert(idxObj.indexAt, indxObj.card);
+})
 
 function collect(connect, monitor) {
   return {
@@ -46,10 +51,14 @@ class Container extends Component {
 
 	moveCard(id, atIndex) {
 		const { card, index } = this.findCard(id)
-		const newOrder = this.state.cards.delete(index).insert(atIndex, card);
-		this.setState({
-			cards: newOrder
-		});
+		const indexObj = {index, atIndex, card};
+		this.setState(
+			update(this.state, {
+				cards: {
+					$list: indexObj,
+				},
+			})
+		);
 	}
 
 	findCard(id) {
@@ -65,7 +74,7 @@ class Container extends Component {
 	render() {
 		const { connectDropTarget, type, children } = this.props;
 		const { cards } = this.state;
-		
+
 		return connectDropTarget(
 			<div className={CLASS_NAME_OBJ[type]}>
 				<div className={'container'}>

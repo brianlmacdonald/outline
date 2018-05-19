@@ -17,16 +17,6 @@ test('REDUCER - can log in a user', t => {
     email: 'bobbysquats@gmail.com'
   };
   const state = user(undefined, getUser(testUser));
+  console.log(state);
   t.deepEqual(state.get('firstName'), 'Bob');
-});
-
-test('REDUCER - can remove a user', t => {
-  const testUser = {
-    firstName: 'Bob',
-    lastName: 'Squatson',
-    email: 'bobbysquats@gmail.com'
-  };
-  const state = user(undefined, getUser(testUser));
-  const nextState = user(state, removeUser());
-  t.deepEqual(nextState.get('firstName'), undefined);
 });
