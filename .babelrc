@@ -6,11 +6,6 @@
     ["@babel/preset-stage-2", {"decoratorsLegacy": true}]
   ],
   "plugins": [
-    "syntax-dynamic-import",
-    ["@babel/plugin-proposal-decorators",
-    {
-      "legacy": true
-    }
-  ]
+    "syntax-dynamic-import"
   ]
 }

@@ -13,6 +13,10 @@ import {
   CLASS_NAME_OBJ
 } from '../HierarchyControl/CardTypes';
 
+const getItemType = (props) => {
+	return props.type;
+}
+
 const cardTarget = {
 	drop() {},
 }
@@ -73,6 +77,7 @@ class Container extends Component {
 				<div className={'container'}>
 				{cards.map(card => (
 					<Card
+						{...this.props}
 						card={card}
 						key={card.get('id')}
 						id={card.get('id')}
@@ -90,6 +95,6 @@ class Container extends Component {
 	}
 }
 
-const ContainerTarget = DropTarget(ItemTypes.CARD, cardTarget, collect)(Container);
+const ContainerTarget = DropTarget((props) => {return props.type}, cardTarget, collect)(Container);
 const ContainerContext = DragDropContext(HTML5Backend)(ContainerTarget);
 export default ContainerContext;

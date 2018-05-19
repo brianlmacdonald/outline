@@ -78,7 +78,6 @@
   "@babel/preset-react": "^7.0.0-beta.42",
   "@babel/preset-stage-2": "^7.0.0-beta.42",
   "@babel/preset-stage-3": "^7.0.0-beta.42",
-  "@babel/plugin-proposal-decorators": "^7.0.0-beta.47",
   "@babel/register": "^7.0.0-beta.42",
   "ava": "^1.0.0-beta.3",
   "babel-cli": "^6.26.0",

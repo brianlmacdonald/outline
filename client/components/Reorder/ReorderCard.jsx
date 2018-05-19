@@ -9,6 +9,10 @@ const draggedStyler = (bool) => {
   else return 'thumbnail';
 };
 
+const getItemType = (props) => {
+	return props.type;
+}
+
 const cardSource = {
 	beginDrag(props) {
 		return {
@@ -92,6 +96,6 @@ class Card extends Component {
 	}
 }
 
-const CardDrag = DragSource(ItemTypes.CARD, cardSource, dragCollect)(Card);
-const CardDrop = DropTarget(ItemTypes.CARD, cardTarget, dropCollect)(CardDrag);
+const CardDrag = DragSource((props) => {return props.type}, cardSource, dragCollect)(Card);
+const CardDrop = DropTarget((props) => {return props.type}, cardTarget, dropCollect)(CardDrag);
 export default CardDrop;
