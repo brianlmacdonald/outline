@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import Container from '../Container/Container.jsx';
 import InjectContainer from './HierarchyControl.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
+import ThumbsContainer from '../Container/ThumbsContainer.jsx';
+import AddNew from '../Container/AddNew.jsx';
 
-const NavigationView = InjectContainer(Container);  
+const NavigationView = InjectContainer(Container(AddNew)(ThumbsContainer));  
 
 const mapDispatch = dispatch => ({
   handleNavigation(navigationThunk) {

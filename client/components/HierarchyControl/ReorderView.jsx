@@ -1,11 +1,14 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import Container from '../Reorder/ReorderContainer.jsx';
+import Container from '../Container/Container.jsx';
+import ReorderContainer from '../Reorder/ReorderContainer.jsx';
 import InjectContainer from './HierarchyControl.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
 
-const ReorderView = InjectContainer(Container);  
+const SaveOrder = () => <button>save order</button>;
+
+const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer));  
 
 const mapDispatch = dispatch => ({
   handleNavigation(navigationThunk) {

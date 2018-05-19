@@ -73,7 +73,6 @@ class Container extends Component {
 		const { cards } = this.state;
 
 		return connectDropTarget(
-			<div className={CLASS_NAME_OBJ[type]}>
 				<div className={'container'}>
 				{cards.map(card => (
 					<Card
@@ -87,10 +86,6 @@ class Container extends Component {
 					/>
 				))}
 				</div>
-				<div>
-					{children}
-				</div>
-			</div>
 		)
 	}
 }

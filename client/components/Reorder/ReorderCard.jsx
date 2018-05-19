@@ -5,8 +5,8 @@ import ItemTypes from './ItemTypes'
 import '../Thumbnail/Thumbnail.css';
 
 const draggedStyler = (bool) => {
-  if (bool) return 'thumbnail dragging';
-  else return 'thumbnail';
+  if (bool) return 'thumbnail dragging selected';
+  else return 'thumbnail unSelected';
 };
 
 const getItemType = (props) => {
