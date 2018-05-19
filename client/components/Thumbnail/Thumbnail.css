@@ -22,3 +22,7 @@
 .unSelected {
   border: 2px black solid;
 }
+
+.dragging {
+  opacity: 0;
+}

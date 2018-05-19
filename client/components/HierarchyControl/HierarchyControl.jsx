@@ -1,6 +1,4 @@
 'use strict';
-import { connect } from 'react-redux';
-import { Container } from '../index.jsx';
 import React, { Component } from 'react';
 import {
   PROJECT_TYPE,
@@ -23,10 +21,9 @@ import {
   GET_SCENES,
   GET_BEATS
 } from './CardTypes';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
 
-
-class HierarchyControl extends Component {
+function InjectContainer(Container) {
+return class HierarchyControl extends Component {
   constructor(props) {
     super(props);
 
@@ -150,24 +147,7 @@ class HierarchyControl extends Component {
       </Container>
     );
   }
+};
 }
 
-const mapDispatch = dispatch => ({
-  handleNavigation(navigationThunk) {
-    return function(payload){
-      dispatch(navigationThunk(payload));
-    };
-  },
-});
-
-const mapState = state => ({
-  user: state.user,
-  project: state.project,
-  navigator: state.navigator,
-  draft: state.draft
-});
-
-const WrappedHC = LoaderHOC('project')(HierarchyControl);
-const ConnectedHC = connect(mapState, mapDispatch)(WrappedHC);
-
-export default ConnectedHC;
+export default InjectContainer;

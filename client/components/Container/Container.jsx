@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  ThumbsContainer,
-  Thumbnail,
-  CardEditor } from 'APP/client/components/index.jsx';
+import ThumbsContainer from './ThumbsContainer.jsx';
+import CardEditor from '../CardEditor/CardEditorLoader.jsx';
 import './Container.css';
 import ModalLauncher from'../HOC/ModalLauncher.jsx';
 import { Map } from 'immutable';

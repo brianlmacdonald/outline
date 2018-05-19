@@ -28,7 +28,7 @@ const reducer = combine(reducerRegistry.getReducers());
 const middleWare = composeWithDevTools(
   applyMiddleware(
     thunkMiddleware,
-    createLogger({diff: true})
+    createLogger({collapsed: true})
   )
 );
 
