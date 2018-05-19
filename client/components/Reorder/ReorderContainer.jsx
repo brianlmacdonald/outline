@@ -17,10 +17,6 @@ const cardTarget = {
 	drop() {},
 }
 
-update.extend('list', (idxObj, original) => {
-	return original.delete(idxObj.index).insert(idxObj.indexAt, indxObj.card);
-})
-
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget()
@@ -34,8 +30,8 @@ class Container extends Component {
 
 	constructor(props) {
 		super(props)
-		this.moveCard = throttle(this.moveCard.bind(this), 250);
-		this.findCard = throttle(this.findCard.bind(this), 250);
+		this.moveCard = this.moveCard.bind(this)
+		this.findCard = this.findCard.bind(this)
 		this.state = {
 			cards: List([]),
 		}
@@ -44,20 +40,23 @@ class Container extends Component {
 	componentDidMount(){
 		console.log('cdm');
 		const { thumbs } = this.props;
+		const forState = []
+		thumbs.forEach(thumb => forState.push(thumb));
 		this.setState({
-			cards: thumbs
+			cards: forState
 		})
 	}
 
 	moveCard(id, atIndex) {
 		const { card, index } = this.findCard(id)
 		const indexObj = {index, atIndex, card};
+		
 		this.setState(
 			update(this.state, {
 				cards: {
-					$list: indexObj,
+					$splice: [[index, 1], [atIndex, 0, card]],
 				},
-			})
+			}),
 		);
 	}
 
