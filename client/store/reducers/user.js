@@ -6,6 +6,7 @@ import history from '../../history';
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
 export const GET_USER_ERROR = 'GET_USER_ERROR';
+const ALL_PROJECTS_SUCCESS = 'ALL_PROJECTS_SUCCESS';
 
 export const getUser = user => {
   return {
@@ -64,10 +65,13 @@ function userReducer(state = defaultUser, action) {
   switch (action.type) {
     
     case GET_USER:
-      return state.mergeDeep(action.payload);
+      return state.mergeDeep(action.payload).set('initialLoad', false);
     
     case GET_USER_ERROR:
       return state.set('error', action.payload);
+
+    case ALL_PROJECTS_SUCCESS:
+      return state.set('initialLoad', true);
 
     default:
       return state;
