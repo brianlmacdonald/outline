@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
-import NavigationView from '../HierarchyControl/NavigationViewLoader.jsx';
-import ReorderView from '../HierarchyControl/ReorderViewLoader.jsx';
+import NavigationView from '../HierarchyControl/NavigationView.jsx';
+import ReorderView from '../HierarchyControl/ReorderView.jsx';
 import { loadUserProjects } from '../../store/reducers/project';
 import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
 import project from '../../store/reducers/project';
