@@ -5,7 +5,7 @@ import browserHistory, { memoryHistory } from './history';
 import UserNav from './components/UserNav/UserNav.jsx';
 import Home from './components/Home.jsx';
 import { Login, Signup } from './components/Auth.jsx';
-import ProjectOverview from './components/ProjectOverview/ProjectOverview.jsx';
+import ProjectOverview from './components/ProjectOverview/ProjectOverviewLoader.jsx';
 import React, { Component }  from 'react';
 
 class Routes extends Component {

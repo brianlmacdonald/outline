@@ -4,7 +4,6 @@ import Loadable from 'react-loadable';
 import '../HOC/addLoader.css';
 
 const Loading = () => {
-  console.log('loading endlessly in PROJECT OVERVIEW');
   return (<div className='loader' />)
 };
 
