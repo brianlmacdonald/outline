@@ -5,7 +5,7 @@ import ThumbnailClickable from '../Thumbnail/ThumbnailClickable.jsx';
 const ThumbsContainer = props => {
   const { thumbs, navigator, type } = props;
 
-  return thumbs.map((card, idx) => {
+  return thumbs.sortBy(a => a.get('index')).map((card, idx) => {
     return (
       <ThumbnailClickable
         {...props}

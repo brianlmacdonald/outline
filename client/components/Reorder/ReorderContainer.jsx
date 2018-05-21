@@ -65,7 +65,7 @@ class Container extends Component {
 	
 		return connectDropTarget(
 				<div className={'container'}>
-				{cards.map(card => (
+				{cards.sortBy(a => a.get('index')).map(card => (
 					<Card
 						{...this.props}
 						card={card}
