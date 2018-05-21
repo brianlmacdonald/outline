@@ -41,18 +41,19 @@ class CardEditor extends Component {
       handleNewProject,
       handleNewCard,
       handleNavigation,
-      newCard,
+      isNewCard,
       type,
       parent,
       card, 
       project,
       user,
+      nextIdx
     } = this.props;
 
-    if (newCard && type === PROJECT_TYPE) {
+    if (isNewCard && type === PROJECT_TYPE) {
       handleNewProject(user.get('id'));
-    } else if (newCard) {
-      handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: ''}))
+    } else if (isNewCard) {
+      handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: '', index: nextIdx}))
       // handleNavigation({ id: parent.id, userId: user.get('id')});
     } else {
       handleNavigation({ id: card.get('id'), userId: user.get('id')});
@@ -119,10 +120,10 @@ class CardEditor extends Component {
       handleSave,
       handleCancel,
       handleChange,
-      newCard,
+      isNewCard,
       close } = this.props;
     const saveObject = { 
-      newCard,
+      isNewCard,
       parent,
       draft,
       userId: user.get('id'),
@@ -156,7 +157,7 @@ class CardEditor extends Component {
             <button className={'button'} onClick={() => handleCancel(close)}>
               cancel
             </button>
-            {!newCard && <ModalLauncher
+            {!isNewCard && <ModalLauncher
               draft={draft}
               styleClass={'button'}
               type={type}

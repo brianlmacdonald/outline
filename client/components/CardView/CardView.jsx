@@ -28,7 +28,7 @@ const CardView = (props) => {
         <CardEditor
           {...props}
           type={type}
-          newCard={false}
+          isNewCard={false}
           parent={self}/>
       </ModalLauncher>
       </div>

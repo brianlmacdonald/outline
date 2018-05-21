@@ -20,7 +20,7 @@ router.put('/:sequenceId', (req, res, next) => {
     .catch(next);
 });
 
-router.delete('/:sequenceId/', (req, res, next) => {
+router.delete('/:sequenceId', (req, res, next) => {
   return Sequence.destroy({where: {id: {[Op.eq]:req.params.sequenceId}}})
   .then(destroyedSequence => res.sendStatus(204))
   .catch(next);

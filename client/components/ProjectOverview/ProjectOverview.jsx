@@ -2,18 +2,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
-import HierarchyControl from '../HierarchyControl/HierarchyControlLoader.jsx';
+import NavigationView from '../HierarchyControl/NavigationViewLoader.jsx';
+import ReorderView from '../HierarchyControl/ReorderViewLoader.jsx';
 import { loadUserProjects } from '../../store/reducers/project';
 import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
 import project from '../../store/reducers/project';
 import navigator from '../../store/reducers/navigator';
+import order from '../../store/reducers/order';
 import draft from '../../store/reducers/draft';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
-
-//this will eventually be a visualization component for the entire story.
-//hierachy view is more of an organization for editing. 
-//project/overview vs project/edit
 
 class ProjectOverview extends Component {
   constructor(props){
@@ -21,7 +19,9 @@ class ProjectOverview extends Component {
     this.state = {
       loaded: false,
       user: '',
+      navigation: true
     };
+    this.toggleNavigation = this.toggleNavigation.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, state){
@@ -41,8 +41,14 @@ class ProjectOverview extends Component {
       reducerRegistry.register('project', project);
       reducerRegistry.register('navigator', navigator);
       reducerRegistry.register('draft', draft);
+      reducerRegistry.register('order', order);
+      
       this.setState({loaded: true});
     }
+  }
+
+  toggleNavigation(){
+    this.setState({navigation: !this.state.navigation});
   }
 
   render(){
@@ -50,8 +56,13 @@ class ProjectOverview extends Component {
 
     return(
       <div>
+        <nav>
+          <button
+          onClick={this.toggleNavigation}
+          >toggle</button>
+        </nav>
         <Notifs />
-        <HierarchyControl />
+        {this.state.navigation ? <NavigationView /> : <ReorderView />}
       </div>
     );
   }

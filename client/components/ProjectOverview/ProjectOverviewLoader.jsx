@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 import '../HOC/addLoader.css';
 
-const Loading = () => (<div className='loader' />);
+const Loading = () => {
+  console.log('loading endlessly in PROJECT OVERVIEW');
+  return (<div className='loader' />)
+};
 
 const LoadableComponent = Loadable({
   loader: () => {
@@ -11,7 +14,7 @@ const LoadableComponent = Loadable({
   loading: Loading,
 })
 
-export default class LoadableCardEditor extends Component {
+export default class LoadableProjectOverview extends Component {
   render() {
     return <LoadableComponent />;
   }

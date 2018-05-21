@@ -1,14 +1,13 @@
 import React from 'react';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
-import { Thumbnail } from 'APP/client/components/index.jsx';
+import ThumbnailClickable from '../Thumbnail/ThumbnailClickable.jsx';
 
 const ThumbsContainer = props => {
   const { thumbs, navigator, type } = props;
-  console.log(thumbs);
 
   return thumbs.map((card, idx) => {
     return (
-      <Thumbnail
+      <ThumbnailClickable
         {...props}
         activeStyle={card.get('id') === navigator.get(type)}
         card={card}

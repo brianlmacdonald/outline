@@ -20,7 +20,7 @@ router.put('/:sceneId', (req, res, next) => {
     .catch(next);
 });
 
-router.delete('/:sceneId/', (req, res, next) => {
+router.delete('/:sceneId', (req, res, next) => {
   return Scene.destroy({where: {id: {[Op.eq]: req.params.sceneId}}})
   .then(destroyedScene => res.sendStatus(204))
   .catch(next);

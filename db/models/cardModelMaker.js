@@ -17,6 +17,9 @@ module.exports = (type, opts) => db =>
       type: {
         type: Sequelize.STRING,
         defaultValue: opts.defaultType
+      },
+      index: {
+        type: Sequelize.INTEGER
       }
     },
     {

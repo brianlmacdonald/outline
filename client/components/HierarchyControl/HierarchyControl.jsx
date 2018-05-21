@@ -1,7 +1,6 @@
 'use strict';
-import { connect } from 'react-redux';
-import { Container } from '../index.jsx';
 import React, { Component } from 'react';
+import { List } from 'immutable';
 import {
   PROJECT_TYPE,
   ACT_TYPE,
@@ -23,10 +22,9 @@ import {
   GET_SCENES,
   GET_BEATS
 } from './CardTypes';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
 
-
-class HierarchyControl extends Component {
+function InjectContainer(Container) {
+return class HierarchyControl extends Component {
   constructor(props) {
     super(props);
 
@@ -45,7 +43,8 @@ class HierarchyControl extends Component {
         return project
           .get('userProjects')
           .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
-          .get('acts');
+          .get('acts')
+          .sortBy(a => a.get('index')) || List([]);
 
       case GET_SEQUENCES:
         return project
@@ -53,7 +52,8 @@ class HierarchyControl extends Component {
           .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
           .get('acts')
           .find((act) => act.get('id') === navigator.get(ACT_TYPE))
-          .get('sequences');
+          .get('sequences')
+          .sortBy(a => a.get('index')) || List([]);
 
       case GET_SCENES:
         return project
@@ -63,7 +63,8 @@ class HierarchyControl extends Component {
           .find((act) => act.get('id') === navigator.get(ACT_TYPE))
           .get('sequences')
           .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
-          .get('scenes');
+          .get('scenes')
+          .sortBy(a => a.get('index')) || List([]);
 
       case GET_BEATS:
         return project
@@ -75,7 +76,8 @@ class HierarchyControl extends Component {
           .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
           .get('scenes')
           .find((scene) => scene.get('id') === navigator.get(SCENE_TYPE))
-          .get('beats');
+          .get('beats')
+          .sortBy(a => a.get('index')) || List([]);
 
       default:
         throw new Error('Unknown type');
@@ -150,24 +152,7 @@ class HierarchyControl extends Component {
       </Container>
     );
   }
+};
 }
 
-const mapDispatch = dispatch => ({
-  handleNavigation(navigationThunk) {
-    return function(payload){
-      dispatch(navigationThunk(payload));
-    };
-  },
-});
-
-const mapState = state => ({
-  user: state.user,
-  project: state.project,
-  navigator: state.navigator,
-  draft: state.draft
-});
-
-const WrappedHC = LoaderHOC('project')(HierarchyControl);
-const ConnectedHC = connect(mapState, mapDispatch)(WrappedHC);
-
-export default ConnectedHC;
+export default InjectContainer;
