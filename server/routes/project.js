@@ -38,7 +38,7 @@ router.get('/:userId', (req, res, next) => {
 router.post('/:userId', (req, res, next) => {
   return Project.create()
   .then(newProject => newProject.setUser(req.user.id))
-  .then(res.json.bind(res))
+  .then(preScopedProject => res.json(preScopedProject))
   .catch(next);
 });
 
