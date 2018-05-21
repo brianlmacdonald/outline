@@ -188,21 +188,27 @@ export const loadSingleProject = (userId: UserId, projectId: ProjectId) => (disp
 };
 
 export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
+  let errorId;
   dispatch(createNewProject());
   return axios.post(`api/projects/${userId}`)
   .then(createdProject => {
+    errorId = createdProject.data.id
     dispatch(notifSend({
       message: 'project created',
       kind: 'info',
       dismissAfter: 2000
     }))
-    dispatch(newProjectCreated(createdProject.data));
-    dispatch(removeNavigationPath(BEAT_TYPE));
-    dispatch(removeNavigationPath(SCENE_TYPE));
-    dispatch(removeNavigationPath(SEQUENCE_TYPE));
-    dispatch(removeNavigationPath(ACT_TYPE));
-    dispatch(addNavigationPath(PROJECT_TYPE, createdProject.data.id))
-    dispatch(createNewDraftCardThunk(fromJS(createdProject.data)))
+    return axios.get(`api/projects/${userId}/${createdProject.data.id}`)
+    .then(scopedProject => {
+      dispatch(newProjectCreated(scopedProject.data));
+      dispatch(removeNavigationPath(BEAT_TYPE));
+      dispatch(removeNavigationPath(SCENE_TYPE));
+      dispatch(removeNavigationPath(SEQUENCE_TYPE));
+      dispatch(removeNavigationPath(ACT_TYPE));
+      dispatch(addNavigationPath(PROJECT_TYPE, scopedProject.data.id))
+      return dispatch(createNewDraftCardThunk(fromJS(scopedProject.data)))
+    })
+    .catch(err => dispatch(projectLoadError(err, errorId)))
   })
   .catch(err => dispatch(projectCreationError(err)));
 };

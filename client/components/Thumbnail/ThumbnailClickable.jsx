@@ -31,6 +31,7 @@ const ThumbnailClickable = (props) => {
   const location = card.get('id');
   const userId = user.get('id');
   const freezeNavigation = draft.get('type') !== null;
+  //freezeNav prevents navigation when someone is editing.
 
   return (
       <div
