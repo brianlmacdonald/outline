@@ -1,9 +1,0 @@
-'use strict';
-
-export default {
-  PROJECT_TYPE: 'PROJECT_TYPE',
-  ACT_TYPE: 'ACT_TYPE',
-  SEQUENCE_TYPE: 'SEQUENCE_TYPE',
-  SCENE_TYPE: 'SCENE_TYPE',
-  BEAT_TYPE: 'BEAT_TYPE'
-};

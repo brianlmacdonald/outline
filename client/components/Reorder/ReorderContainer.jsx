@@ -6,8 +6,6 @@ import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Card from './ReorderCard.jsx'
 import update from 'immutability-helper';
-import ItemTypes from './ItemTypes'
-import flow from 'lodash/flow';
 import { List } from 'immutable';
 import { updateOrder } from '../../store/reducers/order';
 import {
