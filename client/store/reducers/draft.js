@@ -94,7 +94,6 @@ const draftReducer = (state = defaultDraft, action) => {
   switch(action.type) {
 
     case NEW_DRAFT_CARD:
-      console.log(action.payload);
       return state.withMutations(map => {
         map.set(CARD_TYPE_ID, action.payload.get(CARD_TYPE_ID))
         .set(CARD_TYPE_UPDATED_AT, action.payload.get(CARD_TYPE_UPDATED_AT))

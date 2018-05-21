@@ -7,14 +7,15 @@ const AddNew = (props) => {
   const { 
     draft,
     type,
-    parent 
+    parent,
+    thumbs
     } = props;
   return (
           <ModalLauncher type={type} message={'add '} draft={draft} styleClass={'addButton'}>
             <CardEditor
             {...props}
             type={type}
-            newCard={true}
+            isNewCard={true}
             parent={parent}/>
           </ModalLauncher>
   );

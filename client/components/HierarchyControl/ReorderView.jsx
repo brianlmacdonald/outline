@@ -5,8 +5,7 @@ import Container from '../Container/Container.jsx';
 import ReorderContainer from '../Reorder/ReorderContainer.jsx';
 import InjectContainer from './HierarchyControl.jsx';
 import LoaderHOC from '../HOC/LoaderHOC.jsx';
-
-const SaveOrder = () => <button>save order</button>;
+import SaveOrder from '../Reorder/SaveOrder.jsx';
 
 const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer));  
 

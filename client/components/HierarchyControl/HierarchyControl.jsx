@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import { List } from 'immutable';
 import {
   PROJECT_TYPE,
   ACT_TYPE,
@@ -42,7 +43,7 @@ return class HierarchyControl extends Component {
         return project
           .get('userProjects')
           .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
-          .get('acts');
+          .get('acts') || List([]);
 
       case GET_SEQUENCES:
         return project
@@ -50,7 +51,7 @@ return class HierarchyControl extends Component {
           .find((proj) => proj.get('id') === navigator.get(PROJECT_TYPE))
           .get('acts')
           .find((act) => act.get('id') === navigator.get(ACT_TYPE))
-          .get('sequences');
+          .get('sequences') || List([]);
 
       case GET_SCENES:
         return project
@@ -60,7 +61,7 @@ return class HierarchyControl extends Component {
           .find((act) => act.get('id') === navigator.get(ACT_TYPE))
           .get('sequences')
           .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
-          .get('scenes');
+          .get('scenes') || List([]);
 
       case GET_BEATS:
         return project
@@ -72,7 +73,7 @@ return class HierarchyControl extends Component {
           .find((seq) => seq.get('id') === navigator.get(SEQUENCE_TYPE))
           .get('scenes')
           .find((scene) => scene.get('id') === navigator.get(SCENE_TYPE))
-          .get('beats');
+          .get('beats') || List([]);
 
       default:
         throw new Error('Unknown type');

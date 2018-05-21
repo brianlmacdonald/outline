@@ -15,13 +15,14 @@ const EmptyProp = (type) => () => {
 const Container = (Button) => (SubContainer) => (props) => {
     const {
       type,
-      children, 
+      children,
+      thumbs,
       } = props;
-      
+
     return (
       <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
         <div className='container'>
-          <Button {...props} />
+          <Button nextIdx={thumbs.size} {...props} />
           <SubContainer {...props} empty={EmptyProp(type)} />
         </div>
         <div className='subContainer'>

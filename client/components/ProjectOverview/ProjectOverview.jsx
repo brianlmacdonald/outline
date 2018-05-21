@@ -8,6 +8,7 @@ import { loadUserProjects } from '../../store/reducers/project';
 import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
 import project from '../../store/reducers/project';
 import navigator from '../../store/reducers/navigator';
+import order from '../../store/reducers/order';
 import draft from '../../store/reducers/draft';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
@@ -40,6 +41,8 @@ class ProjectOverview extends Component {
       reducerRegistry.register('project', project);
       reducerRegistry.register('navigator', navigator);
       reducerRegistry.register('draft', draft);
+      reducerRegistry.register('order', order);
+      
       this.setState({loaded: true});
     }
   }

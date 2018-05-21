@@ -6,7 +6,7 @@ const Op = Sequelize.Op;
 
 module.exports = router;
 
-router.post('/:sceneId/', (req, res, next) => {
+router.post('/:sceneId', (req, res, next) => {
   return Beat.create(req.body)
   .then(newCard => newCard.setScene(req.params.sceneId))
   .then(updatedCard => res.sendStatus(200))
@@ -20,7 +20,7 @@ router.put('/:beatId', (req, res, next) => {
     .catch(next);
 });
 
-router.delete('/:beatId/', (req, res, next) => {
+router.delete('/:beatId', (req, res, next) => {
   return Beat.destroy({where: {id: {[Op.eq]: req.params.beatId}}})
   .then(destroyedBeat => res.sendStatus(204))
   .catch(next);

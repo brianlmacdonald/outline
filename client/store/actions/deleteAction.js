@@ -100,7 +100,7 @@ function makeDeleteRequest(dispatch) {
       .catch(err => {
         dispatch(notifSend({
           message: `${route} deletion error`,
-          kind: 'error',
+          kind: 'danger',
           dismissAfter: 3500
         }));
         return dispatch(deleteCardError(err, cardId));

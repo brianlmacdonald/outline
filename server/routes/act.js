@@ -20,8 +20,8 @@ router.put('/:actId', (req, res, next) => {
     .catch(next);
 });
 
-router.delete('/:actId/', (req, res, next) => {
-  return Act.destroy({where: {id: {[Op.Eq]: req.params.actId}}})
+router.delete('/:actId', (req, res, next) => {
+  return Act.destroy({where: {id: {[Op.eq]: req.params.actId}}})
   .then(destroyedAct => res.sendStatus(204))
   .catch(next);
 });

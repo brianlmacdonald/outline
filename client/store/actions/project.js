@@ -24,7 +24,7 @@ export const persistToDB = (saveObj) => dispatch => {
   const { parent, draft, projectId, userId } = saveObj;
   const id = draft.get('id');
 
-  if (saveObj.newCard === true) {
+  if (saveObj.isNewCard === true) {
     switch(parent.type) {
       case USER_TYPE:
       dispatch(persistingProject(projectId));
@@ -133,7 +133,7 @@ function makeRequest(putOrPost, status) {
           .catch(err => {
             dispatch(notifSend({
               message: `${route} not loaded`,
-              kind: 'error',
+              kind: 'danger',
               dismissAfter: 3500
             }));
              return dispatch(projectLoadError(err, draft));
@@ -145,7 +145,7 @@ function makeRequest(putOrPost, status) {
       .catch(err => {
         dispatch(notifSend({
           message: `${route} not ${statusObject[status]}`,
-          kind: 'error',
+          kind: 'danger',
           dismissAfter: 3500
         }));
         return dispatch(persistingProjectFailure(err, draft))

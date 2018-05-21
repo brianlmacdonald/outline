@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -8,7 +9,7 @@ import update from 'immutability-helper';
 import ItemTypes from './ItemTypes'
 import flow from 'lodash/flow';
 import { List } from 'immutable';
-import throttle from 'lodash/throttle'
+import { updateOrder } from '../../store/reducers/order';
 import {
   CLASS_NAME_OBJ
 } from '../HierarchyControl/CardTypes';
@@ -36,30 +37,22 @@ class Container extends Component {
 		super(props)
 		this.moveCard = this.moveCard.bind(this)
 		this.findCard = this.findCard.bind(this)
-		this.state = {
-			cards: List([]),
-		}
-	}
-
-	componentDidMount(){
-		console.log('cdm');
-		const { thumbs } = this.props;
-		this.setState({
-			cards: thumbs
-		})
+		const { handleOrder, type, thumbs } = props;
+		const startingOrder = { type, list: thumbs }
+		handleOrder(startingOrder);
 	}
 
 	moveCard(id, atIndex) {
+		const { type, handleOrder, order } = this.props;
 		const { card, index } = this.findCard(id)
-		const indexObj = {index, atIndex, card};
-		
-		this.setState({
-			cards: this.state.cards.delete(index).insert(atIndex, card)
-		});
+		const reordered = order.get(type).delete(index).insert(atIndex, card)
+		const updateObj = { type, list: reordered };
+		handleOrder(updateObj);
 	}
 
 	findCard(id) {
-		const { cards } = this.state
+		const { order, type } = this.props
+		const cards = order.get(type);
 		const card = cards.find(c => c.get('id') === id);
 		
 		return {
@@ -69,9 +62,9 @@ class Container extends Component {
 	}
 
 	render() {
-		const { connectDropTarget, type, children } = this.props;
-		const { cards } = this.state;
-
+		const { connectDropTarget, type, children, order } = this.props;
+		const cards = order.get(type) || List([]);
+	
 		return connectDropTarget(
 				<div className={'container'}>
 				{cards.map(card => (
@@ -90,6 +83,16 @@ class Container extends Component {
 	}
 }
 
+const mapState = state => ({
+	order: state.order
+});
+
+const mapDispatch = dispatch => ({
+	handleOrder(updateObj){
+		dispatch(updateOrder(updateObj))
+	}
+});
+
 const ContainerTarget = DropTarget((props) => {return props.type}, cardTarget, collect)(Container);
 const ContainerContext = DragDropContext(HTML5Backend)(ContainerTarget);
-export default ContainerContext;
+export default connect(mapState, mapDispatch)(ContainerContext);
