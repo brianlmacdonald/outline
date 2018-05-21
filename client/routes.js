@@ -49,8 +49,16 @@ class Routes extends Component {
           <UserNav />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route path="/login" render={() => (
+              !isLoggedIn ? (<Login />) : (
+                <Redirect to='/projects' />
+              
+            ))} />
+            <Route path="/signup" render={() => (
+              !isLoggedIn ? (<SignUp />) : (
+                <Redirect to='/projects' />
+              
+            ))} />
             <Route path='/projects' render={() => (
               isLoggedIn ? (<ProjectOverview />) : (
               <Redirect to='/login'/>

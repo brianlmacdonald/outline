@@ -17,19 +17,18 @@ class ProjectOverview extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loaded: false,
       user: '',
+      loaded: false,
       navigation: true
     };
     this.toggleNavigation = this.toggleNavigation.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, state){
-    if (state.user !== nextProps.user.get('id')) {
-      const id = nextProps.user.get('id') || '';
-      if (id !== '') nextProps.handleLoadProjects(nextProps.user.get('id'));
+    if (state.loaded === false && nextProps.user.get('initialLoad') === false) {
+      nextProps.handleLoadProjects(nextProps.user.get('id'));
       return {
-        user: id
+        loaded: true
       };
     }
     return null;
@@ -37,13 +36,11 @@ class ProjectOverview extends Component {
 
   componentDidMount(){
     const { user, projects, handleLoadProjects } = this.props;
-    if (!this.state.loaded) {
+    if (projects === undefined) {
       reducerRegistry.register('project', project);
       reducerRegistry.register('navigator', navigator);
       reducerRegistry.register('draft', draft);
       reducerRegistry.register('order', order);
-      
-      this.setState({loaded: true});
     }
   }
 
@@ -59,7 +56,7 @@ class ProjectOverview extends Component {
         <nav>
           <button
           onClick={this.toggleNavigation}
-          >toggle</button>
+          >{this.state.navigation ? 'edit order' : 'edit card'}</button>
         </nav>
         <Notifs />
         {this.state.navigation ? <NavigationView /> : <ReorderView />}
