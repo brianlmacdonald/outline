@@ -17,8 +17,8 @@ class Routes extends Component {
   }
   //I don't like this here. Find a better way to spy on state.
   static getDerivedStateFromProps(nextProps, state){
-    const {user, project, draft, navigator} = nextProps;
-    const forStorage = { user, project, draft, navigator}
+    const {user, project, draft, navigator, order} = nextProps;
+    const forStorage = { user, project, draft, navigator, order};
     if (state.user !== nextProps.user.get('id')) {
       if (nextProps.user.get('id') === undefined) {
         delete window.__OUTLINE_STATE__;
@@ -55,7 +55,7 @@ class Routes extends Component {
               
             ))} />
             <Route path="/signup" render={() => (
-              !isLoggedIn ? (<SignUp />) : (
+              !isLoggedIn ? (<Signup />) : (
                 <Redirect to='/projects' />
               
             ))} />
@@ -73,7 +73,8 @@ const mapState = state => ({
   user: state.user,
   project: state.project,
   navigator: state.navigator,
-  draft: state.draft
+  draft: state.draft,
+  order: state.order
 });
 
 const connectedRoutes = connect(mapState)(Routes);
