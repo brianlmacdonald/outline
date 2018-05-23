@@ -15,6 +15,15 @@
   width: 12em;
 }
 
+.soloButton {
+  display: flex;
+  height: 35.97px;
+  width: 225.97px;
+  margin: 1em;
+  font-size: .5em;
+  justify-content: center;
+}
+
 .cardView {
   display: flex;
   flex-direction: column;

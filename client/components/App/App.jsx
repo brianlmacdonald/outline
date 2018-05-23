@@ -1,24 +1,27 @@
 'use strict';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import browserHistory, { memoryHistory } from './history';
-import UserNav from './components/UserNav/UserNav.jsx';
-import Home from './components/Home.jsx';
-import { Login, Signup } from './components/Auth.jsx';
-import ProjectOverview from './components/ProjectOverview/ProjectOverviewLoader.jsx';
+import browserHistory, { memoryHistory } from '../../history';
+import UserNav from '../UserNav/UserNav.jsx';
+import Home from '../Home/Home.jsx';
+import { Login, Signup } from '../Auth.jsx';
+import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader.jsx';
 import React, { Component }  from 'react';
+import './App.css';
 
-class Routes extends Component {
+class APP extends Component {
   constructor(props){
     super(props);
     this.state = {
       user: '',
     };
   }
-  //I don't like this here. Find a better way to spy on state.
+
   static getDerivedStateFromProps(nextProps, state){
     const {user, project, draft, navigator, order} = nextProps;
     const forStorage = { user, project, draft, navigator, order};
+    //for reducer registry. When a new reducer is add, the current state 
+    //will be passed to the combine and register reducers fn from __OUTLINE_STATE__
     if (state.user !== nextProps.user.get('id')) {
       if (nextProps.user.get('id') === undefined) {
         delete window.__OUTLINE_STATE__;
@@ -41,14 +44,15 @@ class Routes extends Component {
   }
   
   render() {
+    const isLoggedIn = !!this.state.user;
     const { user } = this.props;
-    const isLoggedIn = user.get('id') !== undefined;
     return(
+      <div className='app'>
       <Router history={browserHistory}>
         <div className='routes'>
           <UserNav />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" render={props => <Home user={user} />} />
             <Route path="/login" render={() => (
               !isLoggedIn ? (<Login />) : (
                 <Redirect to='/projects' />
@@ -65,7 +69,8 @@ class Routes extends Component {
             ))} />
           </Switch>
         </div>
-    </Router>);
+    </Router>
+  </div>);
   }
 }
 
@@ -77,6 +82,6 @@ const mapState = state => ({
   order: state.order
 });
 
-const connectedRoutes = connect(mapState)(Routes);
+const connectedRoutes = connect(mapState)(APP);
 
 export default connectedRoutes;

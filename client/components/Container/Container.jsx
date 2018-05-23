@@ -12,7 +12,12 @@ const EmptyProp = (type) => () => {
 };
 //make this a HOC that takes button and subBontainer.
 
-const Container = (Button) => (SubContainer) => (props) => {
+const addMaxWidth = (bool) => {
+  if (bool) return 'container navView';
+  else return 'container';
+};
+
+const Container = (Button) => (SubContainer, isNavView) => (props) => {
     const {
       type,
       children,
@@ -21,11 +26,11 @@ const Container = (Button) => (SubContainer) => (props) => {
 
     return (
       <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
-        <div className='container'>
+        <div className={addMaxWidth(isNavView)}>
           <Button nextIdx={thumbs.size} {...props} />
           <SubContainer {...props} empty={EmptyProp(type)} />
         </div>
-        <div className='subContainer'>
+        <div>
           {children}
         </div>
       </div>

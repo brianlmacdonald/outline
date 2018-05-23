@@ -1,7 +1,6 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { logout } from '../../store/reducers/user';
 
 const mapDispatch = dispatch => ({
@@ -10,7 +9,7 @@ const mapDispatch = dispatch => ({
   }
 });
 
-const UserNav = connect(({user}) => ({user}),
+const UserNav = connect(({user, project}) => ({user, project}),
   mapDispatch)(({ user, handleLogout }) => {
   const userName = user.get('firstName');
 
@@ -18,14 +17,7 @@ const UserNav = connect(({user}) => ({user}),
     <div>
       <nav>
       {!userName ?
-        <div>
-          <Link to={'/login'}>
-            <button>login</button>
-          </Link>
-          <Link to={'/signup'}>
-            <button>signup</button>
-          </Link>
-        </div> :
+        <div /> :
         <div>
         <p>Hello, {userName}!</p>
         <button

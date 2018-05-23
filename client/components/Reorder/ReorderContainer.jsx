@@ -64,7 +64,7 @@ class Container extends Component {
 		const cards = order.get(type) || List([]);
 	
 		return connectDropTarget(
-				<div className={'container'}>
+				<div className='subContainer'>
 				{cards.map(card => (
 					<Card
 						{...this.props}

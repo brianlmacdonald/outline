@@ -8,7 +8,7 @@ import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import SaveOrder from '../Reorder/SaveOrder.jsx';
 import { persistNewOrder } from '../../store/reducers/order';
 
-const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer));  
+const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer, false));  
 
 const mapDispatch = dispatch => ({
   handleNavigation(navigationThunk) {

@@ -1,7 +1,7 @@
 .container {
   display: flex;
   border: 2px #9899A6 solid;
-  overflow: scroll;
+  flex-direction: row;
 }
 
 .project {
@@ -22,4 +22,14 @@
 
 .beat {
   background-color: antiquewhite;
+}
+
+.subContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.navView {
+  max-width: 1200px;
+  overflow: scroll;
 }

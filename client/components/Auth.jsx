@@ -11,33 +11,49 @@ export const UserAuth = props => {
   return (
     <div className='auth'>
       <form onSubmit={handleSubmit} name={name}>
+        <h1>{displayName}</h1>
         {name === 'signup' && (
           <div>
             <div>
-              <label>first name</label>
-              <input name="firstName" type="text" />
+              <input
+              className='authInputs'
+              placeholder='first name'
+              name="firstName"
+              type="text" />
             </div>
             <div>
-              <label>last name</label>
-              <input name="lastName" type="text" />
+              <input
+                className='authInputs'
+                placeholder='last name'
+                name="lastName"
+                type="text" />
             </div>
           </div>
         )}
         <div>
-          <label htmlFor="email">email</label>
-          <input name="email" type="text" />
+          <input
+          className='authInputs'
+          placeholder='*email'
+          name="email"
+          type="email" />
         </div>
-        <div>
-          <label htmlFor="password">
-            <small>password</small>
-          </label>
-          <input name="password" type="password" />
+        <div >
+          <input
+          className='authInputs'
+          placeholder='password'
+          name="password"
+          type="password" />
         </div>
-        <div>
-          <button type="submit">{displayName}</button>
+        <div className='authButtonGroup'>
+          <button className='soloButton' type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
         <a hidden={true} href="/auth/google">{displayName} with Google</a>
+        {name === 'signup' && (
+          <div>
+            <p className='spam'>*no spam.</p>
+          </div>
+        )}
       </form>
     </div>
   );
@@ -46,7 +62,7 @@ export const UserAuth = props => {
 const mapLogin = state => {
   return {
     name: 'login',
-    displayName: 'Login',
+    displayName: 'login',
     error: state.user.error
   };
 };
@@ -54,7 +70,7 @@ const mapLogin = state => {
 const mapSignup = state => {
   return {
     name: 'signup',
-    displayName: 'Sign Up',
+    displayName: 'sign up',
     error: state.user.error
   };
 };

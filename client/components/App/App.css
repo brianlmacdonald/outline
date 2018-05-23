@@ -1,0 +1,12 @@
+.app {
+  min-width: 800px;
+  max-width: 1440px;
+  display: flex;
+  height: 811px;
+  min-height: 500px;
+}
+
+.routes {
+  display: flex;
+  flex-direction: column;
+}

@@ -7,7 +7,7 @@ import LoaderHOC from '../HOC/LoaderHOC.jsx';
 import ThumbsContainer from '../Container/ThumbsContainer.jsx';
 import AddNew from '../Container/AddNew.jsx';
 
-const NavigationView = InjectContainer(Container(AddNew)(ThumbsContainer));  
+const NavigationView = InjectContainer(Container(AddNew)(ThumbsContainer, true));  
 
 const mapDispatch = dispatch => ({
   handleNavigation(navigationThunk) {
