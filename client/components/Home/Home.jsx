@@ -6,7 +6,6 @@ import './Home.css';
 export default function Home(props){
   const { user } = props;
   const userName = user && user.get('firstName') || null;
-  console.log(props);
   return (
     <div className={'home'}>
     {!userName ?

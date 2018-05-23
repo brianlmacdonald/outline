@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../../store/reducers/user';
+import './UserNav.css';
 
 const mapDispatch = dispatch => ({
   handleLogout(){
@@ -14,19 +15,18 @@ const UserNav = connect(({user, project}) => ({user, project}),
   const userName = user.get('firstName');
 
   return (
-    <div>
-      <nav>
+      <nav className='nav'>
       {!userName ?
         <div /> :
-        <div>
-        <p>Hello, {userName}!</p>
-        <button
-        onClick={handleLogout}
-        >log out</button>
+        <div className='userId'>
+          <p className='userName'>{userName}</p>
+          <button
+          className='logout'
+          onClick={handleLogout}
+          >log out</button>
         </div>
       }
       </nav>
-    </div>
   );
 });
 

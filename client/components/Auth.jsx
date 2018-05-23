@@ -33,7 +33,7 @@ export const UserAuth = props => {
         <div>
           <input
           className='authInputs'
-          placeholder='*email'
+          placeholder='email'
           name="email"
           type="email" />
         </div>

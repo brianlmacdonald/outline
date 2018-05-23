@@ -1,0 +1,26 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 50px;
+}
+.userId {
+  position: absolute;
+  top: 2%;
+  right: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userName {
+  font-size: 1.5em;
+  margin: .5em;
+}
+
+.logout {
+  font-size: .5em;
+  margin: .5em;
+  height: 20px;
+  width: 50px;
+}
