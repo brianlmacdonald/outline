@@ -25,14 +25,12 @@ module.exports = {
         }
         ,{
           loader: 'css-loader'
-        },
-        {
-          test: /\.svg$/,
-          use: {
-            loader: 'file-loader',
-          }
-        }]
-
+        },],
+      },{
+        test: /\.svg$/,
+        use: {
+          loader: 'file-loader',
+        }
       }
     ]
   }, plugins: [ 
