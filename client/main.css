@@ -1,4 +1,4 @@
 body {
-  background-color: peachpuff;
   font-family: 'Raleway', sans-serif;
+  background: url('./Styles/mainDots.svg'), repeat;
 }

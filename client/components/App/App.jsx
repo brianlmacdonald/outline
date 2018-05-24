@@ -52,7 +52,7 @@ class APP extends Component {
         <div className='routes'>
           <UserNav />
           <Switch>
-            <Route exact path="/" render={props => <Home user={user} />} />
+            <Route exact path="/" render={() => <Home user={user} />} />
             <Route path="/login" render={() => (
               !isLoggedIn ? (<Login />) : (
                 <Redirect to='/projects' />

@@ -1,16 +1,22 @@
 .nav {
+  position: fixed;
+  top: -50px;
+  left: -50px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  height: 50px;
-}
-.userId {
-  position: absolute;
-  top: 2%;
-  right: 15%;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: flex-end;
+  height: 100px;
+  width: 120%;
+  background: url('./UserNav.svg') repeat;
+  border-bottom: solid white 1px;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .userName {

@@ -9,9 +9,9 @@ export const UserAuth = props => {
   const { name, handleSubmit, displayName, error } = props;
 
   return (
-    <div className='auth'>
+    <div className='auth centeredDiv'>
       <form onSubmit={handleSubmit} name={name}>
-        <h1>{displayName}</h1>
+        <h1 className='headerBox'>{displayName.toUpperCase()}</h1>
         {name === 'signup' && (
           <div>
             <div>

@@ -18,7 +18,7 @@ const UserNav = connect(({user, project}) => ({user, project}),
       <nav className='nav'>
       {!userName ?
         <div /> :
-        <div className='userId'>
+        <div className='userBox'>
           <p className='userName'>{userName}</p>
           <button
           className='logout'

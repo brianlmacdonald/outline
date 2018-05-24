@@ -12,6 +12,7 @@ import order from '../../store/reducers/order';
 import draft from '../../store/reducers/draft';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
+import './ProjectOverview.css';
 
 class ProjectOverview extends Component {
   constructor(props){
@@ -52,7 +53,7 @@ class ProjectOverview extends Component {
     const { user } = this.props;
 
     return(
-      <div>
+      <div className="overview">
         <nav>
           <button
           onClick={this.toggleNavigation}

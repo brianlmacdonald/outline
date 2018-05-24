@@ -31,6 +31,9 @@ const CardView = (props) => {
           isNewCard={false}
           parent={self}/>
       </ModalLauncher>
+      <button className='button' onClick={close}>
+        close
+      </button>
       </div>
     </div>
   );

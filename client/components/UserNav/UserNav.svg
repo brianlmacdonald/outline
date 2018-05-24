@@ -1,0 +1,5 @@
+<svg height='50' width='50' xmlns="http://www.w3.org/2000/svg">
+  <rect height='100%' width='100%' fill='#C2D9E6'/>
+  <animate attributeType="XML" attributeName="x" from="-100" to="120"
+        dur="10s" repeatCount="indefinite"/>
+</svg>

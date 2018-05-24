@@ -1,20 +1,9 @@
 @import url('../Styles/index.css');
 
 .auth {
-  position: absolute;
-  left: 20%;
-  top: 20%;
   background-color: #A8DADC;
-  display: flex;
-  flex-direction: column;
-  border: 2em;
-  height: 500px;
-  width: 500px;
   justify-content: space-around;
-  align-items: center;
   font-size: 2em;
-  border: 1px white solid;
-  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
 }
 
 .spam {

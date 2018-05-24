@@ -27,6 +27,7 @@ import type { ProjectPathArray } from 'APP/Types/Project';// eslint-disable-line
 import './CardEditor.css';
 import ModalLauncher from '../HOC/ModalLauncher.jsx';
 import DeleteDialog from './DeleteDialog.jsx';
+import {CLASS_NAME_OBJ} from '../HierarchyControl/CardTypes';
 
 class CardEditor extends Component {
   constructor(props){
@@ -53,7 +54,7 @@ class CardEditor extends Component {
     if (isNewCard && type === PROJECT_TYPE) {
       handleNewProject(user.get('id'));
     } else if (isNewCard) {
-      handleNewCard(Map({type, parent: parent.id, title: `untitled ${type}`, body: '', index: nextIdx}))
+      handleNewCard(Map({type, parent: parent.id, title: `untitled ${CLASS_NAME_OBJ[type]}`, body: '', index: nextIdx}))
       // handleNavigation({ id: parent.id, userId: user.get('id')});
     } else {
       handleNavigation({ id: card.get('id'), userId: user.get('id')});

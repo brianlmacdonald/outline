@@ -7,10 +7,10 @@ export default function Home(props){
   const { user } = props;
   const userName = user && user.get('firstName') || null;
   return (
-    <div className={'home'}>
+    <div className={'home centeredDiv'}>
+    <h1 className='headerBox'>OUTLINE</h1>
     {!userName ?
       <div>
-        <h1>outline</h1>
         <Link to={'/login'}>
           <button>login</button>
         </Link>
@@ -18,9 +18,7 @@ export default function Home(props){
           <button>signup</button>
         </Link>
       </div> :
-      <div>
-        <h1>outline</h1>
-      </div>
+      <div />
     }
     </div>
   );
