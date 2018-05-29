@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import Card from './ReorderCard.jsx'
+import Card from './ReorderCard'
 import update from 'immutability-helper';
 import { List } from 'immutable';
 import { updateOrder } from '../../store/reducers/order';

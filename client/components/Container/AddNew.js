@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
-import ModalLauncher from '../HOC/ModalLauncher.jsx';
-import CardEditor from '../CardEditor/CardEditorLoader.jsx';
+import ModalLauncher from '../HOC/ModalLauncher';
+import CardEditor from '../CardEditor/CardEditorLoader';
 
 const AddNew = (props) => {
   const { 

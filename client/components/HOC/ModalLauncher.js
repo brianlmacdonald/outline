@@ -1,5 +1,5 @@
 import React, { Component,  cloneElement } from 'react';
-import Modal from './Modal.jsx';
+import Modal from './Modal';
 import './ModalLauncher.css';
 import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
 

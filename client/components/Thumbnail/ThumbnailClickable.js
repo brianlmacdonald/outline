@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CardView from '../CardView/CardView.jsx';
-import ModalLauncher from '../HOC/ModalLauncher.jsx';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
+import CardView from '../CardView/CardView';
+import ModalLauncher from '../HOC/ModalLauncher';
+import LoaderHOC from '../HOC/LoaderHOC';
 import './Thumbnail.css';
 
 const selectedStyler = (id, activeId) => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import CardEditor from '../CardEditor/CardEditorLoader.jsx';
-import ModalLauncher from '../HOC/ModalLauncher.jsx';
+import CardEditor from '../CardEditor/CardEditorLoader';
+import ModalLauncher from '../HOC/ModalLauncher';
 
 import './CardView.css';
 

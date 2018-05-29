@@ -6,7 +6,7 @@ import '../HOC/addLoader.css';
 const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
-  loader: () => import(/* webpackChunkName: "Reorder View" */'./ReorderView.jsx'),
+  loader: () => import(/* webpackChunkName: "Reorder View" */'./ReorderView'),
   loading: Loading,
 })
 

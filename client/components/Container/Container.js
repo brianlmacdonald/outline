@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import CardEditor from '../CardEditor/CardEditorLoader.jsx';
+import CardEditor from '../CardEditor/CardEditorLoader';
 import './Container.css';
 
 import {
