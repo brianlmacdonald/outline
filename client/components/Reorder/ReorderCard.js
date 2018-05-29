@@ -28,6 +28,11 @@ const cardSource = {
 			props.moveCard(droppedId, originalIndex)
 		}
 	},
+
+	canDrag(props, monitor) {
+		return props.canDrag;
+	}
+
 }
 
 const cardTarget = {
@@ -69,6 +74,7 @@ class Card extends Component {
 		text: PropTypes.string.isRequired,
 		moveCard: PropTypes.func.isRequired,
 		findCard: PropTypes.func.isRequired,
+		canDrag: PropTypes.bool.isRequired
 	}
 
 	render() {

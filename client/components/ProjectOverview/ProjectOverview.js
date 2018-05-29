@@ -1,9 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
-import NavigationView from '../HierarchyControl/NavigationViewLoader.jsx';
-import ReorderView from '../HierarchyControl/ReorderViewLoader.jsx';
+import LoaderHOC from '../HOC/LoaderHOC';
+import NavigationView from '../HierarchyControl/NavigationViewLoader';
+import ReorderView from '../HierarchyControl/ReorderViewLoader';
 import { loadUserProjects } from '../../store/reducers/project';
 import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
 import project from '../../store/reducers/project';
@@ -48,7 +48,7 @@ class ProjectOverview extends Component {
   toggleNavigation(){
     this.setState({navigation: !this.state.navigation});
   }
-
+  //put in a router switch here rendering one with nav one with reorder.
   render(){
     const { user } = this.props;
 

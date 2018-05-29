@@ -9,7 +9,7 @@ const Loading = () => {
 
 const LoadableComponent = Loadable({
   loader: () => {
-    return import(/* webpackChunkName: "ProjectOverview" */ './ProjectOverview.jsx')},
+    return import(/* webpackChunkName: "ProjectOverview" */ './ProjectOverview.js')},
   loading: Loading,
 })
 

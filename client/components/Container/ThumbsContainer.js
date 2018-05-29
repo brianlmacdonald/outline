@@ -1,6 +1,6 @@
 import React from 'react';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
-import ThumbnailClickable from '../Thumbnail/ThumbnailClickable.jsx';
+import LoaderHOC from '../HOC/LoaderHOC';
+import ThumbnailClickable from '../Thumbnail/ThumbnailClickable';
 
 const ThumbsContainer = props => {
   const { thumbs, navigator, type } = props;

@@ -1,11 +1,11 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import Container from '../Container/Container.jsx';
-import InjectContainer from './HierarchyControl.jsx';
-import LoaderHOC from '../HOC/LoaderHOC.jsx';
-import ThumbsContainer from '../Container/ThumbsContainer.jsx';
-import AddNew from '../Container/AddNew.jsx';
+import Container from '../Container/Container';
+import InjectContainer from './HierarchyControl';
+import LoaderHOC from '../HOC/LoaderHOC';
+import ThumbsContainer from '../Container/ThumbsContainer';
+import AddNew from '../Container/AddNew';
 
 const NavigationView = InjectContainer(Container(AddNew)(ThumbsContainer, true));  
 

@@ -7,7 +7,7 @@ const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
   loader: () => {
-    return import(/* webpackChunkName: "CardEditor" */'./CardEditor.jsx')},
+    return import(/* webpackChunkName: "CardEditor" */'./CardEditor')},
   loading: Loading,
 })
 

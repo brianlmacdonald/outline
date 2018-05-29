@@ -9,7 +9,8 @@ const mapDispatch = dispatch => ({
     dispatch(logout());
   }
 });
-
+//move logic for reorder and navigator view toggle into here.
+//decide what the nav bar will have. Home. search. User dropdown.
 const UserNav = connect(({user, project}) => ({user, project}),
   mapDispatch)(({ user, handleLogout }) => {
   const userName = user.get('firstName');

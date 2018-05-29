@@ -2,10 +2,10 @@
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import browserHistory, { memoryHistory } from '../../history';
-import UserNav from '../UserNav/UserNav.jsx';
-import Home from '../Home/Home.jsx';
-import { Login, Signup } from '../Auth.jsx';
-import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader.jsx';
+import UserNav from '../UserNav/UserNav';
+import Home from '../Home/Home';
+import { Login, Signup } from '../Auth';
+import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader';
 import React, { Component }  from 'react';
 import './App.css';
 
