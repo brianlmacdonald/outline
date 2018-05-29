@@ -4,7 +4,12 @@ import { DragSource, DropTarget } from 'react-dnd'
 import '../Thumbnail/Thumbnail.css';
 
 const draggedStyler = (bool) => {
-  if (bool) return 'thumbnail dragging selected';
+  if (bool) return 'dragging ';
+  else return '';
+};
+
+const selectedStyler = (id, activeId) => {
+  if (id === activeId) return 'thumbnail selected';
   else return 'thumbnail unSelected';
 };
 
@@ -79,6 +84,8 @@ class Card extends Component {
 
 	render() {
 		const {
+			navigator,
+			type,
 			card,
 			isDragging,
 			connectDragSource,
@@ -88,11 +95,15 @@ class Card extends Component {
     const title = card.get('title');
     const id = card.get('id');
     const bodyPrev = body.length > 25 ? body.slice(0, 24) + '...' : body;
-    const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
+		const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
+		const selected = selectedStyler(id, navigator.get(type));
+		const dragged = draggedStyler(isDragging);
 
 		return connectDragSource(
 			connectDropTarget(
-				<div title={body} className={draggedStyler(isDragging)} key={id + 'd'}>
+				<div title={body}
+					className={dragged + selected}
+					key={id + 'd'}>
         <h4 key={id + 'h4'}>{titlePrev}</h4>
         <p key={id + 'p'}>{bodyPrev || ''}</p>
         </div>
