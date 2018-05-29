@@ -17,16 +17,6 @@ const UserNav = connect(({user, project}) => ({user, project}),
 
   return (
       <nav className='nav'>
-      {!userName ?
-        <div /> :
-        <div className='userBox'>
-          <p className='userName'>{userName}</p>
-          <button
-          className='logout'
-          onClick={handleLogout}
-          >log out</button>
-        </div>
-      }
       </nav>
   );
 });

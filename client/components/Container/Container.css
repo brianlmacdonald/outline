@@ -2,6 +2,7 @@
   display: flex;
   border: 2px #9899A6 solid;
   flex-direction: row;
+  min-width: 1200px;
 }
 
 .project {
@@ -30,6 +31,6 @@
 }
 
 .navView {
-  max-width: 1200px;
+  width: 1200px;
   overflow: scroll;
 }

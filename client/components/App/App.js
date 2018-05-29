@@ -1,15 +1,16 @@
 'use strict';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import browserHistory, { memoryHistory } from '../../history';
-import UserNav from '../UserNav/UserNav';
 import Home from '../Home/Home';
 import { Login, Signup } from '../Auth';
-import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader';
+import ProjectOverview from '../ProjectOverview/ProjectOverview';
 import React, { Component }  from 'react';
+import AuthenticatedRoute from '../Authenticated/AuthenticatedRoute';
 import './App.css';
 
-class APP extends Component {
+class App extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -20,7 +21,7 @@ class APP extends Component {
   static getDerivedStateFromProps(nextProps, state){
     const {user, project, draft, navigator, order} = nextProps;
     const forStorage = { user, project, draft, navigator, order};
-    //for reducer registry. When a new reducer is add, the current state 
+    //for reducer registry. When a new reducer is added, the current state 
     //will be passed to the combine and register reducers fn from __OUTLINE_STATE__
     if (state.user !== nextProps.user.get('id')) {
       if (nextProps.user.get('id') === undefined) {
@@ -44,29 +45,20 @@ class APP extends Component {
   }
   
   render() {
-    const isLoggedIn = !!this.state.user;
     const { user } = this.props;
+    
     return(
       <div className='app'>
       <Router history={browserHistory}>
         <div className='routes'>
-          <UserNav />
           <Switch>
             <Route exact path="/" render={() => <Home user={user} />} />
-            <Route path="/login" render={() => (
-              !isLoggedIn ? (<Login />) : (
-                <Redirect to='/projects' />
-              
-            ))} />
-            <Route path="/signup" render={() => (
-              !isLoggedIn ? (<Signup />) : (
-                <Redirect to='/projects' />
-              
-            ))} />
-            <Route path='/projects' render={() => (
-              isLoggedIn ? (<ProjectOverview />) : (
-              <Redirect to='/login'/>
-            ))} />
+            <Route path="/login" render={() => <Login />} />
+            <Route path="/signup" render={() => <Signup />} />
+            <AuthenticatedRoute {...this.props} path='/projects' component={ProjectOverview} />
+            <Route path='*' render={(props) => {
+              return <div>{`url '${props.match.url}' not found.`}</div>;
+            }} />
           </Switch>
         </div>
     </Router>
@@ -82,6 +74,6 @@ const mapState = state => ({
   order: state.order
 });
 
-const connectedRoutes = connect(mapState)(APP);
+const connectedRoutes = connect(mapState)(App);
 
 export default connectedRoutes;

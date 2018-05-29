@@ -1,3 +1,68 @@
+a {
+  text-decoration: none;
+}
+
 .overview {
   margin-top: 75px;
+}
+
+.navigation {
+  position: fixed;
+  top: 32px;
+  right: 64px;
+}
+
+.tabs {
+  position: relative;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding-left: 0;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  transition-duration: .5s;
+  position: relative;
+  min-width: 5em;
+}
+
+.tab:hover {
+  background-color: #8E9EA8;
+  cursor: pointer;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+}
+
+#userTab {
+  transform-style: preserve-3d;
+  transition: all 1s ease-in-out;
+}
+
+#userTab:hover {
+  transform: rotateY(180deg);
+}
+
+#userTab .name {
+  backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
+#userTab .logout {
+  text-align: center;
+  transform: rotateY(180deg);
+}
+
+#userTab:hover .logout {
+  visibility: visible;
+}
+
+.logout {
+  backface-visibility: hidden;
+  visibility: hidden;
 }
