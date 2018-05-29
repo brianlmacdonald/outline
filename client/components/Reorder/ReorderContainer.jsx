@@ -67,6 +67,7 @@ class Container extends Component {
 				<div className='subContainer'>
 				{cards.map(card => (
 					<Card
+						canDrag={type !== 'PROJECT_TYPE'}
 						{...this.props}
 						card={card}
 						key={card.get('id')}

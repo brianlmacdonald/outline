@@ -25,6 +25,7 @@ const SaveOrder = (props) => {
   };
   return(
     <button
+    hidden={type === 'PROJECT_TYPE'}
     className='addButton'
     onClick={() => {
       handleSave(orderObj);
