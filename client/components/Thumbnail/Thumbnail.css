@@ -4,10 +4,10 @@
   align-items: flex-start;
   justify-content: center;
   margin: 1em;
-  background-color: linen;
   height: 145px;
   width: 145px;
   padding: .5em;
+  border: 2px black solid
 }
 
 .thumbnail:active {
@@ -16,11 +16,11 @@
 }
 
 .selected {
-  border: 2px red solid;
+  background-color: #00A9A5;
 }
 
 .unSelected {
-  border: 2px black solid;
+  background-color: linen;
 }
 
 .dragging {
