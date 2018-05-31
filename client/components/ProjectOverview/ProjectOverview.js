@@ -68,7 +68,7 @@ class ProjectOverview extends Component {
 
 const mapState = state => ({
   user: state.user,
-  projects: state.projects
+  project: state.project
 });
 
 const mapDispatch = dispatch => ({
