@@ -5,7 +5,7 @@ import { Route, Link, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import LoaderHOC from '../HOC/LoaderHOC';
 import NavigationView from '../HierarchyControl/NavigationViewLoader';
-import ReorderView from '../HierarchyControl/ReorderViewLoader';
+import ReorderView from '../HierarchyControl/ReorderView';
 import FullView from '../Graph/FullView.js';
 import { logout } from '../../store/reducers/user';
 import { loadUserProjects } from '../../store/reducers/project';
