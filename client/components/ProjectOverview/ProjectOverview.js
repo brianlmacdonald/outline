@@ -1,15 +1,19 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route, Link, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import LoaderHOC from '../HOC/LoaderHOC';
 import NavigationView from '../HierarchyControl/NavigationViewLoader';
-import ReorderView from '../HierarchyControl/ReorderViewLoader';
+import ReorderView from '../HierarchyControl/ReorderView';
+import FullView from '../Graph/FullView.js';
+import { logout } from '../../store/reducers/user';
 import { loadUserProjects } from '../../store/reducers/project';
 import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
-import project from '../../store/reducers/project';
-import navigator from '../../store/reducers/navigator';
-import order from '../../store/reducers/order';
-import draft from '../../store/reducers/draft';
+import projectReducer from '../../store/reducers/project';
+import navigatorReducer from '../../store/reducers/navigator';
+import orderReducer from '../../store/reducers/order';
+import draftReducer from '../../store/reducers/draft';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import './ProjectOverview.css';
@@ -18,49 +22,60 @@ class ProjectOverview extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user: '',
       loaded: false,
-      navigation: true
     };
-    this.toggleNavigation = this.toggleNavigation.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, state){
+    const { match } = nextProps;
     if (state.loaded === false && nextProps.user.get('initialLoad') === false) {
       nextProps.handleLoadProjects(nextProps.user.get('id'));
       return {
-        loaded: true
+        loaded: true,
       };
     }
     return null;
   }
 
   componentDidMount(){
-    const { user, projects, handleLoadProjects } = this.props;
-    if (projects === undefined) {
-      reducerRegistry.register('project', project);
-      reducerRegistry.register('navigator', navigator);
-      reducerRegistry.register('draft', draft);
-      reducerRegistry.register('order', order);
+    const { project } = this.props;
+    if (project === undefined) {
+      reducerRegistry.register('project', projectReducer);
+      reducerRegistry.register('navigator', navigatorReducer);
+      reducerRegistry.register('draft', draftReducer);
+      reducerRegistry.register('order', orderReducer);
     }
   }
-
-  toggleNavigation(){
-    this.setState({navigation: !this.state.navigation});
-  }
-  //put in a router switch here rendering one with nav one with reorder.
+  
   render(){
-    const { user } = this.props;
+    const { match, handleLogout } = this.props;
 
     return(
       <div className="overview">
-        <nav>
-          <button
-          onClick={this.toggleNavigation}
-          >{this.state.navigation ? 'edit order' : 'edit card'}</button>
+        <nav className='navigation'>
+          <ul className='tabs'>
+            {location.pathname === '/projects/fullview' && <li className='tab'>print</li>}
+            <li className='tab'>
+              <Link to={`${match.url}`}>navigator</Link>
+            </li>
+            <li className='tab'>
+              <Link to={`${match.url}/reorder`}>reorder</Link>
+            </li>
+            <li className='tab'>
+              <Link to={`${match.url}/fullview`}>full view</Link>
+            </li>
+            <li id='userTab' className='tab'>
+              <div className='name'>{this.props.user.get('firstName')}</div>
+              <div className='logout' onClick={handleLogout}>log out</div>
+            </li>
+          </ul>
         </nav>
         <Notifs />
-        {this.state.navigation ? <NavigationView /> : <ReorderView />}
+        <Switch>
+           <Route exact path={`${match.url}/reorder`} render={() => <ReorderView />}/>
+           <Route exact path={`${match.url}/fullview`} render={() => <FullView {...this.props} />}/>
+           <Route exact path={`${match.url}`} render={() => <NavigationView />}/>
+        </Switch>
       </div>
     );
   }
@@ -68,15 +83,19 @@ class ProjectOverview extends Component {
 
 const mapState = state => ({
   user: state.user,
-  project: state.project
+  project: state.project,
+  navigator: state.navigator
 });
 
 const mapDispatch = dispatch => ({
   handleLoadProjects(userId){
     dispatch(loadUserProjects(userId));
+  },
+  handleLogout(){
+    dispatch(logout());
   }
 });
 
 const WrappedProjectOverview = LoaderHOC('user')(ProjectOverview);
-const ConnectedProjectOverView = connect(mapState, mapDispatch)(WrappedProjectOverview);
+const ConnectedProjectOverView = withRouter(connect(mapState, mapDispatch)(WrappedProjectOverview));
 export default ConnectedProjectOverView;
