@@ -1,11 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import LoaderHOC from '../HOC/LoaderHOC';
-import NavigationView from '../HierarchyControl/NavigationView';
-import ReorderView from '../HierarchyControl/ReorderView';
+import NavigationView from '../HierarchyControl/NavigationViewLoader';
+import ReorderView from '../HierarchyControl/ReorderViewLoader';
 import FullView from '../Graph/FullView.js';
 import { logout } from '../../store/reducers/user';
 import { loadUserProjects } from '../../store/reducers/project';

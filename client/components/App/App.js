@@ -1,11 +1,10 @@
 'use strict';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import browserHistory, { memoryHistory } from '../../history';
 import Home from '../Home/Home';
 import { Login, Signup } from '../Auth';
-import ProjectOverview from '../ProjectOverview/ProjectOverview';
+import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader';
 import React, { Component }  from 'react';
 import AuthenticatedRoute from '../Authenticated/AuthenticatedRoute';
 import './App.css';
