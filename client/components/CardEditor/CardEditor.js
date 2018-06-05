@@ -158,7 +158,7 @@ class CardEditor extends Component {
           <div className='buttonGroup'>
             <button
               className='button'
-              onClick={() => handleSave(saveObject, history)}>
+              onClick={() => handleSave(saveObject)}>
               save
             </button>
             <button className={'button'} onClick={() => handleCancel(history)}>
