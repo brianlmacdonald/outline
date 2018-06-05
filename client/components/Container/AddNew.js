@@ -11,7 +11,7 @@ const AddNew = (props) => {
     thumbs
     } = props;
   return (
-          <ModalLauncher type={type} message={'add '} draft={draft} styleClass={'addButton'}>
+          <ModalLauncher isNewCard={true} type={type} message={'add '} draft={draft} styleClass={'addButton'}>
             <CardEditor
             {...props}
             type={type}

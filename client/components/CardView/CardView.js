@@ -20,6 +20,8 @@ const CardView = (props) => {
       </p>
       <div className={'buttonGroup'} >
       <ModalLauncher
+        {...props}
+        isNewCard={false}
         message={'edit '}
         type={type}
         draft={draft}
