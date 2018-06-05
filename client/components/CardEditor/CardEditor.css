@@ -10,8 +10,8 @@
 }
 
 .bodyField {
-  height: 25em;
-  width: 75em;
+  height: 400px;
+  width: 800px;
   font-size: 14pt;
   resize: none;
   overflow: scroll;
@@ -20,7 +20,7 @@
 
 .titleField {
   font-size: 16pt;
-  width: 40em;
+  width: 350px;
   background: lightgrey;
 }
 

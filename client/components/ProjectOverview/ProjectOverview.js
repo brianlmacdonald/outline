@@ -14,6 +14,7 @@ import projectReducer from '../../store/reducers/project';
 import navigatorReducer from '../../store/reducers/navigator';
 import orderReducer from '../../store/reducers/order';
 import draftReducer from '../../store/reducers/draft';
+import CardEditor from '../CardEditor/CardEditor';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import './ProjectOverview.css';
@@ -73,6 +74,7 @@ class ProjectOverview extends Component {
         <Switch>
            <Route exact path={`${match.url}/reorder`} render={() => <ReorderView />}/>
            <Route exact path={`${match.url}/fullview`} render={() => <FullView {...this.props} />}/>
+           <Route exact path={`${match.url}/edit`} render={() => <CardEditor {...this.props} />}/>
            <Route exact path={`${match.url}`} render={() => <NavigationView />}/>
         </Switch>
       </div>
@@ -83,7 +85,8 @@ class ProjectOverview extends Component {
 const mapState = state => ({
   user: state.user,
   project: state.project,
-  navigator: state.navigator
+  navigator: state.navigator,
+  draft: state.draft
 });
 
 const mapDispatch = dispatch => ({

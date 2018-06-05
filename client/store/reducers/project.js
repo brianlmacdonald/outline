@@ -169,7 +169,7 @@ export const projectDeletionError = (error: ProjectError, projectId: ProjectId, 
 export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
   dispatch(allProjectsLoading());
   return axios
-    .get(`api/projects/${userId}`)
+    .get(`/api/projects/${userId}`)
     .then(foundProjects => {
         dispatch(allProjectsLoaded(foundProjects.data));
     })
@@ -179,7 +179,7 @@ export const loadUserProjects = (userId: UserId) => (dispatch: Dispatch) => {
 export const loadSingleProject = (userId: UserId, projectId: ProjectId) => (dispatch: Dispatch) => {
   dispatch(projectLoading());
   return axios
-    .get(`api/projects/${userId}/${projectId}`)
+    .get(`/api/projects/${userId}/${projectId}`)
     .then(singleProject => {
       dispatch(projectLoaded(singleProject.data))
       dispatch(addNavigationPath(PROJECT_TYPE, singleProject.data.id))
@@ -190,7 +190,7 @@ export const loadSingleProject = (userId: UserId, projectId: ProjectId) => (disp
 export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
   let errorId;
   dispatch(createNewProject());
-  return axios.post(`api/projects/${userId}`)
+  return axios.post(`/api/projects/${userId}`)
   .then(createdProject => {
     errorId = createdProject.data.id
     dispatch(notifSend({
@@ -198,7 +198,7 @@ export const creatingNewProject = (userId: UserId) => (dispatch: Dispatch) => {
       kind: 'info',
       dismissAfter: 2000
     }))
-    return axios.get(`api/projects/${userId}/${createdProject.data.id}`)
+    return axios.get(`/api/projects/${userId}/${createdProject.data.id}`)
     .then(scopedProject => {
       dispatch(newProjectCreated(scopedProject.data));
       dispatch(removeNavigationPath(BEAT_TYPE));

@@ -15,6 +15,7 @@ import {
   projectDeletionError,
   loadSingleProject } from '../reducers/project';
 import { removeNavigationPath, clearNavigation} from '../reducers/navigator';
+import history from '../../history';
 
 const { notifSend } = notifActions;
 
@@ -39,7 +40,7 @@ const deleteCardError = (err, cardId) => ({
 
 export const deleteFromDB = (deleteObj) => dispatch => {
   const { card, user, projectId } = deleteObj;
-
+  
   switch (card.type) {
     case PROJECT_TYPE:
     dispatch(deletingProject(projectId));
@@ -53,7 +54,9 @@ export const deleteFromDB = (deleteObj) => dispatch => {
               dismissAfter: 2000
             }));
             dispatch(clearNavigation());
-            return dispatch(projectDeleted(projectId));
+            dispatch(projectDeleted(projectId));
+            history.push('/projects');
+            return;
       });
     })
     .catch(err => {
@@ -93,6 +96,8 @@ function makeDeleteRequest(dispatch) {
           dispatch(removeNavigationPath(type));
           dispatch(deletedCard(cardId));
           dispatch(loadSingleProject(userId, projectId));
+          history.push('/projects');
+          return;
         } else {
           throw new Error(`Bad Status: ${deleteResponse.status}`);
         }

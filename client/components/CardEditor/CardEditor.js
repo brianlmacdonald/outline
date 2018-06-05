@@ -34,7 +34,13 @@ class CardEditor extends Component {
     super(props);
     this.ifNullEmptyString = this.ifNullEmptyString.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  
+    this.state = {
+      card: this.props.location.state.card,
+      isNewCard: this.props.location.state.isNewCard,
+      type: this.props.location.state.type,
+      parent: this.props.location.state.parent,
+      nextIdx: this.props.location.state.nextIdx
+    }
   }
 
   componentDidMount(){
@@ -42,14 +48,16 @@ class CardEditor extends Component {
       handleNewProject,
       handleNewCard,
       handleNavigation,
+      project,
+      user,
+    } = this.props;
+    const {
+      card,
       isNewCard,
       type,
       parent,
-      card, 
-      project,
-      user,
       nextIdx
-    } = this.props;
+    } = this.state;
 
     if (isNewCard && type === PROJECT_TYPE) {
       handleNewProject(user.get('id'));
@@ -92,7 +100,8 @@ class CardEditor extends Component {
   }
 
   handleSubmit(password){
-    const { handleDelete, user, card, type, draft, navigator, close } = this.props;
+    const { handleDelete, user, draft, navigator, history } = this.props;
+    const { type } = this.state;
     const userObject = {
       id: user.get('id'),
       email: user.get('email'),
@@ -104,23 +113,21 @@ class CardEditor extends Component {
     };
     const projectId = navigator.get(PROJECT_TYPE);
     const deleteObject = { user: userObject, card: cardObj, projectId };
+    
     handleDelete(deleteObject);
-    close();
-
   }
 
   render() {
     const {
-      parent,
       draft,
       navigator,
       user,
-      type,
       handleSave,
       handleCancel,
       handleChange,
-      isNewCard,
-      close } = this.props;
+      history
+    } = this.props;
+    const { parent, type, isNewCard } = this.state;
     const saveObject = { 
       isNewCard,
       parent,
@@ -147,13 +154,14 @@ class CardEditor extends Component {
               handleChange(CARD_TYPE_BODY)(evt.target.value);
               }}
           />
+          </div>
           <div className='buttonGroup'>
             <button
               className='button'
-              onClick={() => handleSave(saveObject, close)}>
+              onClick={() => handleSave(saveObject)}>
               save
             </button>
-            <button className={'button'} onClick={() => handleCancel(close)}>
+            <button className={'button'} onClick={() => handleCancel(history)}>
               cancel
             </button>
             {!isNewCard && <ModalLauncher
@@ -164,7 +172,6 @@ class CardEditor extends Component {
             ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
             </ModalLauncher>}
           </div>
-        </div>
       </div>
     );
   }
@@ -177,19 +184,19 @@ const MapDispatch = dispatch => ({
   handleNewCard(newCard){
     dispatch(createNewDraftCard(newCard))
   },
-  handleSave(saveObj, closeFn){
+  handleSave(saveObj){
     dispatch(persistToDB(saveObj));
-    closeFn();
   },
-  handleCancel(closeFn){
+  handleCancel(history){
     dispatch(discardDraft());
-    closeFn();
+    history.push('/projects');
   },
   handleReset(){
     //reload the card from project
   },
   handleDelete(deleteObj){
     dispatch(deleteFromDB(deleteObj))
+    dispatch(discardDraft());
   },
   handleDiscard(){
     dispatch(discardDraft());

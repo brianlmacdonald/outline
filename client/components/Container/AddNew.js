@@ -2,22 +2,28 @@
 import React from 'react';
 import ModalLauncher from '../HOC/ModalLauncher';
 import CardEditor from '../CardEditor/CardEditorLoader';
+import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
+import { Link } from 'react-router-dom';
 
 const AddNew = (props) => {
   const { 
-    draft,
     type,
     parent,
-    thumbs
+    thumbs,
+    nextIdx
     } = props;
   return (
-          <ModalLauncher isNewCard={true} type={type} message={'add '} draft={draft} styleClass={'addButton'}>
-            <CardEditor
-            {...props}
-            type={type}
-            isNewCard={true}
-            parent={parent}/>
-          </ModalLauncher>
+    <Link to={{
+      pathname: '/projects/edit',
+      state: {
+        card: null,
+        isNewCard: true,
+        parent,
+        type,
+        nextIdx
+      }
+    }}
+    ><button className='addButton'>{`add ${CLASS_NAME_OBJ[type]}`}</button></Link>
   );
 };
 
