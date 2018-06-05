@@ -7,19 +7,20 @@ import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
 import './CardView.css';
 
 const CardView = (props) => {
-  const { card, close, type, navigator, handleDelete, draft } = props;
+  const { card, close, type, handleNavigation, user } = props;
   const id = card.get('id');
   const self = {id, type};
 
   return (
-    <div
-    className={'cardView view'}>
-      <h1>
+    <div className={'cardView view'}>
+      <div className={'fields'}>
+      <h1 className='viewTitle'>
         {card.get('title')}
       </h1>
-      <p>
+      <p className='viewBody'>
         {card.get('body')}
       </p>
+      </div>
       <div className={'buttonGroup'} >
       <Link to={{
         pathname: '/projects/edit',
@@ -31,7 +32,9 @@ const CardView = (props) => {
           nextIdx: null
         }
       }}
-      ><button className='button'>{`edit ${CLASS_NAME_OBJ[type]}`}</button></Link>
+      ><button
+      onClick={() => handleNavigation({id: card.get('id'), userId: user.get('id')})}
+      className='button'>{`edit ${CLASS_NAME_OBJ[type]}`}</button></Link>
       <button className='button' onClick={close}>
         close
       </button>

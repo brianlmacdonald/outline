@@ -16,6 +16,7 @@ import {
 } from '../reducers/project';
 import { draftSaved } from '../reducers/draft';
 const { notifSend } = notifActions;
+import history from '../../history';
 
 const makePostRequest = makeRequest('post', 200);
 const makePutRequest = makeRequest('put', 204);
@@ -36,7 +37,9 @@ export const persistToDB = (saveObj) => dispatch => {
               dismissAfter: 2000
             }));
             dispatch(persistedProject(draft));
-            return dispatch(draftSaved());
+            dispatch(draftSaved());
+            history.push('/projects');
+            return;
         })
         .catch(err => {
           dispatch(notifSend({
@@ -78,7 +81,9 @@ export const persistToDB = (saveObj) => dispatch => {
             dismissAfter: 2000
           }));
           dispatch(persistedProject(draft));
-          return dispatch(draftSaved());
+          dispatch(draftSaved());
+          history.push('/projects');
+          return;
         })
         .catch(err => {
           dispatch(persistingProjectFailure(err, draft));
@@ -128,7 +133,9 @@ function makeRequest(putOrPost, status) {
               dismissAfter: 2000
             }));
             dispatch(persistedProject(fromJS(reloadedProject.data)));
-            return dispatch(draftSaved());
+            dispatch(draftSaved());
+            history.push('/projects');
+            return;
           })
           .catch(err => {
             dispatch(notifSend({

@@ -26,19 +26,16 @@ class ModalLauncher extends Component {
       user,
       message,
       handleNavigation,
-      isNewCard
     } = this.props;
     const { toggle } = this.state;
-    const isEditing = draft.get('type') !== null;
     const isDelete = message === 'delete ';
     
     return (
       <div>
         <button
-        disabled={isEditing && !isDelete}
         className={styleClass}
         onClick={() => {
-          if (!isNewCard) handleNavigation({id: card.get('id'), userId: user.get('id')});
+          if (!isDelete) handleNavigation({id: card.get('id'), userId: user.get('id')});
           this.handleToggleModal();
         }}
           >{message} {CLASS_NAME_OBJ[type]}

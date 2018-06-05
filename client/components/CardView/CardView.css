@@ -3,3 +3,13 @@
 .view {
   background-color: white;
 }
+
+.viewBody {
+  min-height: 400px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  min-width: 800px;
+}

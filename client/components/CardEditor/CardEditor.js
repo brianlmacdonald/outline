@@ -44,7 +44,6 @@ class CardEditor extends Component {
   }
 
   componentDidMount(){
-    console.log(this.props);
     const {
       handleNewProject,
       handleNewCard,
@@ -114,7 +113,8 @@ class CardEditor extends Component {
     };
     const projectId = navigator.get(PROJECT_TYPE);
     const deleteObject = { user: userObject, card: cardObj, projectId };
-    handleDelete(deleteObject, history);
+    
+    handleDelete(deleteObject);
   }
 
   render() {
@@ -154,6 +154,7 @@ class CardEditor extends Component {
               handleChange(CARD_TYPE_BODY)(evt.target.value);
               }}
           />
+          </div>
           <div className='buttonGroup'>
             <button
               className='button'
@@ -171,7 +172,6 @@ class CardEditor extends Component {
             ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
             </ModalLauncher>}
           </div>
-        </div>
       </div>
     );
   }
@@ -194,10 +194,9 @@ const MapDispatch = dispatch => ({
   handleReset(){
     //reload the card from project
   },
-  handleDelete(deleteObj, history){
+  handleDelete(deleteObj){
     dispatch(deleteFromDB(deleteObj))
     dispatch(discardDraft());
-    history.push('/projects');
   },
   handleDiscard(){
     dispatch(discardDraft());
