@@ -54,7 +54,6 @@ class ProjectOverview extends Component {
       <div className="overview">
         <nav className='navigation'>
           <ul className='tabs'>
-            {location.pathname === '/projects/fullview' && <li className='tab'>print</li>}
             <li className='tab'>
               <Link to={`${match.url}`}>navigator</Link>
             </li>

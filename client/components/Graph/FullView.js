@@ -18,19 +18,19 @@ const FullView = (props) => {
       <h1>{activeProject.get('title')}</h1>
       <p>{activeProject.get('body')}</p>
       {activeProject.get('acts').sortBy(a => a.get('index')).map(act => {
-        return (<div key={'act_' + act.get('id')}>
+        return (<div className='card' key={'act_' + act.get('id')}>
           <h1>{act.get('title')}</h1>
           <p>{act.get('body')}</p>
           {canRender(act, 'sequences') && act.get('sequences').sortBy(a => a.get('index')).map(sequence => {
-            return (<div key={'sequence_' + sequence.get('id')}>
+            return (<div className='card' key={'sequence_' + sequence.get('id')}>
             <h2>{sequence.get('title')}</h2>
             <p>{sequence.get('body')}</p>
             {canRender(sequence, 'scenes') && sequence.get('scenes').sortBy(a => a.get('index')).map(scene => {
-              return (<div key={'scene_' + scene.get('id')}>
+              return (<div className='card' key={'scene_' + scene.get('id')}>
               <h3>{scene.get('title')}</h3>
               <p>{scene.get('body')}</p>
               {canRender(scene, 'beats') && scene.get('beats').sortBy(a => a.get('index')).map(beat => {
-                return (<div key={'beat_' + beat.get('id')}>
+                return (<div className='card' key={'beat_' + beat.get('id')}>
                 <h4>{beat.get('title')}</h4>
                 <p>{beat.get('body')}</p>
                 </div>);
