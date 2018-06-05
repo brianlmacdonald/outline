@@ -47,6 +47,7 @@ const ThumbnailClickable = (props) => {
         <p key={id + 'p'}>{bodyPrev || ''}</p>
         <div className='modalDiv'>
           <ModalLauncher
+          {...props}
           message={'open '}
           draft={draft}
           styleClass={'button'}

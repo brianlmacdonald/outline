@@ -55,9 +55,7 @@ class CardEditor extends Component {
       handleNewProject(user.get('id'));
     } else if (isNewCard) {
       handleNewCard(Map({type, parent: parent.id, title: `untitled ${CLASS_NAME_OBJ[type]}`, body: '', index: nextIdx}))
-      // handleNavigation({ id: parent.id, userId: user.get('id')});
     } else {
-      handleNavigation({ id: card.get('id'), userId: user.get('id')});
       handleNewCard(card);
     }
 
