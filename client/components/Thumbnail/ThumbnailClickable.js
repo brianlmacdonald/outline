@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CardView from '../CardView/CardView';
-import ModalLauncher from '../HOC/ModalLauncher';
-import LoaderHOC from '../HOC/LoaderHOC';
-import './Thumbnail.css';
+import CardView from 'APP/client/components/CardView/CardView';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncherLoader';
+import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
+import 'APP/client/components/Thumbnail/Thumbnail.css';
 
 const selectedStyler = (id, activeId) => {
   if (id === activeId) return 'thumbnail selected';

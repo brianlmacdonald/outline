@@ -1,9 +1,9 @@
 'use strict';
 import React from 'react';
-import ModalLauncher from '../HOC/ModalLauncher';
-import CardEditor from '../CardEditor/CardEditorLoader';
-import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncherLoader';
+import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 import { Link } from 'react-router-dom';
+import 'APP/client/components/Container/AddNew.css';
 
 const AddNew = (props) => {
   const { 

@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
-import LoaderHOC from '../HOC/LoaderHOC';
-import { PROJECT_TYPE } from '../../store/reducers/project';
-import './FullView.css';
+import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
+import { PROJECT_TYPE } from 'APP/client/store/reducers/project';
+import 'APP/client/components/Graph/FullView.css';
 
 const FullView = (props) => {
   const { project, navigator } = props;

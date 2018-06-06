@@ -3,7 +3,7 @@ import { List, Map, fromJS } from 'immutable';
 import axios from 'axios';
 import { actions as notifActions } from 'redux-notifications';
 const { notifSend } = notifActions;
-import { loadSingleProject, persistingProject, persistedProject } from './project';
+import { loadSingleProject, persistingProject, persistedProject } from 'APP/client/store/reducers/project';
 
 const UPDATE_ORDER = 'UPDATE_ORDER';
 const ORDER_ERROR = 'ORDER_ERROR';

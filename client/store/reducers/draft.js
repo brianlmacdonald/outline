@@ -1,5 +1,4 @@
 import { Map, List, fromJS } from 'immutable';
-import { REMOVE_USER } from './user';
 
 const NEW_DRAFT_CARD = 'NEW_DRAFT';
 const CREATE_CARD_DRAFT_ERROR = 'CREATE_CARD_DRAFT_ERROR';

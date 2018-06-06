@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import './ReorderContainer.css';
+import 'APP/client/components/Reorder/ReorderContainer.css';
 
 const typeToRouteObj = {
   ACT_TYPE: 'acts',

@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import CardEditor from '../CardEditor/CardEditorLoader';
-import './Container.css';
-
+import 'APP/client/components/Container/Container.css';
 import {
   CLASS_NAME_OBJ
-} from '../HierarchyControl/CardTypes';
+} from 'APP/client/components/HierarchyControl/CardTypes';
 
 const EmptyProp = (type) => () => {
   return (<div>please add {CLASS_NAME_OBJ[type]}</div>);

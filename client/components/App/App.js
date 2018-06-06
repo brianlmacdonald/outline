@@ -1,13 +1,14 @@
 'use strict';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import browserHistory, { memoryHistory } from '../../history';
-import Home from '../Home/Home';
-import { Login, Signup } from '../Auth';
-import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader';
+import browserHistory, { memoryHistory } from 'APP/client/history';
+import Home from 'APP/client/components/Home/Home';
+import Login from 'APP/client/components/Auth/LoginLoader';
+import Signup from 'APP/client/components/Auth/SignupLoader';
+import ProjectOverview from 'APP/client/components/ProjectOverview/ProjectOverviewLoader';
 import React, { Component }  from 'react';
-import AuthenticatedRoute from '../Authenticated/AuthenticatedRoute';
-import './App.css';
+import AuthenticatedRoute from 'APP/client/components/Authenticated/AuthenticatedRoute';
+import 'APP/client/components/App/App.css';
 
 class App extends Component {
   constructor(props){
@@ -22,7 +23,7 @@ class App extends Component {
     const forStorage = { user, project, draft, navigator, order};
     //for reducer registry. When a new reducer is added, the current state 
     //will be passed to the combine and register reducers fn from __OUTLINE_STATE__
-    if (state.user !== nextProps.user.get('id')) {
+    if (nextProps.user && state.user !== nextProps.user.get('id')) {
       if (nextProps.user.get('id') === undefined) {
         delete window.__OUTLINE_STATE__;
         return {

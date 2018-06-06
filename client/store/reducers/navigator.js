@@ -1,5 +1,4 @@
 import { Map } from 'immutable';
-import { REMOVE_USER } from './user';
 
 const ADD_PATH = 'ADD_PATH';
 const DELETE_PATH = 'DELETE_PATH';

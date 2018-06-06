@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { isNil } from 'lodash';
-import './Modal.css';
+import 'APP/client/components/HOC/Modal.css';
 
 class Modal extends Component {
   constructor(props) {

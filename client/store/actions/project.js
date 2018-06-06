@@ -13,10 +13,10 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-} from '../reducers/project';
-import { draftSaved } from '../reducers/draft';
+} from 'APP/client/store/reducers/project';
+import { draftSaved } from 'APP/client/store/reducers/draft';
 const { notifSend } = notifActions;
-import history from '../../history';
+import history from 'APP/client/history';
 
 const makePostRequest = makeRequest('post', 200);
 const makePutRequest = makeRequest('put', 204);

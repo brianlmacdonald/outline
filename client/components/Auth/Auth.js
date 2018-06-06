@@ -1,13 +1,17 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import { auth } from '../store/reducers/user';
+import userReducer, { auth } from 'APP/client/store/reducers/user';
 import PropTypes from 'prop-types';
-import './Auth.css';
+import 'APP/client/components/Auth/Auth.css';
+import reducerRegistry from 'APP/client/store/reducers/ReducerRegistry';
+
+const reducerName = 'user';
+reducerRegistry.register(reducerName, userReducer);
 
 export const UserAuth = props => {
   const { name, handleSubmit, displayName, error } = props;
-
+  
   return (
     <div className='auth centeredDiv'>
       <form onSubmit={handleSubmit} name={name}>

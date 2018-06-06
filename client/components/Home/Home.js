@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Home.css';
+import 'APP/client/components/Home/Home.css';
 
 export default function Home(props){
   const { user } = props;

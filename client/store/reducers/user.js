@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Map, fromJS } from 'immutable';
-import reducerRegistry from './ReducerRegistry';
-import history from '../../history';
+import history from 'APP/client/history';
 
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';
@@ -59,8 +58,6 @@ export const logout = () =>
       })
       .catch(error => errorGettingUser(error));
 
-const reducerName = 'user';
-
 function userReducer(state = defaultUser, action) {
   switch (action.type) {
     
@@ -77,7 +74,5 @@ function userReducer(state = defaultUser, action) {
       return state;
   }
 }
-
-reducerRegistry.register(reducerName, userReducer);
 
 export default userReducer;

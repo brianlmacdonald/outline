@@ -6,11 +6,11 @@ import 'APP/client/components/HOC/addLoader.css';
 const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
-  loader: () => import(/* webpackChunkName: "Navigation View" */'APP/client/components/HierarchyControl/NavigationView'),
+  loader: () => import(/* webpackChunkName: "Reorder View" */'APP/client/components/HierarchyControl/ReorderView'),
   loading: Loading,
 })
 
-export default class LoadableNavView extends Component {
+export default class LoadableReorderView extends Component {
   render() {
     return <LoadableComponent />;
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DragSource, DropTarget } from 'react-dnd'
-import '../Thumbnail/Thumbnail.css';
+import 'APP/client/components/Thumbnail/Thumbnail.css';
 
 const draggedStyler = (bool) => {
   if (bool) return 'dragging ';
