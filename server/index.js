@@ -51,7 +51,6 @@ module.exports = app
   .use(passport.session())
   .use('/auth', require('./auth'))
   .use('/api', require('./routes'))
-  .use('/projects', require('./redirect'))
   .use((req, res, next) => {
     if (path.extname(req.path).length) {
       const err = new Error('Not found');

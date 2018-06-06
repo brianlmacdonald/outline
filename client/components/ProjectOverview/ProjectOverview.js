@@ -3,21 +3,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Link, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import LoaderHOC from '../HOC/LoaderHOC';
-import NavigationView from '../HierarchyControl/NavigationViewLoader';
-import ReorderView from '../HierarchyControl/ReorderView';
-import FullView from '../Graph/FullView.js';
-import { logout } from '../../store/reducers/user';
-import { loadUserProjects } from '../../store/reducers/project';
-import reducerRegistry from '../../store/reducers/ReducerRegistry.js';
-import projectReducer from '../../store/reducers/project';
-import navigatorReducer from '../../store/reducers/navigator';
-import orderReducer from '../../store/reducers/order';
-import draftReducer from '../../store/reducers/draft';
-import CardEditor from '../CardEditor/CardEditor';
+import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
+import NavigationView from 'APP/client/components/HierarchyControl/NavigationViewLoader';
+import ReorderView from 'APP/client/components/HierarchyControl/ReorderViewLoader';
+import FullView from 'APP/client/components/Graph/FullView.js';
+import { logout } from 'APP/client/store/reducers/user';
+import { loadUserProjects } from 'APP/client/store/reducers/project';
+import reducerRegistry from 'APP/client/store/reducers/ReducerRegistry.js';
+import projectReducer from 'APP/client/store/reducers/project';
+import navigatorReducer from 'APP/client/store/reducers/navigator';
+import orderReducer from 'APP/client/store/reducers/order';
+import draftReducer from 'APP/client/store/reducers/draft';
+import CardEditor from 'APP/client/components/CardEditor/CardEditorLoader';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
-import './ProjectOverview.css';
+import 'APP/client/components/ProjectOverview/ProjectOverview.css';
 
 class ProjectOverview extends Component {
   constructor(props){

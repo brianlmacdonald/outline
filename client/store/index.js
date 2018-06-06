@@ -3,7 +3,7 @@ import { reducer as notifReducer } from 'redux-notifications';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import reducerRegistry from './reducers/ReducerRegistry';
+import reducerRegistry from 'APP/client/store/reducers/ReducerRegistry';
 
 const initialState = window.__OUTLINE_STATE__ || {};
 

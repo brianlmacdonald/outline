@@ -1,9 +1,9 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import { auth } from '../store/reducers/user';
+import { auth } from 'APP/client/store/reducers/user';
 import PropTypes from 'prop-types';
-import './Auth.css';
+import 'APP/client/components/Auth.css';
 
 export const UserAuth = props => {
   const { name, handleSubmit, displayName, error } = props;

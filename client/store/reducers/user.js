@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Map, fromJS } from 'immutable';
-import reducerRegistry from './ReducerRegistry';
-import history from '../../history';
+import reducerRegistry from 'APP/client/store/reducers/ReducerRegistry';
+import history from 'APP/client/history';
 
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER';

@@ -1,12 +1,12 @@
 'use strict';
 import React from 'react';
 import { connect } from 'react-redux';
-import Container from '../Container/Container';
-import ReorderContainer from '../Reorder/ReorderContainer';
-import InjectContainer from './HierarchyControl';
-import LoaderHOC from '../HOC/LoaderHOC';
-import SaveOrder from '../Reorder/SaveOrder';
-import { persistNewOrder } from '../../store/reducers/order';
+import Container from 'APP/client/components/Container/Container';
+import ReorderContainer from 'APP/client/components/Reorder/ReorderContainer';
+import InjectContainer from 'APP/client/components/HierarchyControl/HierarchyControl';
+import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
+import SaveOrder from 'APP/client/components/Reorder/SaveOrder';
+import { persistNewOrder } from 'APP/client/store/reducers/order';
 
 const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer, false));  
 

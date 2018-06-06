@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import Card from './ReorderCard'
+import Card from 'APP/client/components/Reorder/ReorderCard'
 import update from 'immutability-helper';
 import { List } from 'immutable';
-import { updateOrder } from '../../store/reducers/order';
+import { updateOrder } from 'APP/client/store/reducers/order';
 import {
   CLASS_NAME_OBJ
-} from '../HierarchyControl/CardTypes';
+} from 'APP/client/components/HierarchyControl/CardTypes';
 
 const getItemType = (props) => {
 	return props.type;

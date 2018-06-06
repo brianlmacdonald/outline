@@ -1,13 +1,13 @@
 'use strict';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import browserHistory, { memoryHistory } from '../../history';
-import Home from '../Home/Home';
-import { Login, Signup } from '../Auth';
-import ProjectOverview from '../ProjectOverview/ProjectOverviewLoader';
+import browserHistory, { memoryHistory } from 'APP/client/history';
+import Home from 'APP/client/components/Home/Home';
+import { Login, Signup } from 'APP/client/components/Auth';
+import ProjectOverview from 'APP/client/components/ProjectOverview/ProjectOverviewLoader';
 import React, { Component }  from 'react';
-import AuthenticatedRoute from '../Authenticated/AuthenticatedRoute';
-import './App.css';
+import AuthenticatedRoute from 'APP/client/components/Authenticated/AuthenticatedRoute';
+import 'APP/client/components/App/App.css';
 
 class App extends Component {
   constructor(props){

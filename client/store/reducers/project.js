@@ -19,8 +19,7 @@ import type {
   State
   } from 'APP/Types/Reducer';
 
-import { REMOVE_USER } from './user';
-import { createNewDraftCardThunk } from './draft';
+import { createNewDraftCardThunk } from 'APP/client/store/reducers/draft';
 
 import { 
   addNavigationPath,
@@ -28,7 +27,7 @@ import {
   } from './navigator';
 
 import axios from 'axios';
-import history from '../../history';
+import history from 'APP/client/history';
 
 const { notifSend } = notifActions;
 

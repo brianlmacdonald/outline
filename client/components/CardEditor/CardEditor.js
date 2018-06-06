@@ -1,10 +1,10 @@
 'use strict';
 import React, { Component } from 'react';
-import history from '../../history.js';
+import history from 'APP/client/history.js';
 import { withRouter } from 'react-router';
-import { PROJECT_TYPE, creatingNewProject } from '../../store/reducers/project';
-import { persistToDB } from '../../store/actions/project';
-import { deleteFromDB } from '../../store/actions/deleteAction';
+import { PROJECT_TYPE, creatingNewProject } from 'APP/client/store/reducers/project';
+import { persistToDB } from 'APP/client/store/actions/project';
+import { deleteFromDB } from 'APP/client/store/actions/deleteAction';
 import {
   CARD_TYPE_ID,
   CARD_TYPE_PARENT,
@@ -19,15 +19,15 @@ import {
   updateCard,
   discardDraft,
   createNewDraftCard,
-} from '../../store/reducers/draft';
+} from 'APP/client/store/reducers/draft';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
 import type { ProjectPathArray } from 'APP/Types/Project';// eslint-disable-line
 import './CardEditor.css';
-import ModalLauncher from '../HOC/ModalLauncher';
-import DeleteDialog from './DeleteDialog';
-import {CLASS_NAME_OBJ} from '../HierarchyControl/CardTypes';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncher';
+import DeleteDialog from 'APP/client/components/CardEditor/DeleteDialog';
+import {CLASS_NAME_OBJ} from 'APP/client/components/HierarchyControl/CardTypes';
 
 class CardEditor extends Component {
   constructor(props){

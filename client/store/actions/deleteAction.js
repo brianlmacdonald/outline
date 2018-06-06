@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { actions as notifActions } from 'redux-notifications';
 import { fromJS } from 'immutable';
-import { projectLoadError } from '../reducers/project';
+import { projectLoadError } from 'APP/client/store/reducers/project';
 import {
   USER_TYPE,
   PROJECT_TYPE,
@@ -13,9 +13,9 @@ import {
   deletingProject,
   projectDeleted,
   projectDeletionError,
-  loadSingleProject } from '../reducers/project';
-import { removeNavigationPath, clearNavigation} from '../reducers/navigator';
-import history from '../../history';
+  loadSingleProject } from 'APP/client/store/reducers/project';
+import { removeNavigationPath, clearNavigation} from 'APP/client/store/reducers/navigator';
+import history from 'APP/client/history';
 
 const { notifSend } = notifActions;
 

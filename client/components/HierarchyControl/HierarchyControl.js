@@ -7,21 +7,21 @@ import {
   SEQUENCE_TYPE,
   SCENE_TYPE,
   BEAT_TYPE,
-  USER_TYPE } from '../../store/reducers/project';
+  USER_TYPE } from 'APP/client/store/reducers/project';
 import {
   projectNavigation,
   actNavigation,
   sequenceNavigation,
   sceneNavigation,
   beatNavigation
-} from '../../store/reducers/navigator';
+} from 'APP/client/store/reducers/navigator';
 import {
   GET_PROJECTS,
   GET_ACTS,
   GET_SEQUENCES,
   GET_SCENES,
   GET_BEATS
-} from './CardTypes';
+} from 'APP/client/components/HierarchyControl/CardTypes';
 
 function InjectContainer(Container) {
 return class HierarchyControl extends Component {
