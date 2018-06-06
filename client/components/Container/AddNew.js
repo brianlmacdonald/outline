@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import ModalLauncher from 'APP/client/components/HOC/ModalLauncher';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncherLoader';
 import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 import { Link } from 'react-router-dom';
 

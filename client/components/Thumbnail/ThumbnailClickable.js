@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CardView from 'APP/client/components/CardView/CardView';
-import ModalLauncher from 'APP/client/components/HOC/ModalLauncher';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncherLoader';
 import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import 'APP/client/components/Thumbnail/Thumbnail.css';
 

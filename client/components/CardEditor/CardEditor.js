@@ -25,7 +25,7 @@ import axios from 'axios';
 import { Map } from 'immutable';
 import type { ProjectPathArray } from 'APP/Types/Project';// eslint-disable-line
 import 'APP/client/components/CardEditor/CardEditor.css';
-import ModalLauncher from 'APP/client/components/HOC/ModalLauncher';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncherLoader';
 import DeleteDialog from 'APP/client/components/CardEditor/DeleteDialog';
 import {CLASS_NAME_OBJ} from 'APP/client/components/HierarchyControl/CardTypes';
 
