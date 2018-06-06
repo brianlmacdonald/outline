@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Card from 'APP/client/components/Reorder/ReorderCard'
+import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import update from 'immutability-helper';
 import { List } from 'immutable';
 import { updateOrder } from 'APP/client/store/reducers/order';
@@ -94,4 +95,4 @@ const mapDispatch = dispatch => ({
 
 const ContainerTarget = DropTarget((props) => {return props.type}, cardTarget, collect)(Container);
 const ContainerContext = DragDropContext(HTML5Backend)(ContainerTarget);
-export default connect(mapState, mapDispatch)(ContainerContext);
+export default connect(mapState, mapDispatch)(LoaderHOC('thumbs')(ContainerContext));

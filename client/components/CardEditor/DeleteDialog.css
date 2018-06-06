@@ -1,1 +1,22 @@
-@import url('../../Styles/index.css');
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  background-color: pink;
+  width: 350px;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  border: 1px white solid;
+}
+
+.dialogButtonGroup {
+  margin-top: .5em;
+  display: flex;
+  justify-content: center;
+  width: 300px;
+}
+
+.dialogButtons {
+  margin: .25em;
+}

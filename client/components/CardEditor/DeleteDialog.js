@@ -13,9 +13,9 @@ const DeleteDialog = props => {
       <label>to delete, enter password: 
       <input name="password" id="password" type="password" />
       </label>
-      <div className='buttonGroup'>
-      <button type="submit">delete</button>
-      <button onClick={() => close()} type="cancel">
+      <div className='dialogButtonGroup'>
+      <button className='dialogButtons' type="submit">delete</button>
+      <button className='dialogButtons' onClick={() => close()} type="cancel">
         cancel
       </button>
       </div>
