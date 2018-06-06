@@ -7,11 +7,11 @@ const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
   loader: () => {
-    return import(/* webpackChunkName: "CardEditor" */'APP/client/components/CardEditor/CardEditor.js')},
+    return import(/* webpackChunkName: "Modal" */'APP/client/components/HOC/Modal')},
   loading: Loading,
 })
 
-export default class LoadableCardEditor extends Component {
+export default class LoadableModal extends Component {
   constructor(props) {
     super(props);
   }

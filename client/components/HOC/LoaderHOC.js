@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './addLoader.css';
+import 'APP/client/components/HOC/addLoader.css';
 import { isEmpty, isImmutable } from 'immutable';
 
 const checkIsEmpty = (prop) => {

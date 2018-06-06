@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Map } from 'immutable';
 import type { ProjectPathArray } from 'APP/Types/Project';// eslint-disable-line
-import './CardEditor.css';
+import 'APP/client/components/CardEditor/CardEditor.css';
 import ModalLauncher from 'APP/client/components/HOC/ModalLauncher';
 import DeleteDialog from 'APP/client/components/CardEditor/DeleteDialog';
 import {CLASS_NAME_OBJ} from 'APP/client/components/HierarchyControl/CardTypes';
@@ -161,7 +161,7 @@ class CardEditor extends Component {
               onClick={() => handleSave(saveObject)}>
               save
             </button>
-            <button className={'button'} onClick={() => handleCancel(history)}>
+            <button className={'button'} onClick={() => handleCancel(history, this.unblock)}>
               cancel
             </button>
             {!isNewCard && <ModalLauncher
@@ -187,9 +187,10 @@ const MapDispatch = dispatch => ({
   handleSave(saveObj){
     dispatch(persistToDB(saveObj));
   },
-  handleCancel(history){
-    dispatch(discardDraft());
+  handleCancel(history, unblock){
+    unblock()
     history.push('/projects');
+    dispatch(discardDraft());
   },
   handleReset(){
     //reload the card from project

@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 const AuthenticatedRoute = ({component: Component, ...rest}) => {
   const { user } = rest;
-  const isLoggedIn = !!user.get('firstName');
+  const isLoggedIn = user && !!user.get('firstName');
   
   return <Route {...rest} render={(props) => (
     isLoggedIn ?

@@ -1,7 +1,7 @@
 import React, { Component,  cloneElement } from 'react';
-import Modal from './Modal';
-import './ModalLauncher.css';
-import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
+import Modal from 'APP/client/components/HOC/Modal';
+import 'APP/client/components/HOC/ModalLauncher.css';
+import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 
 class ModalLauncher extends Component {
   constructor(props) {

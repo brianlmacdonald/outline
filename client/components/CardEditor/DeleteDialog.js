@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import './DeleteDialog.css';
+import 'APP/client/components/CardEditor/DeleteDialog.css';
 
 const DeleteDialog = props => {
   const { close, handleSubmit } = props;

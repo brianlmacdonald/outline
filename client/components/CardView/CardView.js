@@ -1,8 +1,7 @@
 import React from 'react';
-import CardEditor from '../CardEditor/CardEditorLoader';
-import ModalLauncher from '../HOC/ModalLauncher';
+import ModalLauncher from 'APP/client/components/HOC/ModalLauncher';
 import { Link } from 'react-router-dom';
-import { CLASS_NAME_OBJ } from '../HierarchyControl/CardTypes';
+import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 
 import './CardView.css';
 

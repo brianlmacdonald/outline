@@ -6,7 +6,7 @@ import 'APP/client/components/HOC/addLoader.css';
 const Loading = () => (<div className='loader' />);
 
 const LoadableComponent = Loadable({
-  loader: () => import(/* webpackChunkName: "Navigation View" */'./NavigationView'),
+  loader: () => import(/* webpackChunkName: "Navigation View" */'APP/client/components/HierarchyControl/NavigationView'),
   loading: Loading,
 })
 
