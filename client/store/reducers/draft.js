@@ -17,6 +17,11 @@ export const CARD_TYPE_SCENES = 'scenes';
 export const CARD_TYPE_BEATS = 'beats';
 export const CARD_TYPE_PARENT = 'parent';
 const CARD_TYPE_UPDATED_AT = 'updated_at';
+export const CARD_TYPE_USER_ID = 'user_id';
+export const CARD_TYPE_PROJECT_ID = 'project_id';
+export const CARD_TYPE_ACT_ID = 'act_id';
+export const CARD_TYPE_SEQUENCE_ID = 'sequence_id';
+export const CARD_TYPE_SCENE_ID = 'scene_id';
 
 //this is a reminder. Don't do these! Do it from child to parent with type!
 const DO_NOT_UPDATE_ACTS = 'DO_NOT_UPDATE_ACTS';
@@ -84,6 +89,11 @@ const defaultDraft = Map({
   beats: null,
   parent: null,
   updated_at: null,
+  project_id: null,
+  act_id: null,
+  user_id: null,
+  sequence_id: null,
+  scene_id: null,
 });
 
 const reducerName = 'draft';
@@ -104,8 +114,12 @@ const draftReducer = (state = defaultDraft, action) => {
         .set(CARD_TYPE_SEQUENCES, action.payload.get(CARD_TYPE_SEQUENCES))
         .set(CARD_TYPE_SCENES, action.payload.get(CARD_TYPE_SCENES))
         .set(CARD_TYPE_PARENT, action.payload.get(CARD_TYPE_PARENT))
-        .set(CARD_TYPE_BEATS, action.payload.get(CARD_TYPE_BEATS));
-
+        .set(CARD_TYPE_BEATS, action.payload.get(CARD_TYPE_BEATS))
+        .set(CARD_TYPE_USER_ID, action.payload.get(CARD_TYPE_USER_ID))
+        .set(CARD_TYPE_PROJECT_ID, action.payload.get(CARD_TYPE_PROJECT_ID))
+        .set(CARD_TYPE_ACT_ID, action.payload.get(CARD_TYPE_ACT_ID))
+        .set(CARD_TYPE_SEQUENCE_ID, action.payload.get(CARD_TYPE_SEQUENCE_ID))
+        .set(CARD_TYPE_SCENE_ID, action.payload.get(CARD_TYPE_SCENE_ID));
       });
     
     case UPDATE_CARD:
