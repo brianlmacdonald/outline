@@ -12,6 +12,8 @@ import { updateOrder } from 'APP/client/store/reducers/order';
 import {
   CLASS_NAME_OBJ
 } from 'APP/client/components/HierarchyControl/CardTypes';
+import validTypes from 'APP/client/components/Reorder/CardConstants';
+import { changeParent } from 'APP/client/store/actions/changeParent';
 
 const getItemType = (props) => {
 	return props.type;
@@ -23,7 +25,7 @@ const cardTarget = {
 
 function collect(connect, monitor) {
   return {
-    connectDropTarget: connect.dropTarget()
+		connectDropTarget: connect.dropTarget(),
   };
 }
 
@@ -39,7 +41,20 @@ class Container extends Component {
 		const { handleOrder, type, thumbs } = props;
 		const startingOrder = { type, list: thumbs }
 		handleOrder(startingOrder);
+		this.state = {
+			thumbs: thumbs
+		}
 	}
+
+	static getDerivedStateFromProps(nextProps, state){
+    if (nextProps.thumbs.size !== state.thumbs.size) {
+      nextProps.handleOrder({type: nextProps.type, list: nextProps.thumbs});
+      return {
+        thumbs: nextProps.thumbs
+      };
+    }
+    return null;
+  }
 
 	moveCard(id, atIndex) {
 		const { type, handleOrder, order } = this.props;
@@ -61,13 +76,14 @@ class Container extends Component {
 	}
 
 	render() {
-		const { connectDropTarget, type, children, order } = this.props;
+		const { connectDropTarget, type, order } = this.props;
 		const cards = order.get(type) || List([]);
 	
 		return connectDropTarget(
 				<div className='subContainer'>
 				{cards.map(card => (
 					<Card
+						accepts={validTypes[type]}
 						canDrag={type !== 'PROJECT_TYPE'}
 						{...this.props}
 						card={card}
@@ -90,6 +106,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
 	handleOrder(updateObj){
 		dispatch(updateOrder(updateObj))
+	},
+	handleChangeParent(updateObj){
+		dispatch(changeParent(updateObj))
 	}
 });
 

@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { DragSource, DropTarget } from 'react-dnd'
+import { DragSource, DropTarget, DropTargetMonitor } from 'react-dnd'
 import 'APP/client/components/Thumbnail/Thumbnail.css';
+import validTypes from 'APP/client/components/Reorder/CardConstants';
+
 
 const draggedStyler = (bool) => {
   if (bool) return 'dragging ';
@@ -13,48 +16,66 @@ const selectedStyler = (id, activeId) => {
   else return 'thumbnail unSelected';
 };
 
-const getItemType = (props) => {
-	return props.type;
-}
-
 const cardSource = {
-	beginDrag(props) {
+	beginDrag(props, monitor) {
 		return {
 			id: props.id,
 			originalIndex: props.findCard(props.id).index,
+			type: props.type,
+			parent: props.parent,
 		}
 	},
 
 	endDrag(props, monitor) {
 		const { id: droppedId, originalIndex } = monitor.getItem()
 		const didDrop = monitor.didDrop()
+		const changeParentRequest =  monitor.getDropResult();
 
 		if (!didDrop) {
-			props.moveCard(droppedId, originalIndex)
+			props.moveCard(droppedId, originalIndex);
+		}
+
+		if (changeParentRequest.id) {
+			if(window.confirm(`Move ${props.type} to ${changeParentRequest.type}`))
+			props.handleChangeParent({
+				type: props.type,
+				id: droppedId,
+				newParentId: changeParentRequest.id,
+				projectId: props.navigator.get('PROJECT_TYPE'),
+				userId: props.user.get('id')
+			})
 		}
 	},
 
 	canDrag(props, monitor) {
 		return props.canDrag;
-	}
+	},
 
 }
 
 const cardTarget = {
-	canDrop() {
-		return false
+	canDrop(props, monitor) {
+		if (props.type !== monitor.getItem().type) return true;
+		else return false
 	},
 
 	hover(props, monitor) {
 		const { id: draggedId } = monitor.getItem()
 		const { id: overId } = props
 
-		if (draggedId !== overId) {
-			const { index: overIndex } = props.findCard(overId)
-			props.moveCard(draggedId, overIndex)
-		}
+		if (props.type === monitor.getItem().type) {
+			if (draggedId !== overId) {
+				const { index: overIndex } = props.findCard(overId)
+				props.moveCard(draggedId, overIndex)
+			}
+		} 
 	},
-}
+	drop(props, monitor) {
+		if (props.id !== monitor.getItem().parent.id) {
+			return {id: props.id, type: props.type};
+		}
+	}
+} 
 
 function dragCollect(connect, monitor){
 	return {
@@ -63,11 +84,10 @@ function dragCollect(connect, monitor){
 	}
 }
 
-function dropCollect(connect){
+function dropCollect(connect, monitor){
 	return {
 		connectDropTarget: connect.dropTarget(),
 	}
-
 }
 
 class Card extends Component {
@@ -113,5 +133,5 @@ class Card extends Component {
 }
 
 const CardDrag = DragSource((props) => {return props.type}, cardSource, dragCollect)(Card);
-const CardDrop = DropTarget((props) => {return props.type}, cardTarget, dropCollect)(CardDrag);
+const CardDrop = DropTarget((props) => {return props.accepts}, cardTarget, dropCollect)(CardDrag);
 export default CardDrop;
