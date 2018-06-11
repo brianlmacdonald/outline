@@ -12,7 +12,7 @@ import { updateOrder } from 'APP/client/store/reducers/order';
 import {
   CLASS_NAME_OBJ
 } from 'APP/client/components/HierarchyControl/CardTypes';
-import validTypes from 'APP/client/components/Reorder/CardConstants';
+import acceptedDrop from 'APP/client/components/Reorder/CardConstants';
 import { changeParent } from 'APP/client/store/actions/changeParent';
 
 const getItemType = (props) => {
@@ -83,7 +83,7 @@ class Container extends Component {
 				<div className='subContainer'>
 				{cards.map(card => (
 					<Card
-						accepts={validTypes[type]}
+						accepts={acceptedDrop[type]}
 						canDrag={type !== 'PROJECT_TYPE'}
 						{...this.props}
 						card={card}

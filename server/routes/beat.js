@@ -15,7 +15,7 @@ router.post('/:sceneId', (req, res, next) => {
 
 router.put('/parent/:beatId/:parentId', (req, res, next) => {
   return Beat.findOne({where: {id: {[Op.eq]: req.params.beatId}}})
-    .then(foundCard => foundCard.setAct(req.params.parentId))
+    .then(foundCard => foundCard.setScene(req.params.parentId))
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });

@@ -15,7 +15,7 @@ router.post('/:sequenceId', (req, res, next) => {
 
 router.put('/parent/:sceneId/:parentId', (req, res, next) => {
   return Scene.findOne({where: {id: {[Op.eq]: req.params.sceneId}}})
-    .then(foundCard => foundCard.setAct(req.params.parentId))
+    .then(foundCard => foundCard.setSequence(req.params.parentId))
     .then(updatedCard => res.sendStatus(204))
     .catch(next);
 });

@@ -35,7 +35,7 @@ const cardSource = {
 			props.moveCard(droppedId, originalIndex);
 		}
 
-		if (changeParentRequest.id) {
+		if (changeParentRequest && changeParentRequest.id) {
 			if(window.confirm(`Move ${props.type} to ${changeParentRequest.type}`))
 			props.handleChangeParent({
 				type: props.type,
@@ -55,8 +55,7 @@ const cardSource = {
 
 const cardTarget = {
 	canDrop(props, monitor) {
-		if (props.type !== monitor.getItem().type) return true;
-		else return false
+		return props.accepts[1] === monitor.getItem().type;
 	},
 
 	hover(props, monitor) {
@@ -71,7 +70,9 @@ const cardTarget = {
 		} 
 	},
 	drop(props, monitor) {
-		if (props.id !== monitor.getItem().parent.id) {
+		const item = monitor.getItem();
+		
+		if (props.id !== item.parent.id) {
 			return {id: props.id, type: props.type};
 		}
 	}
