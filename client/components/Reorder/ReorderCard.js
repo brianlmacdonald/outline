@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import { DragSource, DropTarget, DropTargetMonitor } from 'react-dnd'
+import { DragSource, DropTarget } from 'react-dnd'
+import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 import 'APP/client/components/Thumbnail/Thumbnail.css';
-import validTypes from 'APP/client/components/Reorder/CardConstants';
-
 
 const draggedStyler = (bool) => {
   if (bool) return 'dragging ';
@@ -36,7 +34,7 @@ const cardSource = {
 		}
 
 		if (changeParentRequest && changeParentRequest.id) {
-			if(window.confirm(`Move ${props.type} to ${changeParentRequest.type}`))
+			if(window.confirm(`Change the parent to ${CLASS_NAME_OBJ[changeParentRequest.type]} titled: '${changeParentRequest.title}'`))
 			props.handleChangeParent({
 				type: props.type,
 				id: droppedId,
@@ -71,9 +69,9 @@ const cardTarget = {
 	},
 	drop(props, monitor) {
 		const item = monitor.getItem();
-		
+
 		if (props.id !== item.parent.id) {
-			return {id: props.id, type: props.type};
+			return {id: props.id, type: props.type, title: props.card.get('title')};
 		}
 	}
 } 
@@ -85,7 +83,7 @@ function dragCollect(connect, monitor){
 	}
 }
 
-function dropCollect(connect, monitor){
+function dropCollect(connect){
 	return {
 		connectDropTarget: connect.dropTarget(),
 	}
