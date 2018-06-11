@@ -13,6 +13,13 @@ router.post('/:actId', (req, res, next) => {
   .catch(next);
 });
 
+router.put('/parent/:sequenceId/:parentId', (req, res, next) => {
+  return Sequence.findOne({where: {id: {[Op.eq]: req.params.sequenceId}}})
+    .then(foundCard => foundCard.setAct(req.params.parentId))
+    .then(updatedCard => res.sendStatus(204))
+    .catch(next);
+});
+
 router.put('/:sequenceId', (req, res, next) => {
   return Sequence.findOne({where: {id: {[Op.eq]: req.params.sequenceId}}})
     .then(foundCard => foundCard.update(req.body))

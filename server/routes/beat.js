@@ -13,6 +13,13 @@ router.post('/:sceneId', (req, res, next) => {
   .catch(next);
 });
 
+router.put('/parent/:beatId/:parentId', (req, res, next) => {
+  return Beat.findOne({where: {id: {[Op.eq]: req.params.beatId}}})
+    .then(foundCard => foundCard.setScene(req.params.parentId))
+    .then(updatedCard => res.sendStatus(204))
+    .catch(next);
+});
+
 router.put('/:beatId', (req, res, next) => {
   return Beat.findOne({where: {id: {[Op.eq]: req.params.beatId}}})
     .then(foundCard => foundCard.update(req.body))

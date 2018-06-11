@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DragSource, DropTarget } from 'react-dnd'
+import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 import 'APP/client/components/Thumbnail/Thumbnail.css';
 
 const draggedStyler = (bool) => {
@@ -13,48 +14,67 @@ const selectedStyler = (id, activeId) => {
   else return 'thumbnail unSelected';
 };
 
-const getItemType = (props) => {
-	return props.type;
-}
-
 const cardSource = {
-	beginDrag(props) {
+	beginDrag(props, monitor) {
 		return {
 			id: props.id,
 			originalIndex: props.findCard(props.id).index,
+			type: props.type,
+			parent: props.parent,
 		}
 	},
 
 	endDrag(props, monitor) {
 		const { id: droppedId, originalIndex } = monitor.getItem()
 		const didDrop = monitor.didDrop()
+		const changeParentRequest =  monitor.getDropResult();
 
 		if (!didDrop) {
-			props.moveCard(droppedId, originalIndex)
+			props.moveCard(droppedId, originalIndex);
+		}
+
+		if (changeParentRequest && changeParentRequest.id) {
+			if(window.confirm(`Change the parent to ${CLASS_NAME_OBJ[changeParentRequest.type]} titled: '${changeParentRequest.title}'`))
+			props.handleChangeParent({
+				type: props.type,
+				id: droppedId,
+				newParentId: changeParentRequest.id,
+				projectId: props.navigator.get('PROJECT_TYPE'),
+				userId: props.user.get('id')
+			})
 		}
 	},
 
 	canDrag(props, monitor) {
 		return props.canDrag;
-	}
+	},
 
 }
 
 const cardTarget = {
-	canDrop() {
-		return false
+	canDrop(props, monitor) {
+		return props.accepts[1] === monitor.getItem().type;
 	},
 
 	hover(props, monitor) {
 		const { id: draggedId } = monitor.getItem()
 		const { id: overId } = props
 
-		if (draggedId !== overId) {
-			const { index: overIndex } = props.findCard(overId)
-			props.moveCard(draggedId, overIndex)
-		}
+		if (props.type === monitor.getItem().type) {
+			if (draggedId !== overId) {
+				const { index: overIndex } = props.findCard(overId)
+				props.moveCard(draggedId, overIndex)
+			}
+		} 
 	},
-}
+	drop(props, monitor) {
+		const item = monitor.getItem();
+
+		if (props.id !== item.parent.id) {
+			return {id: props.id, type: props.type, title: props.card.get('title')};
+		}
+	}
+} 
 
 function dragCollect(connect, monitor){
 	return {
@@ -67,7 +87,6 @@ function dropCollect(connect){
 	return {
 		connectDropTarget: connect.dropTarget(),
 	}
-
 }
 
 class Card extends Component {
@@ -113,5 +132,5 @@ class Card extends Component {
 }
 
 const CardDrag = DragSource((props) => {return props.type}, cardSource, dragCollect)(Card);
-const CardDrop = DropTarget((props) => {return props.type}, cardTarget, dropCollect)(CardDrag);
+const CardDrop = DropTarget((props) => {return props.accepts}, cardTarget, dropCollect)(CardDrag);
 export default CardDrop;
