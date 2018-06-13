@@ -1,0 +1,28 @@
+.bubble {
+  border-radius: 3px;
+  padding: 3px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  height: auto;
+  width: 200px;
+  position: absolute;
+  top: -90%;
+  left: 0%;
+  background-color: blueviolet;
+}
+
+.bubble:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 25%;
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+	border-top-color: blueviolet;
+	border-bottom: 0;
+	margin-left: -10px;
+	margin-bottom: -10px;
+}
