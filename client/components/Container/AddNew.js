@@ -13,6 +13,7 @@ const AddNew = (props) => {
     nextIdx
     } = props;
   return (
+    <div id={`add-${type}`}>
     <Link to={{
       pathname: '/projects/edit',
       state: {
@@ -23,7 +24,7 @@ const AddNew = (props) => {
         nextIdx
       }
     }}
-    ><button className='addButton'>{`add ${CLASS_NAME_OBJ[type]}`}</button></Link>
+    ><button className='addButton'>{`add ${CLASS_NAME_OBJ[type]}`}</button></Link></div>
   );
 };
 
