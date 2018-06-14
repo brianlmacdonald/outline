@@ -1,28 +1,37 @@
-.bubble {
+.tour-bubble-div {
+  position: absolute;
+}
+
+.tour-bubble {
   border-radius: 3px;
   padding: 3px;
   color: white;
   display: flex;
   flex-direction: column;
   text-align: center;
-  height: auto;
-  width: 200px;
   position: absolute;
-  top: -90%;
-  left: 0%;
   background-color: blueviolet;
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+  z-index: 400;
 }
 
-.bubble:after {
+.tour-bubble:after {
 	content: '';
 	position: absolute;
-	bottom: 0;
-	left: 25%;
+	top: 0;
+	left: 50%;
 	width: 0;
 	height: 0;
-	border: 10px solid transparent;
-	border-top-color: blueviolet;
-	border-bottom: 0;
-	margin-left: -10px;
-	margin-bottom: -10px;
+	border: 20px solid transparent;
+	border-bottom-color: blueviolet;
+	border-top: 0;
+	margin-left: -20px;
+	margin-top: -20px;
+}
+
+.tour-button-group {
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
