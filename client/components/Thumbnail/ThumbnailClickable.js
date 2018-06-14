@@ -32,9 +32,9 @@ const ThumbnailClickable = (props) => {
   const userId = user.get('id');
   const freezeNavigation = draft.get('type') !== null;
   //freezeNav prevents navigation when someone is editing.
-
   return (
       <div
+        id={`thumbnail-${type}-${index}`}
         title={body}
         className={selectedStyler(location, navigator.get(type))}
         key={id + 'd'}
