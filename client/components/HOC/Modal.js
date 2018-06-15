@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { isNil } from 'lodash';
 import 'APP/client/components/HOC/Modal.css';
+
+function isNil(value) {
+  return value == null;
+}
 
 class Modal extends Component {
   constructor(props) {

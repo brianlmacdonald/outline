@@ -24,7 +24,7 @@ const Container = (Button) => (SubContainer, isNavView) => (props) => {
 
     return (
       <div name={CLASS_NAME_OBJ[type]} className={CLASS_NAME_OBJ[type]}>
-        <div className={addMaxWidth(isNavView)}>
+        <div id={`${type}-container`} className={addMaxWidth(isNavView)}>
           <Button nextIdx={thumbs.size} {...props} />
           <SubContainer {...props} empty={EmptyProp(type)} />
         </div>

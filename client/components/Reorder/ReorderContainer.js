@@ -76,13 +76,12 @@ class Container extends Component {
 	}
 
 	render() {
-		const { connectDropTarget, type, order } = this.props;
+		const { connectDropTarget, type, order, index } = this.props;
 		const cards = order.get(type) || List([]);
-	
 		return connectDropTarget(
-				<div className='subContainer'>
-				{cards.map(card => (
-					<Card
+				<div id={`${type}-reorder-container`} className='subContainer'>
+				{cards.map((card, idx) => (
+					<div key={idx} id={`reorder-${type}-${idx}`}><Card
 						accepts={acceptedDrop[type]}
 						canDrag={type !== 'PROJECT_TYPE'}
 						{...this.props}
@@ -93,6 +92,7 @@ class Container extends Component {
 						moveCard={this.moveCard}
 						findCard={this.findCard}
 					/>
+					</div>
 				))}
 				</div>
 		)

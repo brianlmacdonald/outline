@@ -1,0 +1,64 @@
+.tour-bubble-div {
+  position: absolute;
+}
+
+.tour-bubble {
+  font-size: 10pt;
+  border-radius: 3px;
+  padding: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  position: absolute;
+  background-color: blueviolet;
+  box-shadow: 0 2px 5px rgba(0,0,0,.4);
+  z-index: 400;
+  animation: pulse 5s infinite;
+}
+
+.tour-bubble:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-bottom-color: blueviolet;
+	border-top: 0;
+	margin-left: -20px;
+  margin-top: -20px;
+  animation: pulseafter 5s infinite;
+}
+
+.tour-button-group {
+  margin-top: 5px;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tour-bubble i {
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #001F3F;
+    
+  }
+  50% {
+    background-color: blueviolet;
+  }
+  100% {
+    background-color: #001F3F;
+  }
+}
+
+@keyframes pulseafter {
+  0% {border-bottom-color: #001F3F;}
+  50% {border-bottom-color: blueviolet;}
+  100% {border-bottom-color: #001F3F;}
+}

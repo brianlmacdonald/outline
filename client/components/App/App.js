@@ -55,7 +55,10 @@ class App extends Component {
             <Route exact path="/" render={() => <Home user={user} />} />
             <Route path="/login" render={() => <Login />} />
             <Route path="/signup" render={() => <Signup />} />
-            <AuthenticatedRoute {...this.props} path='/projects' component={ProjectOverview} />
+            <AuthenticatedRoute
+              {...this.props}
+              path='/projects'
+              component={ProjectOverview} />
             <Route path='*' render={(props) => {
               return <div>{`url '${props.match.url}' not found.`}</div>;
             }} />

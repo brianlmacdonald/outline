@@ -18,6 +18,8 @@ import draftReducer from 'APP/client/store/reducers/draft';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import 'APP/client/components/ProjectOverview/ProjectOverview.css';
+import { tourConnect } from 'APP/client/components/TourGuide/TourGuide';
+import projectOverviewConfig from 'APP/client/components/ProjectOverview/tourConfig';
 
 class ProjectOverview extends Component {
   constructor(props){
@@ -49,20 +51,26 @@ class ProjectOverview extends Component {
   }
   
   render(){
-    const { match, handleLogout } = this.props;
+    const { match, handleLogout, tour } = this.props;
 
     return(
       <div className="overview">
-        <nav className='navigation'>
-          <ul className='tabs'>
-            <li className='tab'>
-              <Link to={`${match.url}`}>navigator</Link>
+        <div className='nav-container'>
+        <div className='nav-main'>
+        <div className='nav-content'>
+        <nav>
+          <ul id='nav-ul' className='tabs'>
+            <li id='cardview' className='tab'>
+              <Link to={`${match.url}`}>card view</Link>
             </li>
-            <li className='tab'>
+            <li id='fullview' className='tab'>
+            <Link to={`${match.url}/fullview`}>full view</Link>
+            </li>
+            <li id='reorder' className='tab'>
               <Link to={`${match.url}/reorder`}>reorder</Link>
             </li>
-            <li className='tab'>
-              <Link to={`${match.url}/fullview`}>full view</Link>
+            <li className='tab' id='help'>
+              <a onClick={tour}>help</a>
             </li>
             <li id='userTab' className='tab'>
               <div className='name'>{this.props.user.get('firstName')}</div>
@@ -70,6 +78,9 @@ class ProjectOverview extends Component {
             </li>
           </ul>
         </nav>
+        </div>
+        </div>
+        </div>
         <Notifs />
         <Switch>
            <Route exact path={`${match.url}/reorder`} render={() => <ReorderView />}/>
@@ -78,6 +89,7 @@ class ProjectOverview extends Component {
            <Route exact path={`${match.url}`} render={() => <NavigationView />}/>
         </Switch>
       </div>
+
     );
   }
 }
@@ -98,6 +110,6 @@ const mapDispatch = dispatch => ({
   }
 });
 
-const WrappedProjectOverview = LoaderHOC('user')(ProjectOverview);
+const WrappedProjectOverview = LoaderHOC('user')(tourConnect(projectOverviewConfig)(ProjectOverview));
 const ConnectedProjectOverView = withRouter(connect(mapState, mapDispatch)(WrappedProjectOverview));
 export default ConnectedProjectOverView;
