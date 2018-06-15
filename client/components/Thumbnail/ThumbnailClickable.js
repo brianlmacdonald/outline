@@ -33,27 +33,28 @@ const ThumbnailClickable = (props) => {
   const freezeNavigation = draft.get('type') !== null;
   //freezeNav prevents navigation when someone is editing.
   return (
-      <div
-        id={`thumbnail-${type}-${index}`}
-        title={body}
-        className={selectedStyler(location, navigator.get(type))}
-        key={id + 'd'}
-        onDoubleClick={() =>{
-          if (!freezeNavigation) {
-            handleNavigation({id: location, userId});
-          } 
-        }}>
-        <h4 key={id + 'h4'}>{titlePrev}</h4>
-        <p key={id + 'p'}>{bodyPrev || ''}</p>
-        <div className='modalDiv'>
-          <ModalLauncher
-          {...props}
-          message={'open '}
-          draft={draft}
-          styleClass={'button'}
-          type={type}>
-            <CardView {...props} />
-          </ModalLauncher>
+      <div id={`thumbnail-${type}-${index}`}>
+        <div
+          title={body}
+          className={selectedStyler(location, navigator.get(type))}
+          key={id + 'd'}
+          onDoubleClick={() =>{
+            if (!freezeNavigation) {
+              handleNavigation({id: location, userId});
+            } 
+          }}>
+          <h4 key={id + 'h4'}>{titlePrev}</h4>
+          <p key={id + 'p'}>{bodyPrev || ''}</p>
+          <div className='modalDiv'>
+            <ModalLauncher
+            {...props}
+            message={'open '}
+            draft={draft}
+            styleClass={'button'}
+            type={type}>
+              <CardView {...props} />
+            </ModalLauncher>
+          </div>
         </div>
       </div>
   );
