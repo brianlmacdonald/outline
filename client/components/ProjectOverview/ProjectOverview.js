@@ -19,7 +19,7 @@ import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import 'APP/client/components/ProjectOverview/ProjectOverview.css';
 import { tourConnect } from 'APP/client/components/TourGuide/TourGuide';
-import projectOverviewConfig from 'APP/client/components/ProjectOverview/tourConfig';
+import projectOverviewConfig from 'APP/client/components/ProjectOverview/TourConfig';
 
 class ProjectOverview extends Component {
   constructor(props){

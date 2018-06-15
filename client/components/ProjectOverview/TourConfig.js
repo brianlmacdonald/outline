@@ -42,7 +42,7 @@ const config = {
     2: {
       id: 'reorder-ACT_TYPE-0',
       parent: 'ACT_TYPE-reorder-container',
-      description: 'To change the parent index card, drag and drop the subordinate card into any card on the tier directly above.'
+      description: 'To change parent index card, drag and drop the subordinate card into any card on the tier directly above.'
     }
   }
 };
