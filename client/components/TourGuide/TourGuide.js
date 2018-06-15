@@ -2,6 +2,18 @@
 import React, { Component } from 'react';
 import 'APP/client/components/TourGuide/TourGuide.css';
 
+function isNil(value) {
+  return value == null;
+}
+
+function isNav(id) {
+  if (id === undefined) return false;
+  if (id === 'tour-bubble-forward') return true;
+  if (id === 'tour-bubble-close') return true;
+  if (id === 'tour-bubble-back') return true;
+  return false;
+}
+
 export const tourConnect = (config) => (Component) => {
 
   return class Tour extends Component {
@@ -20,15 +32,11 @@ export const tourConnect = (config) => (Component) => {
       this.handleForwardOrBack = this.handleForwardOrBack.bind(this);
       this.getTargetPosition = this.getTargetPosition.bind(this);
       this.activateTour = this.activateTour.bind(this);
+      this.handleOutsideTourClick = this.handleOutsideTourClick.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState){
       if (this.props.location.pathname !== prevProps.location.pathname) {
-        if (this.state.active && prevState.active) {
-          const { steps, currentStepKey, pathname } = this.state;
-          const currentBubble = steps[pathname][currentStepKey];
-          this.handleClose(currentBubble);
-        }
         this.setState({pathname: this.props.location.pathname});
         this.setState({currentStepKey: 0});
       }
@@ -36,21 +44,35 @@ export const tourConnect = (config) => (Component) => {
     }
 
     componentDidMount(){
-      return this.createTourBubble();
+      this.createTourBubble();
+      document.addEventListener('click', this.handleOutsideTourClick, false);
+    }
+
+    componentWillUnmount(){
+      document.removeEventListener('click', this.handleOutsideTourClick, false);
+    }
+
+    handleOutsideTourClick(e){
+      if (!isNil(this.bubble) && !isNav(e.target.id) && !this.bubble.contains(e.target)) {
+        const { steps, currentStepKey, pathname } = this.state;
+          const currentBubble = steps[pathname][currentStepKey];
+          this.handleClose(currentBubble);
+          document.removeEventListener('click', this.handleOutsideTourClick, false);
+      }
+
     }
 
     handleClose(destroyTarget) {
-      this.setState({active: false});
-      this.destroyTourBubble(destroyTarget);
+        this.setState({active: false});
+        this.destroyTourBubble(destroyTarget);
     }
 
     activateTour(){
-      const { steps, pathname } = this.state;
-      if(!this.state.active){
-        if(steps[pathname]) {
+      const { steps, pathname, active } = this.state;
+      if(!active && steps[pathname]){
           this.setState({active: true});
           this.createTourBubble();
-        }
+          document.addEventListener('click', this.handleOutsideTourClick, false);
       }
     }
 
@@ -84,7 +106,7 @@ export const tourConnect = (config) => (Component) => {
       buttonGroup.className = 'tour-button-group';
 
       closeButton.innerHTML = '&#10006;';
-      closeButton.cursor = 'pointer';
+      closeButton.id = 'tour-button-close';
       closeButton.onclick = () => {
         this.handleClose(currentBubble);
       };
@@ -93,7 +115,7 @@ export const tourConnect = (config) => (Component) => {
       if (backButton) {
         backButton.onclick = () => this.handleForwardOrBack(false);
         backButton.innerHTML = '&larr;';
-        backButton.cursor = 'pointer';
+        backButton.id = 'tour-bubble-back';
         buttonGroup.appendChild(backButton);
       }
 
@@ -102,7 +124,7 @@ export const tourConnect = (config) => (Component) => {
       if (forwardButton) { 
         forwardButton.onclick = () => this.handleForwardOrBack(true);
         forwardButton.innerHTML = '&rarr;';
-        forwardButton.cursor = 'pointer';
+        forwardButton.id = 'tour-bubble-forward';
         buttonGroup.appendChild(forwardButton);
       }
 
@@ -115,8 +137,11 @@ export const tourConnect = (config) => (Component) => {
       bubbleDivStyleText += 'width: ' + elementPosition.width + 'px; height:' + elementPosition.height + 'px; top:' + elementPosition.top + 'px;left: ' + elementPosition.left + 'px;';
       bubbleDiv.style.cssText = bubbleDivStyleText; 
       bubble.style.top = (elementPosition.height) + 25 + 'px';
+
+      this.bubble = bubbleDiv;
+
       bubbleDiv.append(bubble);
-      return targetEl.appendChild(bubbleDiv);
+      targetEl.appendChild(bubbleDiv);
     }
 
     getTargetPosition(target) {
@@ -134,7 +159,6 @@ export const tourConnect = (config) => (Component) => {
     }
 
     destroyTourBubble(destroyTarget){
-      console.log('destroying', this.state);
       const targetBubble = document.getElementById(`${destroyTarget.id}-tour`);
       const targetBubbleDiv = document.getElementById(`${destroyTarget.id}-tour-div`);
       if (targetBubble === null) {
@@ -151,8 +175,9 @@ export const tourConnect = (config) => (Component) => {
     handleForwardOrBack(increment) {
       const { steps, currentStepKey, pathname } = this.state;
       const currentBubble = steps[pathname][currentStepKey];
+
       this.destroyTourBubble(currentBubble);
-      console.log('handling forward or back');
+      
       if (increment) this.setState({currentStepKey: this.state.currentStepKey + 1});
       else this.setState({currentStepKey: this.state.currentStepKey - 1});
       return this.createTourBubble();
