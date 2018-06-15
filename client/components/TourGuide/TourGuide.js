@@ -23,7 +23,8 @@ export const tourConnect = (config) => (Component) => {
         currentStepKey: 0,
         steps: config,
         active: true,
-        pathname: props.location.pathname
+        pathname: props.location.pathname,
+        current: null
       };
       this.createTourBubble = this.createTourBubble.bind(this);
       this.destroyTourBubble = this.destroyTourBubble.bind(this);
@@ -53,18 +54,16 @@ export const tourConnect = (config) => (Component) => {
     }
 
     handleOutsideTourClick(e){
-      if (!isNil(this.bubble) && !isNav(e.target.id) && !this.bubble.contains(e.target)) {
-        const { steps, currentStepKey, pathname } = this.state;
-          const currentBubble = steps[pathname][currentStepKey];
-          this.handleClose(currentBubble);
+      if (!isNil(this.state.current) && !isNil(this.bubble) && !isNav(e.target.id) && !this.bubble.contains(e.target)) {
+          this.handleClose();
           document.removeEventListener('click', this.handleOutsideTourClick, false);
       }
 
     }
 
-    handleClose(destroyTarget) {
+    handleClose() {
         this.setState({active: false});
-        this.destroyTourBubble(destroyTarget);
+        this.destroyTourBubble();
     }
 
     activateTour(){
@@ -84,6 +83,7 @@ export const tourConnect = (config) => (Component) => {
       }
 
       const currentBubble = steps[pathname][currentStepKey];
+      this.setState({current: currentBubble});
       const targetEl = document.getElementById(currentBubble.id);
 
       if (targetEl === null) {
@@ -108,7 +108,7 @@ export const tourConnect = (config) => (Component) => {
       closeButton.innerHTML = '&#10006;';
       closeButton.id = 'tour-button-close';
       closeButton.onclick = () => {
-        this.handleClose(currentBubble);
+        this.handleClose();
       };
       bubble.appendChild(content);
 
@@ -158,9 +158,10 @@ export const tourConnect = (config) => (Component) => {
       };
     }
 
-    destroyTourBubble(destroyTarget){
-      const targetBubble = document.getElementById(`${destroyTarget.id}-tour`);
-      const targetBubbleDiv = document.getElementById(`${destroyTarget.id}-tour-div`);
+    destroyTourBubble(){
+      const { current } = this.state;
+      const targetBubble = document.getElementById(`${current.id}-tour`);
+      const targetBubbleDiv = document.getElementById(`${current.id}-tour-div`);
       if (targetBubble === null) {
         return;
       }
@@ -169,6 +170,7 @@ export const tourConnect = (config) => (Component) => {
       }
       targetBubble.remove();
       targetBubbleDiv.remove();
+      this.setState({current: null});
       return;
     }
   
