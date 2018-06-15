@@ -5,32 +5,44 @@ const config = {
     0: {
       id: 'cardview',
       parent: 'nav-ul',
-      description: 'views index cards'
+      description: '"card view" displays the project as index cards'
     },
     1: {
       id: 'fullview',
       parent: 'nav-ul',
-      description: 'shows full project'
+      description: '"full view" displays the project in document layout'
       },
     2: {
       id: 'reorder',
       parent: 'nav-ul',
-      description: 'reorders index cards'
+      description: '"reorder" changes the order and parents of index cards.'
     },
     3: {
       id: 'help',
       parent: 'nav-ul',
-      description: 'displays help bubbles'
+      description: '"help" displays help bubbles.'
     },
     4: {
-      id: 'add-PROJECT_TYPE',
-      parent: 'PROJECT_TYPE-container',
-      description: 'click to create new project'
-    },
-    5: {
       id: 'thumbnail-PROJECT_TYPE-0',
       parent: 'PROJECT_TYPE-container',
-      description: 'double click card to open child index cards'
+      description: 'Double click an index card to display subordinate cards without opening the index card.'
+    }
+  }, 
+  '/projects/reorder': {
+    0: {
+      id: 'reorder-PROJECT_TYPE-0',
+      parent: 'PROJECT_TYPE-reorder-container',
+      description: 'Only Acts, Sequences, Scenes and Beats can be reordered.'
+    },
+    1: {
+      id: 'reorder-ACT_TYPE-0',
+      parent: 'ACT_TYPE-reorder-container',
+      description: 'Drag and drop to rearrange the order of the index cards.'
+    },
+    2: {
+      id: 'reorder-ACT_TYPE-0',
+      parent: 'ACT_TYPE-reorder-container',
+      description: 'To change the parent index card, drag and drop the subordinate card into any card on the tier directly above.'
     }
   }
 };
