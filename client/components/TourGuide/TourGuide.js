@@ -121,7 +121,7 @@ export const tourConnect = (config) => (Component) => {
 
       buttonGroup.appendChild(closeButton);
 
-      if (forwardButton) { 
+      if (forwardButton) {
         forwardButton.onclick = () => this.handleForwardOrBack(true);
         forwardButton.innerHTML = '&rarr;';
         forwardButton.id = 'tour-bubble-forward';
@@ -189,6 +189,7 @@ export const tourConnect = (config) => (Component) => {
       const { steps, pathname, currentStepKey } = this.state;
       const length = Object.keys(steps[pathname]).length - 1;
       if (length <= currentStepKey) return true;
+      if (document.getElementById(steps[pathname][currentStepKey + 1].id) === null) return true;
       else return false;
     }
   
