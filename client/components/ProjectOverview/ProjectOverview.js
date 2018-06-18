@@ -83,10 +83,10 @@ class ProjectOverview extends Component {
         </div>
         <Notifs />
         <Switch>
-           <Route exact path={`${match.url}/reorder`} render={() => <ReorderView />}/>
+           <Route exact path={`${match.url}/reorder`} render={() => <ReorderView {...this.props} />}/>
            <Route exact path={`${match.url}/fullview`} render={() => <FullView {...this.props} />}/>
            <Route exact path={`${match.url}/edit`} render={() => <CardEditor {...this.props} />}/>
-           <Route exact path={`${match.url}`} render={() => <NavigationView />}/>
+           <Route exact path={`${match.url}`} render={() => <NavigationView {...this.props} />}/>
         </Switch>
       </div>
 
@@ -98,7 +98,8 @@ const mapState = state => ({
   user: state.user,
   project: state.project,
   navigator: state.navigator,
-  draft: state.draft
+  draft: state.draft,
+  order: state.order
 });
 
 const mapDispatch = dispatch => ({

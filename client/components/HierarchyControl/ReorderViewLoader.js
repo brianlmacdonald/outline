@@ -11,7 +11,10 @@ const LoadableComponent = Loadable({
 })
 
 export default class LoadableReorderView extends Component {
+  constructor(props){
+    super(props);
+  }
   render() {
-    return <LoadableComponent />;
+    return <LoadableComponent {...this.props} />;
   }
 }

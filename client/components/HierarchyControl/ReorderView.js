@@ -21,14 +21,7 @@ const mapDispatch = dispatch => ({
     }
 });
 
-const mapState = state => ({
-  user: state.user,
-  project: state.project,
-  navigator: state.navigator,
-  order: state.order
-});
-
 const WrappedReorderView = LoaderHOC('project')(ReorderView);
-const ConnectedReorderView = connect(mapState, mapDispatch)(WrappedReorderView);
+const ConnectedReorderView = connect(null, mapDispatch)(WrappedReorderView);
 
 export default ConnectedReorderView;

@@ -22,6 +22,7 @@ const LoaderHOC = (propName) => (WrappedComponent) => {
 
     render() {
       const EmptyReturn = this.props.empty ? this.props.empty : DefaultEmpty;
+      
       return checkIsEmpty(this.props[propName]) ?
       <EmptyReturn /> :
       <WrappedComponent {...this.props} />;
