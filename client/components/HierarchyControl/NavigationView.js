@@ -17,14 +17,7 @@ const mapDispatch = dispatch => ({
   },
 });
 
-const mapState = state => ({
-  user: state.user,
-  project: state.project,
-  navigator: state.navigator,
-  draft: state.draft
-});
-
 const WrappedNavView = LoaderHOC('project')(NavigationView);
-const ConnectedNavView = connect(mapState, mapDispatch)(WrappedNavView);
+const ConnectedNavView = connect(null, mapDispatch)(WrappedNavView);
 
 export default ConnectedNavView;

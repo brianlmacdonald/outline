@@ -99,10 +99,6 @@ class Container extends Component {
 	}
 }
 
-const mapState = state => ({
-	order: state.order
-});
-
 const mapDispatch = dispatch => ({
 	handleOrder(updateObj){
 		dispatch(updateOrder(updateObj))
@@ -114,4 +110,4 @@ const mapDispatch = dispatch => ({
 
 const ContainerTarget = DropTarget((props) => {return props.type}, cardTarget, collect)(Container);
 const ContainerContext = DragDropContext(HTML5Backend)(ContainerTarget);
-export default connect(mapState, mapDispatch)(LoaderHOC('thumbs')(ContainerContext));
+export default connect(null, mapDispatch)(LoaderHOC('thumbs')(ContainerContext));
