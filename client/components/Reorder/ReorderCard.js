@@ -104,11 +104,13 @@ class Card extends Component {
 	render() {
 		const {
 			navigator,
+			user,
 			type,
 			card,
 			isDragging,
 			connectDragSource,
 			connectDropTarget,
+			handleNavigation
 		} = this.props
     const body = card.get('body');
     const title = card.get('title');
@@ -117,10 +119,12 @@ class Card extends Component {
 		const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
 		const selected = selectedStyler(id, navigator.get(type));
 		const dragged = draggedStyler(isDragging);
+		const userId = user.get('id');
 
 		return connectDragSource(
 			connectDropTarget(
 				<div title={body}
+					onDoubleClick={() => handleNavigation({id, userId})}
 					className={dragged + selected}
 					key={id + 'd'}>
         <h4 key={id + 'h4'}>{titlePrev}</h4>
