@@ -108,7 +108,12 @@ const mapDispatch = dispatch => ({
   },
   handleLogout(){
     dispatch(logout());
-  }
+  },
+  handleNavigation(navigationThunk) {
+    return function(payload){
+      dispatch(navigationThunk(payload));
+    };
+  },
 });
 
 const WrappedProjectOverview = LoaderHOC('user')(tourConnect(projectOverviewConfig)(ProjectOverview));
