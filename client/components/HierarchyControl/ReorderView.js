@@ -14,11 +14,6 @@ import { updateOrder } from 'APP/client/store/reducers/order';
 const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer, false));  
 
 const mapDispatch = dispatch => ({
-  handleNavigation(navigationThunk) {
-    return function(payload){
-      dispatch(navigationThunk(payload));
-    };
-  },
   handleSave(orderObject){
       dispatch(persistNewOrder(orderObject));
   },
