@@ -39,8 +39,8 @@ const cardSource = {
 				type: props.type,
 				id: droppedId,
 				newParentId: changeParentRequest.id,
-				projectId: props.navigator.get('PROJECT_TYPE'),
-				userId: props.user.get('id')
+				projectId: props.projectId,
+				userId: props.userId
 			})
 		}
 	},
@@ -71,7 +71,7 @@ const cardTarget = {
 		const item = monitor.getItem();
 
 		if (props.id !== item.parent.id) {
-			return {id: props.id, type: props.type, title: props.card.get('title')};
+			return {id: props.id, type: props.type, title: props.title};
 		}
 	}
 } 
@@ -95,40 +95,50 @@ class Card extends Component {
 		connectDropTarget: PropTypes.func.isRequired,
 		isDragging: PropTypes.bool.isRequired,
 		id: PropTypes.any.isRequired,
-		text: PropTypes.string.isRequired,
+		body: PropTypes.string.isRequired,
+		title: PropTypes.string.isRequired,
+		userId: PropTypes.any.isRequired,
 		moveCard: PropTypes.func.isRequired,
 		findCard: PropTypes.func.isRequired,
-		canDrag: PropTypes.bool.isRequired
+		canDrag: PropTypes.bool.isRequired,
+		handleChangeParent: PropTypes.func.isRequired,
+		handleOrder: PropTypes.func.isRequired,
+		handleNavigation: PropTypes.func.isRequired,
+		handleHotSeat: PropTypes.func.isRequired,
+		type: PropTypes.string.isRequired
 	}
 
 	render() {
 		const {
-			navigator,
-			user,
+			body,
+			title,
+			id,
 			type,
-			card,
 			isDragging,
 			connectDragSource,
 			connectDropTarget,
-			handleNavigation
+			handleNavigation,
+			handleHotSeat,
+			userId,
+			currentNavId,
+			key,
+			projectId
 		} = this.props
-    const body = card.get('body');
-    const title = card.get('title');
-    const id = card.get('id');
+
     const bodyPrev = body.length > 25 ? body.slice(0, 24) + '...' : body;
 		const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
-		const selected = selectedStyler(id, navigator.get(type));
+		const selected = selectedStyler(id, currentNavId);
 		const dragged = draggedStyler(isDragging);
-		const userId = user.get('id');
+		console.table(currentNavId, key, id, projectId);
 
 		return connectDragSource(
 			connectDropTarget(
 				<div title={body}
 					onDoubleClick={() => handleNavigation({id, userId})}
 					className={dragged + selected}
-					key={id + 'd'}>
-        <h4 key={id + 'h4'}>{titlePrev}</h4>
-        <p key={id + 'p'}>{bodyPrev || ''}</p>
+					key={key + 'd'}>
+        <h4 key={key + 'h4'}>{titlePrev}</h4>
+        <p key={key + 'p'}>{bodyPrev || ''}</p>
         </div>
 			),
 		)
@@ -136,5 +146,4 @@ class Card extends Component {
 }
 
 const CardDrag = DragSource((props) => {return props.type}, cardSource, dragCollect)(Card);
-const CardDrop = DropTarget((props) => {return props.accepts}, cardTarget, dropCollect)(CardDrag);
-export default CardDrop;
+export const CardDragDrop = DropTarget((props) => {return props.accepts}, cardTarget, dropCollect)(CardDrag);
