@@ -33,3 +33,10 @@
 .navView {
   overflow: scroll;
 }
+
+.hot-seat-container {
+  width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
