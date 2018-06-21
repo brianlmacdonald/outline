@@ -30,19 +30,34 @@ const config = {
   }, 
   '/projects/reorder': {
     0: {
-      id: 'reorder-PROJECT_TYPE-0',
-      parent: 'PROJECT_TYPE-reorder-container',
-      description: 'Only Acts, Sequences, Scenes and Beats can be reordered.'
+      id: 'reorder-hot-seat',
+      parent: 'hot-seat-reorder-container',
+      description: 'Make sure you have opened a project before using reorder.'
     },
     1: {
+      id: 'reorder-hot-seat',
+      parent: 'hot-seat-reorder-container',
+      description: 'Acts, Sequences, Scenes and Beats can be reordered.'
+    },
+    2: {
+      id: 'reorder-hot-seat',
+      parent: 'hot-seat-reorder-container',
+      description: 'You can also change the parent index card Sequences, Scenes, and Beats belong to.'
+    },
+    3: {
       id: 'reorder-ACT_TYPE-0',
       parent: 'ACT_TYPE-reorder-container',
       description: 'Drag and drop to rearrange the order of the index cards.'
     },
-    2: {
+    4: {
       id: 'reorder-ACT_TYPE-0',
       parent: 'ACT_TYPE-reorder-container',
       description: 'To change parent index card, drag and drop the subordinate card into any card on the tier directly above.'
+    },
+    5: {
+      id: 'reorder-hot-seat',
+      parent: 'hot-seat-reorder-container',
+      description: 'If the desired parent index card is not visible, drag the child index card here, and navigate to the target parent below.'
     }
   }
 };
