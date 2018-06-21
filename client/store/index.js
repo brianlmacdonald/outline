@@ -25,12 +25,17 @@ const combine = (reducers) => {
 
 const reducer = combine(reducerRegistry.getReducers());
 
-const middleWare = composeWithDevTools(
+const middleWare = process.env.NODE_ENV === 'development' ? composeWithDevTools(
   applyMiddleware(
     thunkMiddleware,
     createLogger({collapsed: true})
   )
-);
+) :
+composeWithDevTools(
+  applyMiddleware(
+    thunkMiddleware
+  )
+
 
 const store = createStore(reducer, initialState, middleWare);
 
