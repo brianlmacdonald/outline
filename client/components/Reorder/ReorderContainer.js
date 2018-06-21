@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import Card from 'APP/client/components/Reorder/ReorderCard'
+import { CardDragDrop as Card, HotDragDrop } from 'APP/client/components/Reorder/ReorderCard'
 import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import update from 'immutability-helper';
 import { List } from 'immutable';
-import { updateOrder } from 'APP/client/store/reducers/order';
 import {
   CLASS_NAME_OBJ
 } from 'APP/client/components/HierarchyControl/CardTypes';
 import acceptedDrop from 'APP/client/components/Reorder/CardConstants';
-import { changeParent } from 'APP/client/store/actions/changeParent';
+import 'APP/client/components/Container/Container.css'
 
 const getItemType = (props) => {
 	return props.type;
@@ -38,21 +37,23 @@ class Container extends Component {
 		super(props)
 		this.moveCard = this.moveCard.bind(this)
 		this.findCard = this.findCard.bind(this)
-		const { handleOrder, type, thumbs } = props;
+		const { handleOrder, type, thumbs, navigator } = props;
 		const startingOrder = { type, list: thumbs }
 		handleOrder(startingOrder);
 		this.state = {
-			thumbs: thumbs
+			thumbs: thumbs,
+			navigator: navigator
 		}
 	}
 
 	static getDerivedStateFromProps(nextProps, state){
-    if (nextProps.thumbs.size !== state.thumbs.size) {
+    if (nextProps.thumbs.size !== state.thumbs.size || nextProps.navigator !== state.navigator) {
       nextProps.handleOrder({type: nextProps.type, list: nextProps.thumbs});
       return {
-        thumbs: nextProps.thumbs
+				thumbs: nextProps.thumbs,
+				navigator: nextProps.navigator
       };
-    }
+		}
     return null;
   }
 
@@ -76,38 +77,84 @@ class Container extends Component {
 	}
 
 	render() {
-		const { connectDropTarget, type, order, index } = this.props;
+		const { 
+			connectDropTarget,
+			handleChangeParent,
+			handleOrder,
+			type,
+			order,
+			index,
+			user,
+			navigator,
+			handleNavigation,
+			handleHotSeat,
+			parent,
+			draft
+		} = this.props;
 		const cards = order.get(type) || List([]);
-		return connectDropTarget(
-				<div id={`${type}-reorder-container`} className='subContainer'>
-				{cards.map((card, idx) => (
-					<div key={idx} id={`reorder-${type}-${idx}`}><Card
+
+		if (type === 'PROJECT_TYPE') {
+			return connectDropTarget(
+				<div id={`hot-seat-reorder-container`} className='hot-seat-container'>
+				<div id={`reorder-hot-seat`}>
+					<HotDragDrop
+						card={draft}
+						type={'HOT_SEAT'}
 						accepts={acceptedDrop[type]}
-						canDrag={type !== 'PROJECT_TYPE'}
-						{...this.props}
-						card={card}
-						key={card.get('id')}
-						id={card.get('id')}
-						text={card.get('body')}
+						canDrag={!!draft.get('type')}
+						userId={user.get('id')}
+						parent={parent || {}}
+						body={draft.get('body') || 'to access nested parent'}
+						title={draft.get('title') || 'drag card here'}
+						key={draft.get('id') || user.get('id')}
+						id={draft.get('id') || user.get('id')}
+						handleChangeParent={handleChangeParent}
+						handleOrder={handleOrder}
+						handleHotSeat={handleHotSeat}
+						handleNavigation={handleNavigation}
+						currentNavId={navigator.get(type)}
+						projectId={navigator.get('PROJECT_TYPE') || user.get('id')}
 						moveCard={this.moveCard}
 						findCard={this.findCard}
 					/>
 					</div>
-				))}
+		  	</div>)
+
+		}
+	 
+		return connectDropTarget(
+				<div id={`${type}-reorder-container`} className='subContainer'>
+				{cards.map((card, idx) => {
+					return (
+					<div key={idx} id={`reorder-${type}-${idx}`}>
+						<Card
+							card={card}
+							type={card.get('type')}
+							accepts={acceptedDrop[type]}
+							canDrag={true}
+							userId={user.get('id')}
+							parent={parent}
+							body={card.get('body')}
+							title={card.get('title')}
+							key={card.get('id')}
+							id={card.get('id')}
+							handleChangeParent={handleChangeParent}
+							handleOrder={handleOrder}
+							handleHotSeat={handleHotSeat}
+							handleNavigation={handleNavigation}
+							currentNavId={navigator.get(type)}
+							projectId={navigator.get('PROJECT_TYPE')}
+							moveCard={this.moveCard}
+							findCard={this.findCard}
+						/>
+					</div>
+				)})}
 				</div>
 		)
 	}
 }
 
-const mapDispatch = dispatch => ({
-	handleOrder(updateObj){
-		dispatch(updateOrder(updateObj))
-	},
-	handleChangeParent(updateObj){
-		dispatch(changeParent(updateObj))
-	}
-});
-
 const ContainerTarget = DropTarget((props) => {return props.type}, cardTarget, collect)(Container);
 const ContainerContext = DragDropContext(HTML5Backend)(ContainerTarget);
-export default connect(null, mapDispatch)(LoaderHOC('thumbs')(ContainerContext));
+const LoadingReorderContainer = LoaderHOC('thumbs')(ContainerContext);
+export default LoadingReorderContainer;

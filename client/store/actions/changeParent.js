@@ -9,6 +9,7 @@ import {
 import {
   removeNavigationPath
 } from 'APP/client/store/reducers/navigator';
+import { draftSaved } from 'APP/client/store/reducers/draft';
 import { actions as notifActions } from 'redux-notifications';
 const { notifSend } = notifActions;
 
@@ -20,6 +21,7 @@ const makeParentUpdateRequest = (route, id, newParentId, projectId, userId) => d
         kind: 'info',
         dismissAfter: 2000
       }));
+      dispatch(draftSaved());
       return dispatch(loadSingleProject(userId, projectId));
     })
     .catch(err => {

@@ -9,15 +9,6 @@ import AddNew from 'APP/client/components/Container/AddNew';
 
 const NavigationView = InjectContainer(Container(AddNew)(ThumbsContainer, true));  
 
-const mapDispatch = dispatch => ({
-  handleNavigation(navigationThunk) {
-    return function(payload){
-      dispatch(navigationThunk(payload));
-    };
-  },
-});
-
 const WrappedNavView = LoaderHOC('project')(NavigationView);
-const ConnectedNavView = connect(null, mapDispatch)(WrappedNavView);
 
-export default ConnectedNavView;
+export default WrappedNavView;

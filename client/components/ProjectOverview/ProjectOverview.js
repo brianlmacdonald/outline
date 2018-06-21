@@ -69,8 +69,10 @@ class ProjectOverview extends Component {
             <li id='reorder' className='tab'>
               <Link to={`${match.url}/reorder`}>reorder</Link>
             </li>
-            <li className='tab' id='help'>
-              <a onClick={tour}>help</a>
+            <li
+              onClick={tour}
+              className='tab' id='help'>
+              <a>help</a>
             </li>
             <li id='userTab' className='tab'>
               <div className='name'>{this.props.user.get('firstName')}</div>
@@ -108,7 +110,12 @@ const mapDispatch = dispatch => ({
   },
   handleLogout(){
     dispatch(logout());
-  }
+  },
+  handleNavigation(navigationThunk) {
+    return function(payload){
+      dispatch(navigationThunk(payload));
+    };
+  },
 });
 
 const WrappedProjectOverview = LoaderHOC('user')(tourConnect(projectOverviewConfig)(ProjectOverview));
