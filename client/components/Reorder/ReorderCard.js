@@ -21,11 +21,12 @@ const cardSource = {
 			originalIndex: props.findCard(props.id).index,
 			type: props.type,
 			parent: props.parent,
+			card: props.card
 		}
 	},
 
 	endDrag(props, monitor) {
-		const { id: droppedId, originalIndex } = monitor.getItem()
+		const { id: droppedId, originalIndex } = monitor.getItem();
 		const didDrop = monitor.didDrop()
 		const changeParentRequest =  monitor.getDropResult();
 
@@ -44,18 +45,45 @@ const cardSource = {
 			})
 		}
 	},
-
-	canDrag(props, monitor) {
+	canDrag(props, monitor){
 		return props.canDrag;
-	},
+	}
+}
 
+const hotSource = {
+	beginDrag(props, monitor) {
+		return {
+			id: props.id,
+			type: props.type,
+			parent: props.parent,
+			card: props.card
+		}
+	},
+	endDrag(props, monitor) {
+		const didDrop = monitor.didDrop()
+		const changeParentRequest =  monitor.getDropResult();
+		const { id: droppedId } = monitor.getItem();
+
+		if (changeParentRequest && changeParentRequest.id) {
+			if (window.confirm(`Change the parent to ${CLASS_NAME_OBJ[changeParentRequest.type]} titled: '${changeParentRequest.title}'`))
+			props.handleChangeParent({
+				type: props.card.get('type'),
+				id: droppedId,
+				newParentId: changeParentRequest.id,
+				projectId: props.projectId,
+				userId: props.userId
+			})
+		}
+	},
+	canDrag(props, monitor){
+		return props.canDrag;
+	}
 }
 
 const cardTarget = {
 	canDrop(props, monitor) {
-		return props.accepts[1] === monitor.getItem().type;
+		return props.accepts[1] === monitor.getItem().card.get('type');
 	},
-
 	hover(props, monitor) {
 		const { id: draggedId } = monitor.getItem()
 		const { id: overId } = props
@@ -73,6 +101,16 @@ const cardTarget = {
 		if (props.id !== item.parent.id) {
 			return {id: props.id, type: props.type, title: props.title};
 		}
+	}
+};
+
+const hotTarget = {
+	canDrop(props, monitor) {
+		return monitor.getItem().type !== 'ACT_TYPE';
+	},
+	drop(props, monitor) {
+		const item = monitor.getItem();
+		props.handleHotSeat(item.card);
 	}
 } 
 
@@ -100,12 +138,11 @@ class Card extends Component {
 		userId: PropTypes.any.isRequired,
 		moveCard: PropTypes.func.isRequired,
 		findCard: PropTypes.func.isRequired,
-		canDrag: PropTypes.bool.isRequired,
 		handleChangeParent: PropTypes.func.isRequired,
 		handleOrder: PropTypes.func.isRequired,
 		handleNavigation: PropTypes.func.isRequired,
 		handleHotSeat: PropTypes.func.isRequired,
-		type: PropTypes.string.isRequired
+		type: PropTypes.string.isRequired,
 	}
 
 	render() {
@@ -129,7 +166,6 @@ class Card extends Component {
 		const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
 		const selected = selectedStyler(id, currentNavId);
 		const dragged = draggedStyler(isDragging);
-		console.table(currentNavId, key, id, projectId);
 
 		return connectDragSource(
 			connectDropTarget(
@@ -137,8 +173,8 @@ class Card extends Component {
 					onDoubleClick={() => handleNavigation({id, userId})}
 					className={dragged + selected}
 					key={key + 'd'}>
-        <h4 key={key + 'h4'}>{titlePrev}</h4>
-        <p key={key + 'p'}>{bodyPrev || ''}</p>
+          <h4 key={key + 'h4'}>{titlePrev}</h4>
+          <p key={key + 'p'}>{bodyPrev || ''}</p>
         </div>
 			),
 		)
@@ -147,3 +183,6 @@ class Card extends Component {
 
 const CardDrag = DragSource((props) => {return props.type}, cardSource, dragCollect)(Card);
 export const CardDragDrop = DropTarget((props) => {return props.accepts}, cardTarget, dropCollect)(CardDrag);
+
+const HotDrag = DragSource((props) => {return props.type}, hotSource, dragCollect)(Card);
+export const HotDragDrop = DropTarget((props) => {return props.accepts}, hotTarget, dropCollect)(HotDrag);
