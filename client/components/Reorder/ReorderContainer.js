@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { DropTarget, DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { CardDragDrop as Card } from 'APP/client/components/Reorder/ReorderCard'
+import { CardDragDrop as Card, HotDragDrop } from 'APP/client/components/Reorder/ReorderCard'
 import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import update from 'immutability-helper';
 import { List } from 'immutable';
@@ -12,6 +12,7 @@ import {
   CLASS_NAME_OBJ
 } from 'APP/client/components/HierarchyControl/CardTypes';
 import acceptedDrop from 'APP/client/components/Reorder/CardConstants';
+import 'APP/client/components/Container/Container.css'
 
 const getItemType = (props) => {
 	return props.type;
@@ -76,7 +77,6 @@ class Container extends Component {
 	}
 
 	render() {
-		console.log('rendered');
 		const { 
 			connectDropTarget,
 			handleChangeParent,
@@ -88,20 +88,50 @@ class Container extends Component {
 			navigator,
 			handleNavigation,
 			handleHotSeat,
-			parent 
+			parent,
+			draft
 		} = this.props;
 		const cards = order.get(type) || List([]);
-		console.log('parent', parent);
+
+		if (type === 'PROJECT_TYPE') {
+			return connectDropTarget(
+				<div id={`hot-seat-reorder-container`} className='hot-seat-container'>
+				<div id={`reorder-hot-seat`}>
+					<HotDragDrop
+						card={draft}
+						type={'HOT_SEAT'}
+						accepts={acceptedDrop[type]}
+						canDrag={!!draft.get('type')}
+						userId={user.get('id')}
+						parent={parent || {}}
+						body={draft.get('body') || 'to access nested parent'}
+						title={draft.get('title') || 'drag card here'}
+						key={draft.get('id') || user.get('id')}
+						id={draft.get('id') || user.get('id')}
+						handleChangeParent={handleChangeParent}
+						handleOrder={handleOrder}
+						handleHotSeat={handleHotSeat}
+						handleNavigation={handleNavigation}
+						currentNavId={navigator.get(type)}
+						projectId={navigator.get('PROJECT_TYPE') || user.get('id')}
+						moveCard={this.moveCard}
+						findCard={this.findCard}
+					/>
+					</div>
+		  	</div>)
+
+		}
+	 
 		return connectDropTarget(
 				<div id={`${type}-reorder-container`} className='subContainer'>
 				{cards.map((card, idx) => {
-					console.log(card);
 					return (
 					<div key={idx} id={`reorder-${type}-${idx}`}>
 						<Card
+							card={card}
 							type={card.get('type')}
 							accepts={acceptedDrop[type]}
-							canDrag={type !== 'PROJECT_TYPE'}
+							canDrag={true}
 							userId={user.get('id')}
 							parent={parent}
 							body={card.get('body')}
