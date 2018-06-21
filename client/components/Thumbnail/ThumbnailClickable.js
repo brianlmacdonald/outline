@@ -30,19 +30,14 @@ const ThumbnailClickable = (props) => {
   const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
   const location = card.get('id');
   const userId = user.get('id');
-  const freezeNavigation = draft.get('type') !== null;
-  //freezeNav prevents navigation when someone is editing.
+
   return (
       <div id={`thumbnail-${type}-${index}`}>
         <div
           title={body}
           className={selectedStyler(location, navigator.get(type))}
           key={id + 'd'}
-          onDoubleClick={() =>{
-            if (!freezeNavigation) {
-              handleNavigation({id: location, userId});
-            } 
-          }}>
+          onDoubleClick={() => handleNavigation({id: location, userId})}>
           <h4 key={id + 'h4'}>{titlePrev}</h4>
           <p key={id + 'p'}>{bodyPrev || ''}</p>
           <div className='modalDiv'>
