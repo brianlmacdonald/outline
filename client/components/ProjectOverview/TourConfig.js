@@ -4,22 +4,22 @@ const config = {
   '/projects': {
     0: {
       id: 'cardview',
-      parent: 'nav-ul',
+      parent: 'nav-left',
       description: '"card view" displays the project as index cards'
     },
     1: {
       id: 'fullview',
-      parent: 'nav-ul',
+      parent: 'nav-left',
       description: '"full view" displays the project in document layout'
       },
     2: {
       id: 'reorder',
-      parent: 'nav-ul',
+      parent: 'nav-left',
       description: '"reorder" changes the order and parents of index cards.'
     },
     3: {
       id: 'help',
-      parent: 'nav-ul',
+      parent: 'nav-right',
       description: '"help" displays help bubbles.'
     },
     4: {

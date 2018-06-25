@@ -1,28 +1,20 @@
-.thumbnail {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin: 1em;
-  height: 145px;
-  width: 145px;
-  padding: .5em;
-  border: 2px black solid
-}
-
-.thumbnail:active {
-  border: 2px blueviolet solid;
-  background-color: aqua;
-}
-
 .selected {
-  background-color: #00A9A5;
+  background-color: black;
+  color: white;
+  font-weight: bold;
 }
 
-.unSelected {
-  background-color: linen;
+.unselected {
+  background-color: whitesmoke;
 }
 
 .dragging {
   opacity: 0;
+}
+
+.index-card {
+  margin: 1em;
+  height: 156px;
+  width: 264px;
+  font-weight: bold;
 }

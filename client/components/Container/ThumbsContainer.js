@@ -1,22 +1,24 @@
 import React from 'react';
 import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import ThumbnailClickable from 'APP/client/components/Thumbnail/ThumbnailClickable';
+import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes.js'
 
 const ThumbsContainer = props => {
   const { thumbs, navigator, type } = props;
 
-  return thumbs.map((card, idx) => {
-    return (
+  return (<div className='column columns sub-container'>
+   {thumbs.map((card, idx) => (
       <ThumbnailClickable
         {...props}
-        activeStyle={card.get('id') === navigator.get(type)}
+        className='column'
         card={card}
         key={card.get('id') + 'tnc' + type}
         id={card.get('id')}
         index={idx}
       />
-    );
-  });
+    )
+  )}
+  </div>);
 };
 
 const WrappedThumbsContainer = LoaderHOC('thumbs')(ThumbsContainer);

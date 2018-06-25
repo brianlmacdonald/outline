@@ -45,16 +45,9 @@
 }
 
 @keyframes pulse {
-  0% {
-    background-color: #001F3F;
-    
-  }
-  50% {
-    background-color: blueviolet;
-  }
-  100% {
-    background-color: #001F3F;
-  }
+  0% {background-color: #001F3F;}
+  50% {background-color: blueviolet;}
+  100% {background-color: #001F3F;}
 }
 
 @keyframes pulseafter {

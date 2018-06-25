@@ -123,10 +123,10 @@ class Container extends Component {
 		}
 	 
 		return connectDropTarget(
-				<div id={`${type}-reorder-container`} className='subContainer'>
+				<div id={`${type}-reorder-container`} className='column columns sub-container'>
 				{cards.map((card, idx) => {
 					return (
-					<div key={idx} id={`reorder-${type}-${idx}`}>
+					<div key={idx} id={`reorder-${type}-${idx}`} className='column'>
 						<Card
 							card={card}
 							type={card.get('type')}

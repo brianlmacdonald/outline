@@ -137,7 +137,7 @@ class CardEditor extends Component {
       };
 
     return (
-      <div className={'cardView editor'}>
+      <div className={'card-view editor'}>
         <div className={'editorFields'}>
           <input
             className='titleField'

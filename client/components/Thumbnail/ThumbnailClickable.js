@@ -6,8 +6,8 @@ import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import 'APP/client/components/Thumbnail/Thumbnail.css';
 
 const selectedStyler = (id, activeId) => {
-  if (id === activeId) return 'thumbnail selected';
-  else return 'thumbnail unSelected';
+  if (id === activeId) return 'box index-card selected';
+  else return 'box index-card unselected';
 };
 
 const ThumbnailClickable = (props) => {
@@ -21,7 +21,6 @@ const ThumbnailClickable = (props) => {
     card,
     handleNavigation,
     handleView,
-    avtiveStyle,
     navigator
   } = props;
   const body = card.get('body');

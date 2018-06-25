@@ -15,7 +15,7 @@ const Thumbnail = (props) => {
   const bodyPrev = body.length > 25 ? body.slice(0, 24) + '...' : body;
   const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
   return (
-    <div title={body} className={'thumbnail'} key={id + 'd'}>
+    <div title={body} className='index-card' key={id + 'd'}>
         <h4 key={id + 'h4'}>{titlePrev}</h4>
         <p key={id + 'p'}>{bodyPrev || ''}</p>
     </div>

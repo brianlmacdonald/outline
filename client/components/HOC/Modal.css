@@ -1,5 +1,6 @@
-.modal {
+.modal-index-card {
   display: flex;
+  z-index: 999;
   flex-direction: column;
   position: fixed;
   font-size: 14pt;

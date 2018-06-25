@@ -2,8 +2,9 @@
   min-width: 800px;
   max-width: 1440px;
   display: flex;
-  height: 811px;
+  height: 100vh;
   min-height: 500px;
+  overflow: scroll;
 }
 
 .routes {

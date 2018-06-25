@@ -24,15 +24,15 @@ const SaveOrder = (props) => {
     route,
   };
   return(
-    <button
-    hidden={type === 'PROJECT_TYPE'}
-    className='addButton'
-    onClick={() => {
-      handleSave(orderObj);
-    }}
-    >
-      save {typeToRouteObj[type]}
-    </button>
+    <div className='add-container'>
+      <button
+        hidden={type === 'PROJECT_TYPE'}
+        className='add-button'
+        onClick={() => {
+          handleSave(orderObj);
+        }}>save {typeToRouteObj[type]}
+      </button>
+    </div>
   );
 };
 
