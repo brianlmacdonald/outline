@@ -157,16 +157,16 @@ class CardEditor extends Component {
           </div>
           <div className='buttonGroup'>
             <button
-              className='button'
+              className='button is-success is-outlined'
               onClick={() => handleSave(saveObject)}>
               save
             </button>
-            <button className={'button'} onClick={() => handleCancel(history, this.unblock)}>
+            <button className='button' onClick={() => handleCancel(history, this.unblock)}>
               cancel
             </button>
             {!isNewCard && <ModalLauncher
               draft={draft}
-              styleClass={'button'}
+              styleClass={'button is-danger is-outlined'}
               type={type}
               message={'delete '}
             ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>

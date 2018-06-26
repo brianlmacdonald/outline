@@ -1,11 +1,12 @@
-.fullView {
+.full-view {
   width: 1200px;
   margin-left: 5em;
   display: flex;
   flex-direction: column;
+  background-color: inherit;
 }
 
-.card {
+.full-card {
   margin-left: 2em;
 }
 
