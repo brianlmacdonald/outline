@@ -95,7 +95,7 @@ class Container extends Component {
 
 		if (type === 'PROJECT_TYPE') {
 			return connectDropTarget(
-				<div id={`hot-seat-reorder-container`} className='hot-seat-container'>
+				<div id={`hot-seat-reorder-container`} className='hot-seat-container column'>
 				<div id={`reorder-hot-seat`}>
 					<HotDragDrop
 						card={draft}

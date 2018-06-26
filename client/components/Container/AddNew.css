@@ -1,5 +1,6 @@
-.add-button {
-  margin: 2em;
-  height: 145px;
-  width: 145px;
+@import url('../Thumbnail/Thumbnail.css');
+ 
+.with-padding {
+  padding: .75rem;
 }
+

@@ -10,8 +10,8 @@ const draggedStyler = (bool) => {
 };
 
 const selectedStyler = (id, activeId) => {
-  if (id === activeId) return 'box index-card selected';
-  else return 'box index-card unselected';
+  if (id === activeId) return 'box index-card selected flex';
+  else return 'box index-card unselected flex';
 };
 
 const cardSource = {

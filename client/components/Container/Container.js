@@ -6,7 +6,7 @@ import {
 } from 'APP/client/components/HierarchyControl/CardTypes';
 
 const EmptyProp = (type) => () => {
-  return (<div>please add {CLASS_NAME_OBJ[type]}</div>);
+  return (<div className='content'><p style={{color: 'whitesmoke'}}>please add {CLASS_NAME_OBJ[type]}</p></div>);
 };
 //make this a HOC that takes button and subBontainer.
 

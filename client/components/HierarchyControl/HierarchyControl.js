@@ -92,6 +92,7 @@ function InjectContainer(Container) {
       const { handleNavigation, user, navigator } = this.props;
       
       return (
+        <div style={{border: '2px solid rgb(74, 74, 74)', padding: '.75rem', 'background-color': '#4a4a4a', 'border-radius': '.5em', 'overflow': 'hidden'}}>
         <Container
           {...this.props}
           type={PROJECT_TYPE}
@@ -145,6 +146,7 @@ function InjectContainer(Container) {
             </Container>
           )}
         </Container>
+        </div>
       );
     }
 };

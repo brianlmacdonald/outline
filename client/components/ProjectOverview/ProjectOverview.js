@@ -18,7 +18,6 @@ import draftReducer from 'APP/client/store/reducers/draft';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import 'APP/client/components/ProjectOverview/ProjectOverview.css';
-import 'bulma/css/bulma.css';
 import { tourConnect } from 'APP/client/components/TourGuide/TourGuide';
 import projectOverviewConfig from 'APP/client/components/ProjectOverview/TourConfig';
 

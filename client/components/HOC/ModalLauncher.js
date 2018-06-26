@@ -1,6 +1,5 @@
 import React, { Component,  cloneElement } from 'react';
 import Modal from 'APP/client/components/HOC/ModalLoader';
-import 'APP/client/components/HOC/ModalLauncher.css';
 import { CLASS_NAME_OBJ } from 'APP/client/components/HierarchyControl/CardTypes';
 
 class ModalLauncher extends Component {
@@ -38,14 +37,13 @@ class ModalLauncher extends Component {
           if (!isDelete) handleNavigation({id: card.get('id'), userId: user.get('id')});
           this.handleToggleModal();
         }}
-          >{message} {CLASS_NAME_OBJ[type]}
-          </button>
+          >{message}</button>
         {toggle &&
-        <Modal
-          draft={draft}
-          close={this.handleToggleModal}
-          >{cloneElement(children, {
-            close: this.handleToggleModal
+          <Modal
+            draft={draft}
+            close={this.handleToggleModal}
+            >{cloneElement(children, {
+              close: this.handleToggleModal
             })}</Modal>}
       </div>
     );

@@ -12,9 +12,14 @@
   opacity: 0;
 }
 
+.body-shape {
+  height: 38px;
+}
+
 .index-card {
+  font-size: 10pt;
   margin: 1em;
-  height: 156px;
-  width: 264px;
+  height: 108px;
+  width: 192px;
   font-weight: bold;
 }
