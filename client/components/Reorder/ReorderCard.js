@@ -10,8 +10,8 @@ const draggedStyler = (bool) => {
 };
 
 const selectedStyler = (id, activeId) => {
-  if (id === activeId) return 'thumbnail selected';
-  else return 'thumbnail unSelected';
+  if (id === activeId) return 'box index-card selected';
+  else return 'box index-card unselected';
 };
 
 const cardSource = {

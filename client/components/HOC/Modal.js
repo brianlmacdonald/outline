@@ -56,7 +56,7 @@ class Modal extends Component {
     const { children } = this.props;
     
     return (
-      <div className='modal'>
+      <div className='modal-index-card'>
         <div
           ref={node => (this.modal = node)}
           >{children}</div>

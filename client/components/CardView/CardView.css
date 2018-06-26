@@ -2,9 +2,13 @@
 
 .view {
   background-color: white;
+  color: black;
+  z-index: 999;
+  border-radius: 1em;
+  border: 2px solid gray;
 }
 
-.viewBody {
+.view-body {
   min-height: 400px;
 }
 

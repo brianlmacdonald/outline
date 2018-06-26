@@ -11,12 +11,12 @@ const CardView = (props) => {
   const self = {id, type};
 
   return (
-    <div className={'cardView view'}>
+    <div className={'card-view view'}>
       <div className={'fields'}>
-      <h1 className='viewTitle'>
+      <h1 className='view-title'>
         {card.get('title')}
       </h1>
-      <p className='viewBody'>
+      <p className='view-body'>
         {card.get('body')}
       </p>
       </div>

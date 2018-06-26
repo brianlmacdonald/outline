@@ -1,9 +1,9 @@
-.container {
+/* .container {
   display: flex;
   border: 2px #9899A6 solid;
   flex-direction: row;
   min-width: 1200px;
-}
+} */
 
 .project {
   background-color: #71A9F7;
@@ -25,17 +25,20 @@
   background-color: #4C1036;
 }
 
-.subContainer {
-  display: flex;
-  flex-direction: row;
+.hoc-container {
+  max-width: 1250px;
+  overflow: hidden;
 }
 
-.navView {
+.sub-container {
   overflow: scroll;
+  max-width: 900px;
+  margin-left: .5em;
+  border-left: 2px dotted black;
 }
 
 .hot-seat-container {
-  width: 1200px;
+  width: 1000px;
   display: flex;
   justify-content: center;
   align-items: center;
