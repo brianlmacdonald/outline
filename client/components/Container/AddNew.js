@@ -13,7 +13,7 @@ const AddNew = (props) => {
     nextIdx
     } = props;
   return (
-    <div id={`add-${type}`} className='add-container'>
+    <div id={`add-${type}`} className='with-padding'>
     <Link to={{
       pathname: '/projects/edit',
       state: {
@@ -24,7 +24,7 @@ const AddNew = (props) => {
         nextIdx
       }
     }}
-    ><button className='add-button'>{`add ${CLASS_NAME_OBJ[type]}`}</button></Link></div>
+    ><button className='box index-card unselected flex'>{`add ${CLASS_NAME_OBJ[type]}`}</button></Link></div>
   );
 };
 

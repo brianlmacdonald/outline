@@ -23,11 +23,11 @@ const SaveOrder = (props) => {
     list,
     route,
   };
+  if (type === 'PROJECT_TYPE') return <div />;
   return(
-    <div className='add-container'>
+    <div className='with-padding'>
       <button
-        hidden={type === 'PROJECT_TYPE'}
-        className='add-button'
+        className='box index-card unselected flex'
         onClick={() => {
           handleSave(orderObj);
         }}>save {typeToRouteObj[type]}

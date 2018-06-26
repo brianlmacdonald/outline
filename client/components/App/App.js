@@ -9,6 +9,7 @@ import ProjectOverview from 'APP/client/components/ProjectOverview/ProjectOvervi
 import React, { Component }  from 'react';
 import AuthenticatedRoute from 'APP/client/components/Authenticated/AuthenticatedRoute';
 import 'APP/client/components/App/App.css';
+import 'bulma/css/bulma.css';
 
 class App extends Component {
   constructor(props){
@@ -50,7 +51,8 @@ class App extends Component {
     return(
       <div className='app'>
       <Router history={browserHistory}>
-        <div className='routes'>
+      <div className='routes'>
+        <nav className='navbar is-fixed-top is-dark' />
           <Switch>
             <Route exact path="/" render={() => <Home user={user} />} />
             <Route path="/login" render={() => <Login />} />

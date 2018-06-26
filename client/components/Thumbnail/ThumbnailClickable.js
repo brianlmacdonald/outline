@@ -6,8 +6,8 @@ import LoaderHOC from 'APP/client/components/HOC/LoaderHOC';
 import 'APP/client/components/Thumbnail/Thumbnail.css';
 
 const selectedStyler = (id, activeId) => {
-  if (id === activeId) return 'box index-card selected';
-  else return 'box index-card unselected';
+  if (id === activeId) return 'box index-card selected flex';
+  else return 'box index-card unselected flex';
 };
 
 const ThumbnailClickable = (props) => {
@@ -38,13 +38,13 @@ const ThumbnailClickable = (props) => {
           key={id + 'd'}
           onDoubleClick={() => handleNavigation({id: location, userId})}>
           <h4 key={id + 'h4'}>{titlePrev}</h4>
-          <p key={id + 'p'}>{bodyPrev || ''}</p>
-          <div className='modalDiv'>
+          <p className='body-shape' key={id + 'p'}>{bodyPrev || ''}</p>
+          <div className='buttons is-centered is-end'>
             <ModalLauncher
             {...props}
-            message={'open '}
+            message='view'
             draft={draft}
-            styleClass={'button'}
+            styleClass={'button is-small is-outlined is-info'}
             type={type}>
               <CardView {...props} />
             </ModalLauncher>

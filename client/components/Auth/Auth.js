@@ -13,51 +13,57 @@ export const UserAuth = props => {
   const { name, handleSubmit, displayName, error } = props;
   
   return (
-    <div className='auth centeredDiv'>
+    <div className='auth centeredDiv content'>
       <form onSubmit={handleSubmit} name={name}>
-        <h1 className='headerBox'>{displayName.toUpperCase()}</h1>
+        <h1>{displayName.toUpperCase()}</h1>
         {name === 'signup' && (
           <div>
-            <div>
+          <div className='field'>
+            <label className='label'>first name</label>
+            <div className='control'>
               <input
-              className='authInputs'
-              placeholder='first name'
+              className='input'
+              placeholder='Joe'
               name="firstName"
               type="text" />
             </div>
-            <div>
+          </div>
+            <div className='field'>
+              <label className='label'>last name</label>
+              <div className='control'>
               <input
-                className='authInputs'
-                placeholder='last name'
+                className='input'
+                placeholder='Smith'
                 name="lastName"
                 type="text" />
+              </div>
             </div>
           </div>
         )}
-        <div>
+        <div className='field'>
+          <label className='label'>email</label>
+          <div className='control'>
           <input
-          className='authInputs'
-          placeholder='email'
+          className='input'
+          placeholder='joesmith@outline.com'
           name="email"
           type="email" />
+          </div>
         </div>
-        <div >
+        <div className='field'>
+        <label className='label'>password</label>
+        <div className='control'>
           <input
-          className='authInputs'
-          placeholder='password'
+          className='input'
+          placeholder='**********'
           name="password"
           type="password" />
         </div>
+        </div>
         <div className='authButtonGroup'>
-          <button className='soloButton' type="submit">{displayName}</button>
+          <button className='button is-white is-outlined' type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
-        <a hidden={true} href="/auth/google">{displayName} with Google</a>
-        {name === 'signup' && (
-          <div>
-            <p className='spam'>*no spam.</p>
-          </div>
-        )}
       </form>
     </div>
   );

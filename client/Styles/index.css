@@ -6,19 +6,14 @@
   align-items: center;
 }
 
-.headerBox {
+.header-box {
   display: flex;
   justify-content: center;
   align-items: center;
   background: white;
   border: black 2px solid;
   padding: .25em;
-}
-
-.button {
-  margin: 1em;
-  height: 2em;
-  width: 12em;
+  font-size: 3em;
 }
 
 .soloButton {

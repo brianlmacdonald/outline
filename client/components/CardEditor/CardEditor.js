@@ -168,7 +168,7 @@ class CardEditor extends Component {
               draft={draft}
               styleClass={'button is-danger is-outlined'}
               type={type}
-              message={'delete '}
+              message={'delete'}
             ><DeleteDialog handleSubmit={this.handleSubmit} {...this.props}/>
             </ModalLauncher>}
           </div>
