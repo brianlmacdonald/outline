@@ -1,0 +1,8 @@
+
+.h-c-container {
+  border: 2px solid rgb(74, 74, 74);
+  padding: .75rem;
+  background-color: #4a4a4a;
+  border-radius: .5em; 
+  overflow: hidden;
+}

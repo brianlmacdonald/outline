@@ -22,6 +22,7 @@ import {
   GET_SCENES,
   GET_BEATS
 } from 'APP/client/components/HierarchyControl/CardTypes';
+import 'APP/client/components/HierarchyControl/HierarchyControl.css';
 
 function InjectContainer(Container) {
   return class HierarchyControl extends Component {
@@ -92,60 +93,60 @@ function InjectContainer(Container) {
       const { handleNavigation, user, navigator } = this.props;
       
       return (
-        <div style={{border: '2px solid rgb(74, 74, 74)', padding: '.75rem', 'background-color': '#4a4a4a', 'border-radius': '.5em', 'overflow': 'hidden'}}>
-        <Container
-          {...this.props}
-          type={PROJECT_TYPE}
-          thumbs={this.payloadSwitch(GET_PROJECTS)}
-          parent={{id: user.get('id'), type: USER_TYPE}}
-          handleNavigation={handleNavigation(projectNavigation)}
-        >
-          {this.ableToRender(PROJECT_TYPE) && (
-            <Container
-              {...this.props}
-              type={ACT_TYPE}
-              thumbs={this.payloadSwitch(GET_ACTS)}
-              parent={{ id: navigator.get(PROJECT_TYPE), type: PROJECT_TYPE }}
-              handleNavigation={handleNavigation(actNavigation)}
-            >
-              {this.ableToRender(ACT_TYPE) && (
-                <Container
-                  {...this.props}
-                  type={SEQUENCE_TYPE}
-                  parent={{ id: navigator.get(ACT_TYPE), type: ACT_TYPE }}
-                  thumbs={this.payloadSwitch(GET_SEQUENCES)}
-                  handleNavigation={handleNavigation(sequenceNavigation)}
-                >
-                  {this.ableToRender(SEQUENCE_TYPE) && (
-                    <Container
-                      {...this.props}
-                      type={SCENE_TYPE}
-                      parent={{
-                        id: navigator.get(SEQUENCE_TYPE),
-                        type: SEQUENCE_TYPE
-                        }}
-                      thumbs={this.payloadSwitch(GET_SCENES)}
-                      handleNavigation={handleNavigation(sceneNavigation)}
-                    >
-                      {this.ableToRender(SCENE_TYPE) && (
-                        <Container
-                          {...this.props}
-                          type={BEAT_TYPE}
-                          parent={{
-                            id: navigator.get(SCENE_TYPE),
-                            type: SCENE_TYPE
-                            }}
-                          thumbs={this.payloadSwitch(GET_BEATS)}
-                          handleNavigation={handleNavigation(beatNavigation)}
-                        />
-                      )}
-                    </Container>
-                  )}
-                </Container>
-              )}
-            </Container>
-          )}
-        </Container>
+        <div className='h-c-container'>
+          <Container
+            {...this.props}
+            type={PROJECT_TYPE}
+            thumbs={this.payloadSwitch(GET_PROJECTS)}
+            parent={{id: user.get('id'), type: USER_TYPE}}
+            handleNavigation={handleNavigation(projectNavigation)}
+          >
+            {this.ableToRender(PROJECT_TYPE) && (
+              <Container
+                {...this.props}
+                type={ACT_TYPE}
+                thumbs={this.payloadSwitch(GET_ACTS)}
+                parent={{ id: navigator.get(PROJECT_TYPE), type: PROJECT_TYPE }}
+                handleNavigation={handleNavigation(actNavigation)}
+              >
+                {this.ableToRender(ACT_TYPE) && (
+                  <Container
+                    {...this.props}
+                    type={SEQUENCE_TYPE}
+                    parent={{ id: navigator.get(ACT_TYPE), type: ACT_TYPE }}
+                    thumbs={this.payloadSwitch(GET_SEQUENCES)}
+                    handleNavigation={handleNavigation(sequenceNavigation)}
+                  >
+                    {this.ableToRender(SEQUENCE_TYPE) && (
+                      <Container
+                        {...this.props}
+                        type={SCENE_TYPE}
+                        parent={{
+                          id: navigator.get(SEQUENCE_TYPE),
+                          type: SEQUENCE_TYPE
+                          }}
+                        thumbs={this.payloadSwitch(GET_SCENES)}
+                        handleNavigation={handleNavigation(sceneNavigation)}
+                      >
+                        {this.ableToRender(SCENE_TYPE) && (
+                          <Container
+                            {...this.props}
+                            type={BEAT_TYPE}
+                            parent={{
+                              id: navigator.get(SCENE_TYPE),
+                              type: SCENE_TYPE
+                              }}
+                            thumbs={this.payloadSwitch(GET_BEATS)}
+                            handleNavigation={handleNavigation(beatNavigation)}
+                          />
+                        )}
+                      </Container>
+                    )}
+                  </Container>
+                )}
+              </Container>
+            )}
+          </Container>
         </div>
       );
     }
