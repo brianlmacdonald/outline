@@ -66,6 +66,7 @@
   "redux-notifications": "^4.0.1",
   "redux-thunk": "^2.2.0",
   "sequelize": "^4.28.6",
+  "sequelize-cli": "^4.0.0",
   "style-loader": "^0.19.1",
   "webpack": "^4.8.3"
  },
