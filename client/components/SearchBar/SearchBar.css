@@ -1,0 +1,8 @@
+.search-help {
+  position: absolute;
+}
+
+.search-group {
+  display: flex;
+  flex-direction: row;
+}
