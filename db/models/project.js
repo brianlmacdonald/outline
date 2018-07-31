@@ -24,69 +24,72 @@ module.exports.scopes = function(Project, { Act }) {
   });
 };
 
-const childCard = {
-  PROJECT_TYPE: 'acts',
-  ACT_TYPE: 'sequences',
-  SEQUENCE_TYPE: 'scenes',
-  SCENE_TYPE: 'beats',
-  BEAT_TYPE: null
-};
-
-const navigationCard = {
-  'PROJECT_TYPE': null,
-  'ACT_TYPE': null,
-  'SEQUENCE_TYPE': null,
-  'SCENE_TYPE': null,
-  'BEAT_TYPE': null
-};
-
-module.exports.instanceMethods = function(Project) {
-  Project.search = function(searchTerm) {
-    const cardSearch = processCard(searchTerm);
+module.exports.instanceMethods = function(Project, db) {
+  Project.prototype.search = async function(searchTerm) {
+    const cardSearch = processCard(searchTerm, db); 
     const searchResults = [];
-    const projectResults = cardSearch(this, navigationCard);
-    if (projectResults.hit !== null) {
+    const self = this;
+    const projectResults = await cardSearch('Project', self);
+    
+    if (projectResults.length) {
       searchResults.push(projectResults);
     }
-    hasChildren(this) && this.acts.forEach(act => {
-      const actResults = cardSearch(act, projectResults.navigation);
-      if (actResults.hit !== null) {
+
+    if (!self.acts) {
+      return searchResults;
+    }
+    
+    for (const act of self.acts) {
+      const actResults = await cardSearch('Act', act);
+
+      if (actResults.length) {
         searchResults.push(actResults);
       }
-      hasChildren(act) && act.sequences.forEach(sequences => {
-        const sequenceResults = cardSearch(sequence, actResults.navigation);
-        if (sequenceResults.hit !== null) {
-          searchResults.push(sequenceResults);
-        }
-        hasChildren(sequence) && sequence.scenes.forEach(scene => {
-          const sceneResults = cardSearch(scene, sequenceResults.navigation);
-          if (sceneResults.hit !== null) {
-            searchResults.push(sceneResults);
+      if (act.sequences) {
+        for (const sequence of act.sequences) {
+          const sequenceResults = await cardSearch('Sequence', sequence);
+
+          if (sequenceResults.length) {
+            searchResults.push(sequenceResults);
           }
-          hasChildren(scene) && scene.beats.forEach(beat => {
-            const beatResults = cardSearch(beat, sceneResults.navigation);
-            if (beatResults.hit !== null) {
-              searchResults.push(beatResults);
+          if (sequence.scenes) {
+            for (const scene of sequence.scenes) {
+              const sceneResults = await cardSearch('Scene', scene);
+
+              if (sceneResults.length) {
+                searchResults.push(sceneResults);
+              }
+              if (scene.beats) {
+                for (const beat of scene.beats) {
+                  const beatResults = await cardSearch('Beat', beat);
+                  
+                  if (beatResults.length) {
+                    searchResults.push(beatResults);
+                  }
+                }
+              }
             }
-          })
-        })
-      })
-    })
+          }
+        }
+      }
+    }
     return searchResults;
   }
 }
 
-function processCard(term) {
-  return function(card, navigation) {
-    const newNavigation = navigation[card.type] = card.id;
-    const resultsObj = {'hit': null, 'navigation': newNavigation};
-    if (Object.keys(card._search).some(rx => rx.test(term))) {
-      resultsObj.hit = card;
-    }
-    return resultsObj;
+function processCard(term, database) {
+  return async function(table, card) {
+    return await Promise.resolve(card._modelOptions.sequelize.query(`
+    SELECT *
+    FROM ${database[table].tableName}
+    WHERE id=${card.dataValues.id}
+    AND
+    _search @@ plainto_tsquery('english', :query);
+    `, {
+      model: database[table],
+      replacements: { query: `${term}`}
+    }))
+    .then(searchResults => searchResults)
+    .catch(console.error)
   }
-}
-
-function hasChildren(card) {
-  return card[childCard[card.type]] !== undefined;
 }

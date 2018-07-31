@@ -15,6 +15,7 @@ import projectReducer from 'APP/client/store/reducers/project';
 import navigatorReducer from 'APP/client/store/reducers/navigator';
 import orderReducer from 'APP/client/store/reducers/order';
 import draftReducer from 'APP/client/store/reducers/draft';
+import searchReducer from 'APP/client/store/reducers/search';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import 'APP/client/components/ProjectOverview/ProjectOverview.css';
@@ -48,6 +49,7 @@ class ProjectOverview extends Component {
       reducerRegistry.register('navigator', navigatorReducer);
       reducerRegistry.register('draft', draftReducer);
       reducerRegistry.register('order', orderReducer);
+      reducerRegistry.register('search', searchReducer);
     }
   }
   

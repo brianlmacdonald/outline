@@ -23,7 +23,7 @@ module.exports = db => {
       }
       if (typeof instanceMethods === 'function') {
         debug('creating instance method for ', name);
-        instanceMethods.call(metaModels[name], models[name], models);
+        instanceMethods.call(metaModels[name], models[name], db, models);
       }
       if (typeof scopes === 'function') {
         debug('adding scope for ', name);
