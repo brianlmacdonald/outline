@@ -1,9 +1,7 @@
 .suggestion-bubble {
 	position: relative;
-	background: #00aabb;
+	background: #FFFFFF;
 	border-radius: .4em;
-	max-height: 400px;
-	overflow: scroll;
 }
 
 .suggestion-bubble:after {
@@ -14,7 +12,7 @@
 	width: 0;
 	height: 0;
 	border: 25px solid transparent;
-	border-bottom-color: #00aabb;
+	border-bottom-color: #FFFFFF;
 	border-top: 0;
 	margin-left: -25px;
   margin-top: -25px;
@@ -26,5 +24,11 @@
 }
 
 .suggestion-list {
-  padding: .5em;
+	padding: .5em;
+	max-height: 400px;
+	overflow: scroll;
+}
+
+.suggestion-item {
+	color: #363636;
 }
