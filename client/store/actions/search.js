@@ -63,10 +63,9 @@ export const searchAll = (userId, term) => dispatch => {
       let hitsForState = [];
       if (data.length) {
         for (const result of data) {
+          const suggestionObj = makeSuggestionObj(result);
           dispatch(projectLoaded(result.project));
-          for (const hit of result.hits) {
-            hitsForState = hitsForState.concat(hit);
-          }
+          hitsForState = hitsForState.concat(suggestionObj);
         }
         return dispatch(searchResults(hitsForState));
       }
@@ -77,4 +76,8 @@ export const searchAll = (userId, term) => dispatch => {
       }));
     })
     .catch(err => dispatch(searchError(err)))
+}
+
+function makeSuggestionObj(res) {
+  return {title: res.project.title, id: res.project.id, hits: res.hits};
 }
