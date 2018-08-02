@@ -3,6 +3,7 @@ import { Map } from 'immutable';
 const ADD_PATH = 'ADD_PATH';
 const DELETE_PATH = 'DELETE_PATH';
 const CLEAR_PATHS = 'CLEAR_PATHS';
+const SEARCH_RESULT_PATH = 'SEARCH_RESULT_PATH';
 
 import {
   PROJECT_TYPE,
@@ -26,6 +27,11 @@ export const removeNavigationPath = type => ({
   type: DELETE_PATH,
   payload: type
 });
+
+export const searchResultNavigation = navCard => ({
+  type: SEARCH_RESULT_PATH,
+  payload: navCard
+})
 
 export const projectNavigation = payload => dispatch => {
   dispatch(removeNavigationPath(BEAT_TYPE));
@@ -86,6 +92,16 @@ const navigatorReducer = (state = defaultNav, action) => {
         map.set(SCENE_TYPE, null);
         map.set(BEAT_TYPE, null);
       });
+    
+    case SEARCH_RESULT_PATH:
+      const navCard = action.payload; 
+      return state.withMutations(map => {
+        map.set(PROJECT_TYPE, navCard.PROJECT_TYPE);
+        map.set(ACT_TYPE, navCard.ACT_TYPE);
+        map.set(SEQUENCE_TYPE, navCard.SEQUENCE_TYPE);
+        map.set(SCENE_TYPE, navCard.SCENE_TYPE);
+        map.set(BEAT_TYPE, navCard.BEAT_TYPE);
+      })
 
     default:
       return state;
