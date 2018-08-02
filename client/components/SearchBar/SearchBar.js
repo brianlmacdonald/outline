@@ -9,6 +9,7 @@ import {
   searchAll,
   clearSearch
 } from 'APP/client/store/actions/search';
+import { searchResultNavigation } from 'APP/client/store/reducers/navigator';
 import { connect } from 'react-redux';
 
 class Search extends Component {
@@ -59,7 +60,7 @@ class Search extends Component {
   }
 
   render() {
-    const { search } = this.props;
+    const { search, handleNavigation } = this.props;
     if (!search) return <div />
 
     const results = search.get('results');
@@ -92,7 +93,7 @@ class Search extends Component {
             </a>
           </div>
         </div>
-        {!this.state.hide && <Suggestions results={results}/>}
+        {!this.state.hide && <Suggestions handleNavigation={handleNavigation} results={results}/>}
       </form>
     );
   }
@@ -114,6 +115,9 @@ const mapDispatch = dispatch => ({
     dispatch(clearSearch());
     dispatch(searchActive(userId, projectId, term));
   },
+  handleNavigation: function(navCard){
+    dispatch(searchResultNavigation(navCard));
+  }
 });
 
 const mapState = state => ({
