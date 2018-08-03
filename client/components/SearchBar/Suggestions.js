@@ -3,7 +3,11 @@ import React from 'react';
 import 'APP/client/components/SearchBar/Suggestions.css';
 
 const Suggestions = (props) => {
-  const { results, handleNavigation } = props;
+  const {
+    results,
+    handleNavigation,
+    hide
+  } = props;
   const matches = results.map(hit => {
     return(
       <li key={`project-hit-${hit.id}-li`}>
@@ -12,7 +16,7 @@ const Suggestions = (props) => {
             {hit.hits.map(r => {
               return (
                 <li key={r.id}>
-                  <a><div className='suggestion-item' onDoubleClick={() => {handleNavigation(r.navigation)}}>
+                  <a><div className='suggestion-item' onClick={() => {handleNavigation(r.navigation)}}>
                     <h4>{r.title}</h4>
                     <p>{r.body}</p>
                   </div></a>
@@ -23,7 +27,8 @@ const Suggestions = (props) => {
       </li>
   )});
 
-  if (matches.length === 0) return <div />;
+  if (matches.length === 0 || hide) return <div />;
+
   return (
     <div className='suggestions-div'>
       <div className='suggestion-bubble menu'>
