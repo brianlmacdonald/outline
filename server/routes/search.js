@@ -45,26 +45,6 @@ router.get('/all-projects/:userId/:searchTerm', (req, res, next) => {
   .catch(next);
 });
 
-router.get('/single-project/:userId/:projectId/:searchTerm', (req, res, next) => {
-  return Project.scope('acts').find({
-    where: {
-      [Op.and]: [{user_id: {[Op.eq]: req.user.id}}, {id: {[Op.eq]: req.params.projectId}}]},
-    include: [
-							{ model: Act, include: [
-								{ model: Sequence, include: [
-                  { model: Scene.scope('beats') }
-                ]}]
-								}]
-    }
-    )
-    .then(async project => {
-      const results = searchProjects(req.params.searchTerm, [project])
-      return filterUndefined(results);
-    })
-    .then(res.json.bind(res))
-    .catch(next);
-});
-
 async function searchProjects(term, projectArray) {
   return await Promise.all(projectArray.map(async proj => {
     return await Promise.resolve(proj.search(term))
