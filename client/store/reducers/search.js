@@ -5,7 +5,6 @@ import {
   SEARCH_RESULTS,
   SEARCH_ERROR,
   UPDATE_QUERY,
-  TOGGLE_SEARCH,
   CLEAR_SEARCH
   } from 'APP/client/store/actions/search';
 
@@ -13,7 +12,6 @@ const defaultState = Map({
   fetching: false,
   query: '',
   results: [],
-  searchAll: true,
 })
 
 const searchReducer = (state = defaultState, action) => {
@@ -32,9 +30,6 @@ const searchReducer = (state = defaultState, action) => {
 
     case UPDATE_QUERY:
       return state.set('query', action.payload);
-
-    case TOGGLE_SEARCH:
-      return state.set('searchAll', !state.get('searchAll'));
     
     case CLEAR_SEARCH:
       return state.set('results', []);

@@ -8,7 +8,6 @@ export const SEARCH_REQUEST = 'SEARCH_REQUEST';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 export const SEARCH_ERROR = 'SEARCH_ERROR';
 export const UPDATE_QUERY = 'UPDATE_QUERY';
-export const TOGGLE_SEARCH = 'TOGGLE_SEARCH';
 export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 
 export const clearSearch = () => ({
@@ -32,10 +31,6 @@ export const searchError = err => ({
 export const updateQuery = query => ({
   type: UPDATE_QUERY,
   payload: query
-});
-
-export const toggleSearch = () => ({
-  type: TOGGLE_SEARCH
 });
 
 export const searchActive = (userId, projectId, term) => dispatch => {
