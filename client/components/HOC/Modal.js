@@ -25,8 +25,6 @@ class Modal extends Component {
 
   handleKeyUp(e) {
     const { close, draft } = this.props;
-    const isEditing = draft.get('type') !== null;
-
     const keys = {
       27: () => {
         e.preventDefault();
@@ -35,17 +33,16 @@ class Modal extends Component {
       }
     };
 
-    if (!isEditing && keys[e.keyCode]) {
+    if (keys[e.keyCode]) {
       keys[e.keyCode]();
     }
   }
 
   handleOutsideClick(e) {
     const { close, draft } = this.props;
-    const isEditing = draft.get('type') !== null;
     
     if (!isNil(this.modal)) {
-      if (!this.modal.contains(e.target) && !isEditing) {
+      if (!this.modal.contains(e.target)) {
         close();
         document.removeEventListener('click', this.handleOutsideClick, false);
       }

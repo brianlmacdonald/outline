@@ -1,0 +1,34 @@
+.suggestion-bubble {
+	position: relative;
+	background: #FFFFFF;
+	border-radius: .4em;
+}
+
+.suggestion-bubble:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: 25px solid transparent;
+	border-bottom-color: #FFFFFF;
+	border-top: 0;
+	margin-left: -25px;
+  margin-top: -25px;
+}
+
+.suggestions-div {
+  position: absolute;
+  top: 75px;
+}
+
+.suggestion-list {
+	padding: .5em;
+	max-height: 400px;
+	overflow: scroll;
+}
+
+.suggestion-item {
+	color: #363636;
+}

@@ -15,11 +15,13 @@ import projectReducer from 'APP/client/store/reducers/project';
 import navigatorReducer from 'APP/client/store/reducers/navigator';
 import orderReducer from 'APP/client/store/reducers/order';
 import draftReducer from 'APP/client/store/reducers/draft';
+import searchReducer from 'APP/client/store/reducers/search';
 import { Notifs } from 'redux-notifications';
 import 'redux-notifications/lib/styles.css';
 import 'APP/client/components/ProjectOverview/ProjectOverview.css';
 import { tourConnect } from 'APP/client/components/TourGuide/TourGuide';
 import projectOverviewConfig from 'APP/client/components/ProjectOverview/TourConfig';
+import SearchBar from 'APP/client/components/SearchBar/SearchBar';
 
 class ProjectOverview extends Component {
   constructor(props){
@@ -47,6 +49,7 @@ class ProjectOverview extends Component {
       reducerRegistry.register('navigator', navigatorReducer);
       reducerRegistry.register('draft', draftReducer);
       reducerRegistry.register('order', orderReducer);
+      reducerRegistry.register('search', searchReducer);
     }
   }
   
@@ -71,6 +74,11 @@ class ProjectOverview extends Component {
                 </div>
             </div>
             <div id='nav-right' className='navbar-end'>
+              <span
+                className='navbar-tab-item'
+              >
+                <SearchBar {...this.props}/>
+              </span>
               <span
               className='navbar-tab-item'
                 onClick={tour}

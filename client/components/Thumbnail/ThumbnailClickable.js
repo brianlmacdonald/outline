@@ -16,11 +16,9 @@ const ThumbnailClickable = (props) => {
     user, 
     id,
     index,
-    parent,
     type,
     card,
     handleNavigation,
-    handleView,
     navigator
   } = props;
   const body = card.get('body');

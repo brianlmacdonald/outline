@@ -15,7 +15,7 @@ const addMaxWidth = (bool) => {
   else return 'columns';
 };
 
-const Container = (Button) => (SubContainer, isNavView) => (props) => {
+const Container = (Button) => (SubContainer) => (props) => {
     const {
       type,
       children,

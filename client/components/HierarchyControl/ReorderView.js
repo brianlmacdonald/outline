@@ -11,7 +11,7 @@ import { createNewDraftCard } from 'APP/client/store/reducers/draft';
 import { changeParent } from 'APP/client/store/actions/changeParent';
 import { updateOrder } from 'APP/client/store/reducers/order';
 
-const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer, false));  
+const ReorderView = InjectContainer(Container(SaveOrder)(ReorderContainer));  
 
 const mapDispatch = dispatch => ({
   handleSave(orderObject){

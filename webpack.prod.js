@@ -12,13 +12,12 @@ module.exports = {
     publicPath: '/'
   },
   optimization: {
-    runtimeChunk: 'single',
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
-        vendor: {
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'all'
         }
       }
     }

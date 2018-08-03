@@ -20,8 +20,8 @@ class App extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, state){
-    const {user, project, draft, navigator, order} = nextProps;
-    const forStorage = { user, project, draft, navigator, order};
+    const {user, project, draft, navigator, order, search } = nextProps;
+    const forStorage = { user, project, draft, navigator, order, search };
     //for reducer registry. When a new reducer is added, the current state 
     //will be passed to the combine and register reducers fn from __OUTLINE_STATE__
     if (nextProps.user && state.user !== nextProps.user.get('id')) {
@@ -76,7 +76,8 @@ const mapState = state => ({
   project: state.project,
   navigator: state.navigator,
   draft: state.draft,
-  order: state.order
+  order: state.order,
+  search: state.search
 });
 
 const connectedRoutes = connect(mapState)(App);
