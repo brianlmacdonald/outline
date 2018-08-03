@@ -33,19 +33,6 @@ export const updateQuery = query => ({
   payload: query
 });
 
-export const searchActive = (userId, projectId, term) => dispatch => {
-  dispatch(notifSend({
-    message: 'searching active project',
-    kind: 'info',
-    dismissAfter: 2000
-  }))
-  return axios.get(`/api/search/single-project/${userId}/${projectId}/${term}`)
-    .then(results => {
-      return results.data.hits;
-    })
-    .catch(err => dispatch(searchError(err)))
-}
-
 export const searchAll = (userId, term) => dispatch => {
   dispatch(notifSend({
     message: 'searching all projects',
