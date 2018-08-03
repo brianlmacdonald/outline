@@ -4,13 +4,15 @@ import Suggestions from 'APP/client/components/SearchBar/Suggestions';
 import 'APP/client/components/SearchBar/SearchBar.css';
 import { 
   updateQuery,
-  toggleSearch,
-  searchActive,
   searchAll,
   clearSearch
 } from 'APP/client/store/actions/search';
 import { searchResultNavigation } from 'APP/client/store/reducers/navigator';
 import { connect } from 'react-redux';
+
+function isNil(value) {
+  return value == null;
+}
 
 class Search extends Component {
   constructor(props) {
@@ -20,29 +22,35 @@ class Search extends Component {
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.hideResults = this.hideResults.bind(this);
+    this.showResults = this.showResults.bind(this);
+    this.handleOutsideFormClick = this.handleOutsideFormClick.bind(this);
   }
 
-  handleSubmit() {
+  componentDidMount() {
+    document.addEventListener('click', this.handleOutsideFormClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideFormClick, false);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
     const { 
       user,
-      navigator,
       search,
-      handleSearchActive,
       handleSearchAll,
     } = this.props;
-    const searchAll = search.get('searchAll');
+
     const query = search.get('query');
     const userId = user.get('id')
-    if (searchAll) {
-      handleSearchAll(userId, query);
-    } else {
-      const projectId = navigator.get('PROJECT_TYPE');
-      handleSearchActive(uerId, projectId, query);
-    }
+    
+    handleSearchAll(userId, query);
   }
 
   hideResults() {
-    this.setState({hide: true})
+    this.setState({hide: true});
   }
 
   showResults() {
@@ -54,9 +62,12 @@ class Search extends Component {
     handleUpdateQuery(this.search.value);
   }
 
-  handleSearchDepth() {
-    const { handleToggleSearch } = this.props;
-    handleToggleSearch();
+  handleOutsideFormClick(e) {
+    if (!isNil(this.form)) {
+      if (!this.form.contains(e.target)) {
+        this.hideResults()
+      }
+    }
   }
 
   render() {
@@ -64,11 +75,14 @@ class Search extends Component {
     if (!search) return <div />
 
     const results = search.get('results');
-    const searchAll = search.get('searchAll');
     
     return (
-      <form>
-        <div className='field has-addons'>
+      <form
+        onFocus={this.showResults}
+        ref={node => this.form = node}
+        >
+        <div
+          className='field has-addons'>
           <div className='control'>
             <input
               id='search-input'
@@ -80,20 +94,17 @@ class Search extends Component {
           </div>
           <div className='control'>
             <a
-              className={`button ${searchAll ? 'is-info' : 'is-info is-inverted is-outlined'}`}
-              onClick={this.handleSearchDepth}
-              >
-              {'search all'}
-            </a>
-            <a
-              className='button is-success'
+              className='button is-info'
               onClick={this.handleSubmit}
               >
               go
             </a>
           </div>
         </div>
-        {!this.state.hide && <Suggestions handleNavigation={handleNavigation} results={results}/>}
+          <Suggestions
+            hide={this.state.hide}
+            handleNavigation={handleNavigation}
+            results={results}/>
       </form>
     );
   }
@@ -104,16 +115,9 @@ const mapDispatch = dispatch => ({
   handleUpdateQuery: function(query){
     dispatch(updateQuery(query))
   },
-  handleToggleSearch: function(){
-    dispatch(toggleSearch());
-  },
   handleSearchAll: function(userId, term){
     dispatch(clearSearch());
     dispatch(searchAll(userId, term));
-  },
-  handleSearchActive: function(userId, projectId, term){
-    dispatch(clearSearch());
-    dispatch(searchActive(userId, projectId, term));
   },
   handleNavigation: function(navCard){
     dispatch(searchResultNavigation(navCard));
