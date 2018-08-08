@@ -92,6 +92,7 @@ class Container extends Component {
 			draft
 		} = this.props;
 		const cards = order.get(type) || List([]);
+		
 
 		if (type === 'PROJECT_TYPE') {
 			return connectDropTarget(
@@ -106,7 +107,7 @@ class Container extends Component {
 						parent={parent || {}}
 						body={draft.get('body') || 'to access nested parent'}
 						title={draft.get('title') || 'drag card here'}
-						key={draft.get('id') || user.get('id')}
+						key={`hs-${draft.get('id')}` || `hs-${user.get('id')}`}
 						id={draft.get('id') || user.get('id')}
 						handleChangeParent={handleChangeParent}
 						handleOrder={handleOrder}
@@ -126,7 +127,7 @@ class Container extends Component {
 				<div id={`${type}-reorder-container`} className='column columns sub-container'>
 				{cards.map((card, idx) => {
 					return (
-					<div key={idx} id={`reorder-${type}-${idx}`} className='column'>
+					<div key={`rc-${card.get('id')}-d-${card.get('type')}`} id={`reorder-${type}-${idx}`} className='column'>
 						<Card
 							card={card}
 							type={card.get('type')}
@@ -136,7 +137,7 @@ class Container extends Component {
 							parent={parent}
 							body={card.get('body')}
 							title={card.get('title')}
-							key={card.get('id')}
+							key={`rc-${card.get('id')}-cc-${card.get('type')}`}
 							id={card.get('id')}
 							handleChangeParent={handleChangeParent}
 							handleOrder={handleOrder}

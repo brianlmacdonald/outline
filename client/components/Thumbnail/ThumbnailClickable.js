@@ -27,16 +27,17 @@ const ThumbnailClickable = (props) => {
   const titlePrev = title.length > 15 ? title.slice(0, 14) + '...' : title;
   const location = card.get('id');
   const userId = user.get('id');
+  const key = `tnc-${card.get('id')}-${card.get('type')}`;
 
   return (
       <div id={`thumbnail-${type}-${index}`}>
         <div
           title={body}
           className={selectedStyler(location, navigator.get(type))}
-          key={id + 'd'}
+          key={key + '-d'}
           onDoubleClick={() => handleNavigation({id: location, userId})}>
-          <h4 key={id + 'h4'}>{titlePrev}</h4>
-          <p className='body-shape' key={id + 'p'}>{bodyPrev || ''}</p>
+          <h4 key={key + '-h4-tmc'}>{titlePrev}</h4>
+          <p className='body-shape' key={key + '-p'}>{bodyPrev || ''}</p>
           <div className='buttons is-centered is-end'>
             <ModalLauncher
             {...props}
