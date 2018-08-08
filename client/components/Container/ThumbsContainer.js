@@ -8,11 +8,11 @@ const ThumbsContainer = props => {
 
   return (<div className='column columns sub-container'>
    {thumbs.map((card, idx) => (
-     <div key={idx} className='column'>
+     <div key={`${card.get('id')}-div-${card.get('type')}`} className='column'>
       <ThumbnailClickable
         {...props}
         card={card}
-        key={card.get('id') + 'tnc' + type}
+        key={`${card.get('id')}-tnc-${card.get('type')}`}
         id={card.get('id')}
         index={idx}
       />

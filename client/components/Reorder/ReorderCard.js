@@ -172,9 +172,9 @@ class Card extends Component {
 				<div title={body}
 					onDoubleClick={() => handleNavigation({id, userId})}
 					className={dragged + selected}
-					key={key + 'd'}>
-          <h4 key={key + 'h4'}>{titlePrev}</h4>
-          <p key={key + 'p'}>{bodyPrev || ''}</p>
+					key={`roc-${id}-d-${type}`}>
+          <h4 key={`roc-${id}-h4-${type}`}>{titlePrev}</h4>
+          <p key={`roc-${id}-p-${type}`}>{bodyPrev || ''}</p>
         </div>
 			),
 		)

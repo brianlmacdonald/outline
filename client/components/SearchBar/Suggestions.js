@@ -15,7 +15,7 @@ const Suggestions = (props) => {
           <p className='menu-label' key={`project-hit-${hit.id}-h4`}>{hit.title}</p>
             {hit.hits.map(r => {
               return (
-                <li key={r.id}>
+                <li key={`sug-${r.id}-li-${r.type}`}>
                   <a><div className='suggestion-item' onClick={() => {handleNavigation(r.navigation)}}>
                     <h4>{r.title}</h4>
                     <p>{r.body}</p>
