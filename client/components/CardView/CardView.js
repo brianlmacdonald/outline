@@ -11,16 +11,19 @@ const CardView = (props) => {
   const self = {id, type};
 
   return (
-    <div className={'card-view view'}>
-      <div className={'fields'}>
-      <h1 className='view-title'>
-        {card.get('title')}
-      </h1>
-      <p className='view-body'>
-        {card.get('body')}
-      </p>
-      </div>
-      <div className={'buttonGroup'} >
+    <div className='modal-card has-text-dark'>
+      <header className='modal-card-head'>
+        <p className='modal-card-title'>
+          {card.get('title')}
+        </p>
+      </header>
+      <section className='modal-card-body'>
+        <p>
+          {card.get('body')}
+        </p>
+      </section>
+      <footer className='modal-card-foot'>
+      <div className='is-centered buttons'>
       <Link to={{
         pathname: '/projects/edit',
         state: {
@@ -38,6 +41,7 @@ const CardView = (props) => {
         close
       </button>
       </div>
+      </footer>
     </div>
   );
 };
